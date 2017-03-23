@@ -8,6 +8,7 @@
 
 namespace jarne\toohga;
 
+use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use jarne\toohga\entity\URL;
@@ -26,7 +27,7 @@ class Toohga {
             "dbname" => "toohga"
         );
 
-        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity")));
+        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, new ApcuCache()));
     }
 
     /**
