@@ -1,0 +1,21 @@
+{
+    "name": "jarne/Toohga",
+    "description": "A simple URL shortener",
+    "type": "project",
+    "license": "Creative Commons Attribution-ShareAlike 4.0 International License",
+    "autoload": {
+        "psr-0": {
+            "jarne\\toohga": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "doctrine/orm": "^2.5",
+        "twbs/bootstrap": "^3.3",
+        "components/jquery": "^3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "symfony/dom-crawler": "^3.2"
+    }
+}

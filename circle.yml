@@ -1,0 +1,13 @@
+# CircleCI
+
+machine:
+  php:
+    version: 7.0.4
+
+dependencies:
+  override:
+  - composer install
+
+test:
+  override:
+  - phpunit
