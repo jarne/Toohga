@@ -9,9 +9,9 @@
 require "vendor/autoload.php";
 
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
-use jarne\tooh\Toohga;
+use jarne\toohga\Toohga;
 
-$tooh = new Toohga();
-$entityManager = $tooh->getEntityManager();
+$toohga = new Toohga();
+$entityManager = $toohga->getEntityManager();
 
 return ConsoleRunner::createHelperSet($entityManager);
