@@ -8,7 +8,6 @@
 
 namespace jarne\toohga;
 
-use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use jarne\toohga\entity\URL;
