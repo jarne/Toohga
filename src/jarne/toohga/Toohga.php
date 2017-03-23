@@ -27,7 +27,7 @@ class Toohga {
             "dbname" => "toohga"
         );
 
-        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, new ApcuCache()));
+        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity")));
     }
 
     /**
