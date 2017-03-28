@@ -3,16 +3,22 @@
  */
 
 $(document).ready(function() {
+    var lastShortenedUrl = "";
+
     $("#submit").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {longUrl: $("#url").val()},
-            success: function(data) {
-                if(data.status == "success") {
-                    $("#url").val(data.shortUrl);
+        if($("#url").val() != lastShortenedUrl || lastShortenedUrl == "") {
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {longUrl: $("#url").val()},
+                success: function(data) {
+                    if(data.status == "success") {
+                        lastShortenedUrl = data.shortUrl;
+
+                        $("#url").val(data.shortUrl);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 });

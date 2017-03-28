@@ -22,11 +22,12 @@ use Doctrine\ORM\Mapping\GeneratedValue;
  */
 class URL {
     /**
-     * @var int
+     * @var string
      *
-     * @Column(name="id", type="integer")
+     * @Column(name="id", type="string")
      * @Id
-     * @GeneratedValue(strategy="AUTO")
+     * @GeneratedValue(strategy="CUSTOM")
+     * @CustomIdGenerator(class="jarne\toohga\doctrine\RandomIdGenerator")
      */
     private $id;
 
@@ -41,7 +42,7 @@ class URL {
     /**
      * Get id
      *
-     * @return integer
+     * @return string
      */
     public function getId()
     {

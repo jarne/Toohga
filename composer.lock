@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6d2e9b5f2cf1729b9b974c32e6bb05f",
+    "content-hash": "5d564e9e40fbea216997078310a666c6",
     "packages": [
         {
             "name": "components/jquery",
@@ -647,6 +647,39 @@
                 "orm"
             ],
             "time": "2016-12-18T15:42:34+00:00"
+        },
+        {
+            "name": "jarne/password",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jarne/password.git",
+                "reference": "1ca844d85ab1ba8a3a20b5ad8224502ea14ab03e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jarne/password/zipball/1ca844d85ab1ba8a3a20b5ad8224502ea14ab03e",
+                "reference": "1ca844d85ab1ba8a3a20b5ad8224502ea14ab03e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "jarne\\password": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Creative Commons Attribution-ShareAlike 4.0"
+            ],
+            "description": "A simple library to generate passwords",
+            "time": "2017-03-02T16:09:50+00:00"
         },
         {
             "name": "psr/log",

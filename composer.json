@@ -11,6 +11,7 @@
     "require": {
         "php": ">=7.0",
         "doctrine/orm": "^2.5",
+        "jarne/password": "^1.1",
         "twbs/bootstrap": "^3.3",
         "components/jquery": "^3.1"
     },
