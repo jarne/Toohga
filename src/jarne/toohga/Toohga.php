@@ -37,6 +37,7 @@ class Toohga {
      * @return string
      */
     public function process(array $server, array $post) {
+        $ip = $server["REMOTE_ADDR"];
         $hostname = $server["HTTP_HOST"];
         $uri = $server["REQUEST_URI"];
         $method = $server["REQUEST_METHOD"];
@@ -44,19 +45,20 @@ class Toohga {
         $urlParts = explode("/", $uri);
         $methodType = ($method == "POST") ? MethodType::POST : MethodType::GET;
 
-        return $this->redirect($urlParts, $hostname, $methodType, $post);
+        return $this->redirect($urlParts, $ip, $hostname, $methodType, $post);
     }
 
     /**
      * Get the page where the user wants to land
      *
      * @param array $urlParts
+     * @param string $ip
      * @param string $hostname
      * @param int $methodType
      * @param array $post
      * @return string
      */
-    public function redirect(array $urlParts, string $hostname, int $methodType, array $post) {
+    public function redirect(array $urlParts, string $ip, string $hostname, int $methodType, array $post) {
         $entityManager = $this->getEntityManager();
 
         switch($methodType) {
@@ -83,6 +85,8 @@ class Toohga {
                     $longUrl = $post["longUrl"];
 
                     $url = new URL();
+                    $url->setCreated(new \DateTime());
+                    $url->setClient($ip);
                     $url->setTarget($longUrl);
 
                     $entityManager->persist($url);

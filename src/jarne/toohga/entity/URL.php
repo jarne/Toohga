@@ -32,6 +32,20 @@ class URL {
     private $id;
 
     /**
+     * @var \DateTime
+     *
+     * @Column(name="created", type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var string
+     *
+     * @Column(name="client", type="string")
+     */
+    private $client;
+
+    /**
      * @var string
      *
      * @Column(name="target", type="text")
@@ -47,6 +61,54 @@ class URL {
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return URL
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set client
+     *
+     * @param string $client
+     *
+     * @return URL
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return string
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 
     /**
