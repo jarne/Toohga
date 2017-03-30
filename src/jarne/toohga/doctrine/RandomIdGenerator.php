@@ -18,7 +18,7 @@ class RandomIdGenerator extends AbstractIdGenerator {
         $entity_name = $em->getClassMetadata(get_class($entity))->getName();
 
         while(true) {
-            $id = $password->generateEasyToRemember(6, 1, 1, 0);
+            $id = $password->generateEasyToRemember(6);
 
             if(!$em->find($entity_name, $id)) {
                 return $id;
