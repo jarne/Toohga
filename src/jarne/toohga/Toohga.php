@@ -59,23 +59,10 @@ class Toohga {
      * @return string
      */
     public function redirect(array $urlParts, string $ip, string $hostname, int $methodType, array $post) {
-        $entityManager = $this->getEntityManager();
-
         switch($methodType) {
             case MethodType::GET:
                 if(count($urlParts) == 2) {
-                    $id = $urlParts[1];
-
-                    if($id != "") {
-                        $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
-                            ->find($id);
-
-                        if($url) {
-                            $target = $url->getTarget();
-
-                            $this->redirectTo($target);
-                        }
-                    }
+                    $this->get($urlParts[1]);
                 }
                 break;
             case MethodType::POST:
@@ -84,16 +71,7 @@ class Toohga {
                 if(isset($post["longUrl"])) {
                     $longUrl = $post["longUrl"];
 
-                    $url = new URL();
-                    $url->setCreated(new \DateTime());
-                    $url->setClient($ip);
-                    $url->setTarget($longUrl);
-
-                    $entityManager->persist($url);
-                    $entityManager->flush();
-
-                    $id = $url->getId();
-
+                    $id = $this->create($ip, $longUrl);
                     $shortUrl = "https://" . $hostname . "/" . $id;
 
                     return(json_encode(array(
@@ -109,6 +87,54 @@ class Toohga {
         }
 
         return file_get_contents("templates/index.html");
+    }
+
+    /**
+     * Get a shortened URL by ID
+     *
+     * @param string $id
+     */
+    public function get(string $id) {
+        $entityManager = $this->getEntityManager();
+
+        if($id != "") {
+            $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
+                ->find($id);
+
+            if($url) {
+                $target = $url->getTarget();
+
+                $this->redirectTo($target);
+            }
+        }
+    }
+
+    /**
+     * Create a new shortened URL
+     *
+     * @param string $ip
+     * @param string $longUrl
+     * @return string
+     */
+    public function create(string $ip, string $longUrl) {
+        $entityManager = $this->getEntityManager();
+
+        $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
+            ->findOneBy(array(
+                "target" => $longUrl
+            ));
+
+        if(!$url) {
+            $url = new URL();
+            $url->setCreated(new \DateTime());
+            $url->setClient($ip);
+            $url->setTarget($longUrl);
+
+            $entityManager->persist($url);
+            $entityManager->flush();
+        }
+
+        return $url->getId();
     }
 
     /**
