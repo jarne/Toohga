@@ -6,11 +6,19 @@ $(document).ready(function() {
     var lastShortenedUrl = "";
 
     $("#submit").click(function() {
-        if($("#url").val() != lastShortenedUrl || lastShortenedUrl == "") {
+        var givenUrl = $("#url").val();
+
+        if(givenUrl != lastShortenedUrl || lastShortenedUrl == "") {
+            if(givenUrl.indexOf("://") < 0) {
+                givenUrl = "http://" + givenUrl;
+            }
+
             $.ajax({
                 type: "POST",
                 url: "",
-                data: {longUrl: $("#url").val()},
+                data: {
+                    longUrl: givenUrl
+                },
                 success: function(data) {
                     if(data.status == "success") {
                         lastShortenedUrl = data.shortUrl;
