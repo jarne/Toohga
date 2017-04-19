@@ -15,7 +15,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class ToohgaTest extends TestCase {
     public function testRedirect() {
         $toohga = new Toohga();
-        $output = $toohga->redirect(array(), "tooh.ga", MethodType::GET, array());
+        $output = $toohga->redirect(array(), "127.0.0.1", "tooh.ga", MethodType::GET, array());
 
         $crawler = new Crawler($output);
 
