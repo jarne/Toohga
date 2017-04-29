@@ -5,12 +5,12 @@
 $(document).ready(function() {
     var lastShortenedUrl = "";
 
-    $("#submit").click(function() {
+    $("#entryForm").submit(function(e) {
         var givenUrl = $("#url").val();
 
         if(givenUrl != lastShortenedUrl || lastShortenedUrl == "") {
             if(givenUrl.indexOf("://") < 0) {
-                givenUrl = "http://" + givenUrl;
+                givenUrl = "https://" + givenUrl;
             }
 
             $.ajax({
@@ -28,5 +28,7 @@ $(document).ready(function() {
                 }
             });
         }
+
+        e.preventDefault();
     });
 });
