@@ -20,7 +20,7 @@ class Toohga {
     public function __construct() {
         $credentials = array(
             "driver" => "pdo_mysql",
-            "host" => "yellowlake.net",
+            "host" => "tooh.ga",
             "user" => "toohga",
             "password" => "_eI200xm",
             "dbname" => "toohga"
