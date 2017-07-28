@@ -9,7 +9,7 @@
         }
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "doctrine/orm": "^2.5",
         "jarne/password": "^1.2"
     },
