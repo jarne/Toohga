@@ -8,7 +8,7 @@ $(document).ready(function() {
     $("#entryForm").submit(function(e) {
         var givenUrl = $("#url").val();
 
-        if(givenUrl != lastShortenedUrl || lastShortenedUrl == "") {
+        if(givenUrl !== lastShortenedUrl || lastShortenedUrl === "") {
             if(givenUrl.indexOf("://") < 0) {
                 givenUrl = "https://" + givenUrl;
             }
@@ -20,7 +20,7 @@ $(document).ready(function() {
                     longUrl: givenUrl
                 },
                 success: function(data) {
-                    if(data.status == "success") {
+                    if(data.status === "success") {
                         lastShortenedUrl = data.shortUrl;
 
                         $("#url").val(data.shortUrl);

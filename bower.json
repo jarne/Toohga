@@ -1,0 +1,8 @@
+{
+  "name": "Toohga",
+  "description": "A simple URL shortener",
+  "dependencies": {
+    "jquery": "^3.2",
+    "bootstrap": "^3.3"
+  }
+}

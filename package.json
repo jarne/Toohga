@@ -1,0 +1,10 @@
+{
+  "name": "Toohga",
+  "description": "A simple URL shortener",
+  "devDependencies": {
+    "gulp": "^3.9",
+    "gulp-concat": "^2.6",
+    "gulp-clean-css": "^3.4",
+    "gulp-uglify": "^3.0"
+  }
+}
