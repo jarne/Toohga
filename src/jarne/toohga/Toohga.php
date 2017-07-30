@@ -8,6 +8,7 @@
 
 namespace jarne\toohga;
 
+use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use jarne\toohga\entity\URL;
@@ -20,13 +21,19 @@ class Toohga {
     public function __construct() {
         $credentials = array(
             "driver" => "pdo_mysql",
-            "host" => "tooh.ga",
-            "user" => "toohga",
-            "password" => "_eI200xm",
-            "dbname" => "toohga"
+            "host" => "tg-mysql",
+            "user" => "xtRjnnzQ5XGjh7rezSzSGufJgZdmMz6Z",
+            "password" => "gaQ3pEwXkNk5qDvBS567c435SeC8eHme",
+            "dbname" => "uqmujBEwJ8Ws5AhDFB8XH9Ljj6PkRRPk"
         );
 
-        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity")));
+        $redis = new \Redis();
+        $redis->connect("tg-redis");
+
+        $redisCache = new RedisCache();
+        $redisCache->setRedis($redis);
+
+        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $redisCache));
     }
 
     /**
