@@ -22,9 +22,9 @@ class Toohga {
         $credentials = array(
             "driver" => "pdo_mysql",
             "host" => "tg-mysql",
-            "user" => "xtRjnnzQ5XGjh7rezSzSGufJgZdmMz6Z",
-            "password" => "gaQ3pEwXkNk5qDvBS567c435SeC8eHme",
-            "dbname" => "uqmujBEwJ8Ws5AhDFB8XH9Ljj6PkRRPk"
+            "user" => "juegHSnnNx48f8Fe",
+            "password" => "kSbMPjbTR8kFYBCx",
+            "dbname" => "ve8pGd8YwhMQJvkF"
         );
 
         $redis = new \Redis();
