@@ -10,8 +10,7 @@
     },
     "require": {
         "php": ">=7.1",
-        "doctrine/orm": "^2.5",
-        "jarne/password": "^1.2"
+        "doctrine/orm": "^2.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",

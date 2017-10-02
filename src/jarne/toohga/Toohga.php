@@ -12,6 +12,7 @@ use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use jarne\toohga\entity\URL;
+use jarne\toohga\service\DecimalConverter;
 use jarne\toohga\utils\MethodType;
 
 class Toohga {
@@ -43,7 +44,7 @@ class Toohga {
      * @param array $post
      * @return string
      */
-    public function process(array $server, array $post) {
+    public function process(array $server, array $post): string {
         $ip = $server["REMOTE_ADDR"];
         $hostname = $server["HTTP_HOST"];
         $uri = $server["REQUEST_URI"];
@@ -65,10 +66,10 @@ class Toohga {
      * @param array $post
      * @return string
      */
-    public function redirect(array $urlParts, string $ip, string $hostname, int $methodType, array $post) {
+    public function redirect(array $urlParts, string $ip, string $hostname, int $methodType, array $post): string {
         switch($methodType) {
             case MethodType::GET:
-                if(count($urlParts) == 2) {
+                if(count($urlParts) === 2) {
                     $this->get($urlParts[1]);
                 }
                 break;
@@ -78,13 +79,18 @@ class Toohga {
                 if(isset($post["longUrl"])) {
                     $longUrl = $post["longUrl"];
 
-                    $id = $this->create($ip, $longUrl);
-                    $shortUrl = "https://" . $hostname . "/" . $id;
+                    if(($id = $this->create($ip, $longUrl)) !== false) {
+                        $shortUrl = "https://" . $hostname . "/" . $id;
 
-                    return(json_encode(array(
-                        "status" => "success",
-                        "shortUrl" => $shortUrl
-                    )));
+                        return(json_encode(array(
+                            "status" => "success",
+                            "shortUrl" => $shortUrl
+                        )));
+                    } else {
+                        return(json_encode(array(
+                            "status" => "failed"
+                        )));
+                    }
                 } else {
                     return(json_encode(array(
                         "status" => "failed"
@@ -104,14 +110,12 @@ class Toohga {
     public function get(string $id) {
         $entityManager = $this->getEntityManager();
 
-        if($id != "") {
+        if($numberId = DecimalConverter::stringToNumber($id) !== false) {
             $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
                 ->find($id);
 
             if($url) {
-                $target = $url->getTarget();
-
-                $this->redirectTo($target);
+                $this->redirectTo($url->getTarget());
             }
         }
     }
@@ -121,7 +125,7 @@ class Toohga {
      *
      * @param string $ip
      * @param string $longUrl
-     * @return string
+     * @return string|false
      */
     public function create(string $ip, string $longUrl) {
         $entityManager = $this->getEntityManager();
@@ -141,7 +145,7 @@ class Toohga {
             $entityManager->flush();
         }
 
-        return $url->getId();
+        return DecimalConverter::numberToString($url->getId());
     }
 
     /**

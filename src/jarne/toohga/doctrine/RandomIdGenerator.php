@@ -10,19 +10,43 @@ namespace jarne\toohga\doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AbstractIdGenerator;
-use jarne\password\Password;
+use jarne\toohga\entity\URL;
 
 class RandomIdGenerator extends AbstractIdGenerator {
     public function generate(EntityManager $em, $entity) {
-        $password = new Password();
-        $entity_name = $em->getClassMetadata(get_class($entity))->getName();
+        $urls = $em->getRepository("jarne\\toohga\\entity\\URL")
+            ->findAll();
 
-        while(true) {
-            $id = $password->generateEasyToRemember(6, 1, 1, 0);
+        if(empty($urls)) {
+            return 0;
+        }
 
-            if(!$em->find($entity_name, $id)) {
-                return $id;
+        asort($urls);
+
+        $i = 0;
+
+        foreach($urls as $url) {
+            if($url instanceof URL) {
+                if($url->getId() != $i) {
+                    return $i;
+                }
+
+                $now = new \DateTime();
+                $maxTime = new \DateInterval("P2W");
+
+                $deleteDate = $now->sub($maxTime);
+
+                if($url->getCreated() <= $deleteDate) {
+                    $em->remove($url);
+                    $em->flush();
+                }
             }
+
+            $i++;
+        }
+
+        if($i < (33 ** 8)) {
+            return $i++;
         }
 
         throw new \Exception("Can't find an unsed ID");
