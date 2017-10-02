@@ -23,7 +23,7 @@ class DecimalConverter {
         }
 
         for($i = 0; $i < strlen($string); $i++) {
-            if(!($numberCharacter = self::characterToNumber($string[$i]))) {
+            if(($numberCharacter = self::characterToNumber($string[$i])) === false) {
                 return false;
             }
 
@@ -43,11 +43,11 @@ class DecimalConverter {
         $string = "";
 
         if($number === 0) {
-            return self::numberToCharacter(0);
+            return self::numberToCharacter($number);
         }
 
         while($number != 0) {
-            if(!($character = self::numberToCharacter($number % 33))) {
+            if(($character = self::numberToCharacter($number % 33)) === false) {
                 return false;
             }
 
