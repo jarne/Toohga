@@ -112,7 +112,7 @@ class Toohga {
 
         if(($numberId = DecimalConverter::stringToNumber($id)) !== false) {
             $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
-                ->find($id);
+                ->find($numberId);
 
             if($url) {
                 $this->redirectTo($url->getTarget());
