@@ -22,14 +22,14 @@ class Toohga {
     public function __construct() {
         $credentials = array(
             "driver" => "pdo_mysql",
-            "host" => "tg-mysql",
-            "user" => "juegHSnnNx48f8Fe",
-            "password" => "kSbMPjbTR8kFYBCx",
-            "dbname" => "ve8pGd8YwhMQJvkF"
+            "host" => getenv("MYSQL_HOST"),
+            "user" => getenv("MYSQL_USER"),
+            "password" => getenv("MYSQL_PASSWORD"),
+            "dbname" => getenv("MYSQL_DATABASE")
         );
 
         $redis = new \Redis();
-        $redis->connect("tg-redis");
+        $redis->connect(getenv("REDIS_HOST"));
 
         $redisCache = new RedisCache();
         $redisCache->setRedis($redis);

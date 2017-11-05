@@ -1,0 +1,47 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.1-browsers
+        environment:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: mibo3E9u9eWO6uJe
+          MYSQL_PASSWORD: daVU7O8EyEtIDAlI
+          MYSQL_DATABASE: sULu9OtEDE8iYiqE
+          REDIS_HOST: 127.0.0.1
+      - image: mysql:5.7
+        environment:
+          MYSQL_ROOT_PASSWORD: nEDA7oyUjENodUqa
+          MYSQL_USER: mibo3E9u9eWO6uJe
+          MYSQL_PASSWORD: daVU7O8EyEtIDAlI
+          MYSQL_DATABASE: sULu9OtEDE8iYiqE
+      - image: redis:4.0
+    steps:
+      # Checkout branch
+      - checkout
+
+      # Install native extensions
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y libzip-dev
+
+      # Install PHP extensions
+      - run: |
+          sudo pecl install zip redis
+          sudo docker-php-ext-enable zip redis
+
+      # Install Composer dependencies
+      - restore_cache:
+          key: composer-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-{{ checksum "composer.json" }}
+          paths:
+            - vendor
+
+      # Initialize database
+      - run: php vendor/bin/doctrine orm:schema-tool:create
+
+      # Run tests with PHPUnit
+      - run: php vendor/bin/phpunit

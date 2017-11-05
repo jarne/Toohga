@@ -1,4 +1,7 @@
+# IDE project folder
 /.idea
+
+# Dependencies
 /vendor
 /node_modules
 /bower_components
