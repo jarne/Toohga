@@ -24,12 +24,12 @@ jobs:
       # Install native extensions
       - run: |
           sudo apt-get update
-          sudo apt-get install -y libzip-dev
+          sudo apt-get install -y libzip-dev libmysqlclient-dev
 
       # Install PHP extensions
       - run: |
-          sudo pecl install zip redis
-          sudo docker-php-ext-enable zip redis
+          sudo pecl install zip pdo pdo_mysql redis
+          sudo docker-php-ext-enable zip pdo pdo_mysql redis
 
       # Install Composer dependencies
       - restore_cache:
