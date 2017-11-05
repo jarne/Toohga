@@ -21,6 +21,11 @@ jobs:
       # Checkout branch
       - checkout
 
+      # Install APT extensions
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common python-software-properties
+
       # Add APT repositories
       - run: |
           sudo add-apt-repository ppa:ondrej/php
