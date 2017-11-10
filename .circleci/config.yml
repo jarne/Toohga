@@ -21,19 +21,19 @@ jobs:
       # Checkout branch
       - checkout
 
-      # Install APT extensions
+      # Install native extensions
       - run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common python-software-properties
+          sudo apt-get install -y libzip-dev
 
-      # Add APT repositories
+      # Install PHP extensions
       - run: |
-          sudo add-apt-repository ppa:ondrej/php
+          sudo docker-php-ext-install zip pdo_mysql
 
-      # Install PHP native extensions
+      # Manually install PHP extensions
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y php7.1-zip php7.1-mysql php7.1-redis
+          sudo pecl install redis
+          sudo docker-php-ext-enable redis
 
       # Install Composer dependencies
       - restore_cache:
