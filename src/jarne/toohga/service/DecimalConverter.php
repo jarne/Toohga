@@ -13,18 +13,18 @@ class DecimalConverter {
      * Convert a string to a number
      *
      * @param string $string
-     * @return int|false
+     * @return int|null
      */
-    public static function stringToNumber(string $string) {
+    public static function stringToNumber(string $string): ?int {
         $number = 0;
 
         if(!(strlen($string) > 0)) {
-            return false;
+            return null;
         }
 
         for($i = 0; $i < strlen($string); $i++) {
             if(($numberCharacter = self::characterToNumber(strtoupper($string[$i]))) === false) {
-                return false;
+                return null;
             }
 
             $number += $numberCharacter * (33 ** (strlen($string) - ($i + 1)));
@@ -37,9 +37,9 @@ class DecimalConverter {
      * Convert a number to a string
      *
      * @param int $number
-     * @return string|false
+     * @return string|null
      */
-    public static function numberToString(int $number) {
+    public static function numberToString(int $number): ?string {
         $string = "";
 
         if($number === 0) {
@@ -48,7 +48,7 @@ class DecimalConverter {
 
         while($number != 0) {
             if(($character = self::numberToCharacter($number % 33)) === false) {
-                return false;
+                return null;
             }
 
             $string = $character . $string;
@@ -63,9 +63,9 @@ class DecimalConverter {
      * Convert a character to a number
      *
      * @param string $character
-     * @return int|false
+     * @return int|null
      */
-    private static function characterToNumber(string $character) {
+    private static function characterToNumber(string $character): ?int {
         switch($character) {
             case "1":
                 return 0;
@@ -135,16 +135,16 @@ class DecimalConverter {
                 return 32;
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Convert a number to a character
      *
      * @param int $number
-     * @return string|false
+     * @return string|null
      */
-    private static function numberToCharacter(int $number) {
+    private static function numberToCharacter(int $number): ?string {
         switch($number) {
             case 0:
                 return "1";
@@ -214,6 +214,6 @@ class DecimalConverter {
                 return "Z";
         }
 
-        return false;
+        return null;
     }
 }

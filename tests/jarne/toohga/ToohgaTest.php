@@ -13,7 +13,10 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ToohgaTest extends TestCase {
-    public function testRedirect() {
+    /**
+     * Test the redirect function
+     */
+    public function testRedirect(): void {
         $toohga = new Toohga();
         $output = $toohga->redirect(array(), "127.0.0.1", "tooh.ga", MethodType::GET, array());
 

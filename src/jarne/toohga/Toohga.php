@@ -10,6 +10,8 @@ namespace jarne\toohga;
 
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use jarne\toohga\entity\URL;
 use jarne\toohga\service\DecimalConverter;
@@ -34,7 +36,11 @@ class Toohga {
         $redisCache = new RedisCache();
         $redisCache->setRedis($redis);
 
-        $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $redisCache));
+        try {
+            $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $redisCache));
+        } catch(ORMException $exception) {
+            exit();
+        }
     }
 
     /**
@@ -79,7 +85,7 @@ class Toohga {
                 if(isset($post["longUrl"])) {
                     $longUrl = $post["longUrl"];
 
-                    if(($id = $this->create($ip, $longUrl)) !== false) {
+                    if(($id = $this->create($ip, $longUrl)) !== null) {
                         $shortUrl = "https://" . $hostname . "/" . $id;
 
                         return(json_encode(array(
@@ -107,7 +113,7 @@ class Toohga {
      *
      * @param string $id
      */
-    public function get(string $id) {
+    public function get(string $id): void {
         $entityManager = $this->getEntityManager();
 
         if(($numberId = DecimalConverter::stringToNumber($id)) !== false) {
@@ -125,9 +131,9 @@ class Toohga {
      *
      * @param string $ip
      * @param string $longUrl
-     * @return string|false
+     * @return string|null
      */
-    public function create(string $ip, string $longUrl) {
+    public function create(string $ip, string $longUrl): ?string {
         $entityManager = $this->getEntityManager();
 
         $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
@@ -142,7 +148,12 @@ class Toohga {
             $url->setTarget($longUrl);
 
             $entityManager->persist($url);
-            $entityManager->flush();
+
+            try {
+                $entityManager->flush();
+            } catch(OptimisticLockException $exception) {
+                return null;
+            }
         }
 
         return DecimalConverter::numberToString($url->getId());
@@ -151,7 +162,7 @@ class Toohga {
     /**
      * Call when the script is going to return JSON
      */
-    public function willReturnJson() {
+    public function willReturnJson(): void {
         header("Content-type: application/json");
     }
 
@@ -160,7 +171,7 @@ class Toohga {
      *
      * @param string $url
      */
-    public function redirectTo(string $url) {
+    public function redirectTo(string $url): void {
         header("Location: " . $url);
     }
 

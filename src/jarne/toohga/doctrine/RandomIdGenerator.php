@@ -10,6 +10,7 @@ namespace jarne\toohga\doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AbstractIdGenerator;
+use Doctrine\ORM\OptimisticLockException;
 use jarne\toohga\entity\URL;
 
 class RandomIdGenerator extends AbstractIdGenerator {
@@ -38,7 +39,12 @@ class RandomIdGenerator extends AbstractIdGenerator {
 
                 if($url->getCreated() <= $deleteDate) {
                     $em->remove($url);
-                    $em->flush();
+
+                    try {
+                        $em->flush();
+                    } catch(OptimisticLockException $exception) {
+
+                    }
                 }
             }
 
