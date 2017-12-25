@@ -116,7 +116,7 @@ class Toohga {
     public function get(string $id): void {
         $entityManager = $this->getEntityManager();
 
-        if(($numberId = DecimalConverter::stringToNumber($id)) !== false) {
+        if(($numberId = DecimalConverter::stringToNumber($id)) !== null) {
             $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
                 ->find($numberId);
 
