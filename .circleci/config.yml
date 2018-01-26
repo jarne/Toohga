@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1-browsers
+      - image: circleci/php:7.2-node-browsers
         environment:
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: mibo3E9u9eWO6uJe

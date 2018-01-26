@@ -46,7 +46,7 @@ class DecimalConverter {
             return self::numberToCharacter($number);
         }
 
-        while($number != 0) {
+        while($number !== 0) {
             if(($character = self::numberToCharacter($number % 33)) === null) {
                 return null;
             }

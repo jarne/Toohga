@@ -51,13 +51,13 @@ class Toohga {
      * @return string
      */
     public function process(array $server, array $post): string {
-        $ip = $server["REMOTE_ADDR"];
+        $ip = isset($server["HTTP_X_REAL_IP"]) ? $server["HTTP_X_REAL_IP"] : $server["REMOTE_ADDR"];
         $hostname = $server["HTTP_HOST"];
         $uri = $server["REQUEST_URI"];
         $method = $server["REQUEST_METHOD"];
 
         $urlParts = explode("/", $uri);
-        $methodType = ($method == "POST") ? MethodType::POST : MethodType::GET;
+        $methodType = ($method === "POST") ? MethodType::POST : MethodType::GET;
 
         return $this->redirect($urlParts, $ip, $hostname, $methodType, $post);
     }
@@ -147,11 +147,17 @@ class Toohga {
             $url->setClient($ip);
             $url->setTarget($longUrl);
 
-            $entityManager->persist($url);
+            try {
+                $entityManager->persist($url);
+            } catch(ORMException $exception) {
+                return null;
+            }
 
             try {
                 $entityManager->flush();
             } catch(OptimisticLockException $exception) {
+                return null;
+            } catch(ORMException $exception) {
                 return null;
             }
         }

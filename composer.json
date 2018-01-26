@@ -2,7 +2,7 @@
     "name": "jarne/Toohga",
     "description": "A simple URL shortener",
     "type": "project",
-    "license": "Creative Commons Attribution-ShareAlike 4.0 International License",
+    "license": "CC-BY-SA-4.0",
     "autoload": {
         "psr-0": {
             "jarne\\toohga": "src/"
