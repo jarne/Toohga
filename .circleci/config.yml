@@ -32,7 +32,7 @@ jobs:
 
       # Manually install PHP extensions
       - run: |
-          sudo pecl install redis xdebug
+          sudo pecl install redis xdebug-2.6.0RC2
           sudo docker-php-ext-enable redis xdebug
 
       # Install Composer dependencies
