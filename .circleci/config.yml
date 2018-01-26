@@ -28,7 +28,7 @@ jobs:
 
       # Install PHP extensions
       - run: |
-          sudo docker-php-ext-install zip pdo_mysql
+          sudo docker-php-ext-install zip pdo_mysql xdebug
 
       # Manually install PHP extensions
       - run: |
