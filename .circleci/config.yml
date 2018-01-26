@@ -28,12 +28,12 @@ jobs:
 
       # Install PHP extensions
       - run: |
-          sudo docker-php-ext-install zip pdo_mysql xdebug
+          sudo docker-php-ext-install zip pdo_mysql
 
       # Manually install PHP extensions
       - run: |
-          sudo pecl install redis
-          sudo docker-php-ext-enable redis
+          sudo pecl install redis xdebug
+          sudo docker-php-ext-enable redis xdebug
 
       # Install Composer dependencies
       - restore_cache:
