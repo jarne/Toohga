@@ -1,12 +1,19 @@
 {
-    "name": "jarne/Toohga",
+    "name": "jarne/toohga",
     "description": "A simple URL shortener",
+    "version": "1.0.0",
     "type": "project",
+    "homepage": "https://bitbucket.org/thejarne/toohga",
     "license": "CC-BY-SA-4.0",
-    "autoload": {
-        "psr-0": {
-            "jarne\\toohga": "src/"
+    "authors": [
+        {
+            "name": "Jarne",
+            "homepage": "https://bitbucket.org/thejarne",
+            "role": "Developer"
         }
+    ],
+    "support": {
+        "source": "https://bitbucket.org/thejarne/toohga/src"
     },
     "require": {
         "php": ">=7.2",
@@ -15,5 +22,10 @@
     "require-dev": {
         "phpunit/phpunit": "^6.0",
         "symfony/dom-crawler": "^3.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "jarne\\toohga": "src/"
+        }
     }
 }

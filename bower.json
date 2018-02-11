@@ -1,6 +1,18 @@
 {
-  "name": "Toohga",
+  "name": "toohga",
   "description": "A simple URL shortener",
+  "license": "CC-BY-SA-4.0",
+  "authors": [
+    {
+      "name": "Jarne",
+      "homepage": "https://bitbucket.org/thejarne"
+    }
+  ],
+  "homepage": "https://bitbucket.org/thejarne/toohga",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/thejarne/toohga.git"
+  },
   "dependencies": {
     "jquery": "^3.3",
     "bootstrap": "^4.0"
