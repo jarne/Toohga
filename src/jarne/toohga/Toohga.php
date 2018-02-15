@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
+use Dotenv\Dotenv;
 use jarne\toohga\entity\URL;
 use jarne\toohga\service\DecimalConverter;
 use jarne\toohga\utils\MethodType;
@@ -22,6 +23,11 @@ class Toohga {
     private $entityManager;
 
     public function __construct() {
+        if(class_exists("Dotenv\Dotenv") AND file_exists(__DIR__ . "/../../../.env")) {
+            $dotenv = new Dotenv(__DIR__ . "/../../..");
+            $dotenv->load();
+        }
+
         $credentials = array(
             "driver" => "pdo_mysql",
             "host" => getenv("MYSQL_HOST"),
