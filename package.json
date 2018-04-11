@@ -1,9 +1,8 @@
 {
   "name": "toohga",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple URL shortener",
   "homepage": "https://bitbucket.org/thejarne/toohga",
-  "license": "CC-BY-SA-4.0",
   "author": {
     "name": "Jarne",
     "url": "https://bitbucket.org/thejarne"

@@ -33,7 +33,7 @@ class Toohga {
             "host" => getenv("MYSQL_HOST"),
             "user" => getenv("MYSQL_USER"),
             "password" => getenv("MYSQL_PASSWORD"),
-            "dbname" => getenv("MYSQL_DATABASE")
+            "dbname" => getenv("MYSQL_DATABASE"),
         );
 
         $redis = new \Redis();
@@ -43,7 +43,10 @@ class Toohga {
         $redisCache->setRedis($redis);
 
         try {
-            $this->entityManager = EntityManager::create($credentials, Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $redisCache));
+            $this->entityManager = EntityManager::create(
+                $credentials,
+                Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $redisCache)
+            );
         } catch(ORMException $exception) {
             exit();
         }
@@ -94,19 +97,25 @@ class Toohga {
                     if(($id = $this->create($ip, $longUrl)) !== null) {
                         $shortUrl = "https://" . $hostname . "/" . $id;
 
-                        return(json_encode(array(
-                            "status" => "success",
-                            "shortUrl" => $shortUrl
-                        )));
+                        return (json_encode(
+                            array(
+                                "status" => "success",
+                                "shortUrl" => $shortUrl,
+                            )
+                        ));
                     } else {
-                        return(json_encode(array(
-                            "status" => "failed"
-                        )));
+                        return (json_encode(
+                            array(
+                                "status" => "failed",
+                            )
+                        ));
                     }
                 } else {
-                    return(json_encode(array(
-                        "status" => "failed"
-                    )));
+                    return (json_encode(
+                        array(
+                            "status" => "failed",
+                        )
+                    ));
                 }
                 break;
         }
@@ -143,9 +152,11 @@ class Toohga {
         $entityManager = $this->getEntityManager();
 
         $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
-            ->findOneBy(array(
-                "target" => $longUrl
-            ));
+            ->findOneBy(
+                array(
+                    "target" => $longUrl,
+                )
+            );
 
         if(!$url) {
             $url = new URL();

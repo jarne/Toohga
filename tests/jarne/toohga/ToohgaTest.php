@@ -22,7 +22,7 @@ class ToohgaTest extends TestCase {
                 "REMOTE_ADDR" => "123.456.123.456",
                 "HTTP_HOST" => "example.org",
                 "REQUEST_URI" => "",
-                "REQUEST_METHOD" => "GET"
+                "REQUEST_METHOD" => "GET",
             ),
             array()
         );
@@ -47,10 +47,10 @@ class ToohgaTest extends TestCase {
                 "REMOTE_ADDR" => "123.456.123.456",
                 "HTTP_HOST" => "example.org",
                 "REQUEST_URI" => "",
-                "REQUEST_METHOD" => "POST"
+                "REQUEST_METHOD" => "POST",
             ),
             array(
-                "longUrl" => "https://example.org/category/another.html"
+                "longUrl" => "https://example.org/category/another.html",
             )
         );
 
@@ -81,7 +81,7 @@ class ToohgaTest extends TestCase {
                 "REMOTE_ADDR" => "123.456.123.456",
                 "HTTP_HOST" => "example.org",
                 "REQUEST_URI" => "/" . $shortId,
-                "REQUEST_METHOD" => "GET"
+                "REQUEST_METHOD" => "GET",
             ),
             array()
         );
