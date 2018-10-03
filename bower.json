@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "jquery": "^3.3",
-    "bootstrap": "^4.0",
+    "bootstrap": "^4.1",
     "open-iconic": "^1.1"
   }
 }
