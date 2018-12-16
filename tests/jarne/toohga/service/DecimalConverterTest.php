@@ -21,26 +21,29 @@ class DecimalConverterTest extends TestCase {
         $this->assertEquals(3, DecimalConverter::stringToNumber("4"));
         $this->assertEquals(4, DecimalConverter::stringToNumber("5"));
 
-        $this->assertEquals(9, DecimalConverter::stringToNumber("A"));
-        $this->assertEquals(10, DecimalConverter::stringToNumber("B"));
-        $this->assertEquals(11, DecimalConverter::stringToNumber("C"));
-        $this->assertEquals(12, DecimalConverter::stringToNumber("D"));
-        $this->assertEquals(13, DecimalConverter::stringToNumber("E"));
+        $this->assertEquals(9, DecimalConverter::stringToNumber("a"));
+        $this->assertEquals(10, DecimalConverter::stringToNumber("b"));
+        $this->assertEquals(11, DecimalConverter::stringToNumber("c"));
+        $this->assertEquals(12, DecimalConverter::stringToNumber("d"));
+        $this->assertEquals(13, DecimalConverter::stringToNumber("e"));
 
-        $this->assertEquals(297, DecimalConverter::stringToNumber("A1"));
-        $this->assertEquals(306, DecimalConverter::stringToNumber("AA"));
-        $this->assertEquals(331, DecimalConverter::stringToNumber("B2"));
-        $this->assertEquals(340, DecimalConverter::stringToNumber("BB"));
+        $this->assertEquals(297, DecimalConverter::stringToNumber("a1"));
+        $this->assertEquals(306, DecimalConverter::stringToNumber("aa"));
+        $this->assertEquals(331, DecimalConverter::stringToNumber("b2"));
+        $this->assertEquals(340, DecimalConverter::stringToNumber("bb"));
+
+        $this->assertEquals(16756940, DecimalConverter::stringToNumber("f5ag3"));
+        $this->assertEquals(29405517, DecimalConverter::stringToNumber("rt9ba"));
+        $this->assertEquals(22871561, DecimalConverter::stringToNumber("lafcm"));
+        $this->assertEquals(4749132, DecimalConverter::stringToNumber("51614"));
+        $this->assertEquals(1798217, DecimalConverter::stringToNumber("2j29f"));
 
         $this->assertEquals(16756940, DecimalConverter::stringToNumber("F5AG3"));
-        $this->assertEquals(29405517, DecimalConverter::stringToNumber("RT9BA"));
-        $this->assertEquals(22871561, DecimalConverter::stringToNumber("LAFCM"));
-        $this->assertEquals(4749132, DecimalConverter::stringToNumber("51614"));
         $this->assertEquals(1798217, DecimalConverter::stringToNumber("2J29F"));
 
-        $this->assertEquals(null, DecimalConverter::stringToNumber("F5A?3"));
-        $this->assertEquals(null, DecimalConverter::stringToNumber("RT9B!"));
-        $this->assertEquals(null, DecimalConverter::stringToNumber("LRR%1"));
+        $this->assertEquals(null, DecimalConverter::stringToNumber("f5a?3"));
+        $this->assertEquals(null, DecimalConverter::stringToNumber("rt9b!"));
+        $this->assertEquals(null, DecimalConverter::stringToNumber("lrr%1"));
         $this->assertEquals(null, DecimalConverter::stringToNumber("!$!/("));
         $this->assertEquals(null, DecimalConverter::stringToNumber(""));
     }
@@ -55,21 +58,21 @@ class DecimalConverterTest extends TestCase {
         $this->assertEquals("4", DecimalConverter::numberToString(3));
         $this->assertEquals("5", DecimalConverter::numberToString(4));
 
-        $this->assertEquals("A", DecimalConverter::numberToString(9));
-        $this->assertEquals("B", DecimalConverter::numberToString(10));
-        $this->assertEquals("C", DecimalConverter::numberToString(11));
-        $this->assertEquals("D", DecimalConverter::numberToString(12));
-        $this->assertEquals("E", DecimalConverter::numberToString(13));
+        $this->assertEquals("a", DecimalConverter::numberToString(9));
+        $this->assertEquals("b", DecimalConverter::numberToString(10));
+        $this->assertEquals("c", DecimalConverter::numberToString(11));
+        $this->assertEquals("d", DecimalConverter::numberToString(12));
+        $this->assertEquals("e", DecimalConverter::numberToString(13));
 
-        $this->assertEquals("A1", DecimalConverter::numberToString(297));
-        $this->assertEquals("AA", DecimalConverter::numberToString(306));
-        $this->assertEquals("B2", DecimalConverter::numberToString(331));
-        $this->assertEquals("BB", DecimalConverter::numberToString(340));
+        $this->assertEquals("a1", DecimalConverter::numberToString(297));
+        $this->assertEquals("aa", DecimalConverter::numberToString(306));
+        $this->assertEquals("b2", DecimalConverter::numberToString(331));
+        $this->assertEquals("bb", DecimalConverter::numberToString(340));
 
-        $this->assertEquals("F5AG3", DecimalConverter::numberToString(16756940));
-        $this->assertEquals("RT9BA", DecimalConverter::numberToString(29405517));
-        $this->assertEquals("LAFCM", DecimalConverter::numberToString(22871561));
+        $this->assertEquals("f5ag3", DecimalConverter::numberToString(16756940));
+        $this->assertEquals("rt9ba", DecimalConverter::numberToString(29405517));
+        $this->assertEquals("lafcm", DecimalConverter::numberToString(22871561));
         $this->assertEquals("51614", DecimalConverter::numberToString(4749132));
-        $this->assertEquals("2J29F", DecimalConverter::numberToString(1798217));
+        $this->assertEquals("2j29f", DecimalConverter::numberToString(1798217));
     }
 }

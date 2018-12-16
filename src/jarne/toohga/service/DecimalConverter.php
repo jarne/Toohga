@@ -23,7 +23,7 @@ class DecimalConverter {
         }
 
         for($i = 0; $i < strlen($string); $i++) {
-            if(($numberCharacter = self::characterToNumber(strtoupper($string[$i]))) === null) {
+            if(($numberCharacter = self::characterToNumber(strtolower($string[$i]))) === null) {
                 return null;
             }
 
@@ -85,53 +85,53 @@ class DecimalConverter {
                 return 7;
             case "9":
                 return 8;
-            case "A":
+            case "a":
                 return 9;
-            case "B":
+            case "b":
                 return 10;
-            case "C":
+            case "c":
                 return 11;
-            case "D":
+            case "d":
                 return 12;
-            case "E":
+            case "e":
                 return 13;
-            case "F":
+            case "f":
                 return 14;
-            case "G":
+            case "g":
                 return 15;
-            case "H":
+            case "h":
                 return 16;
-            case "J":
+            case "j":
                 return 17;
-            case "K":
+            case "k":
                 return 18;
-            case "L":
+            case "l":
                 return 19;
-            case "M":
+            case "m":
                 return 20;
-            case "N":
+            case "n":
                 return 21;
-            case "P":
+            case "p":
                 return 22;
-            case "Q":
+            case "q":
                 return 23;
-            case "R":
+            case "r":
                 return 24;
-            case "S":
+            case "s":
                 return 25;
-            case "T":
+            case "t":
                 return 26;
-            case "U":
+            case "u":
                 return 27;
-            case "V":
+            case "v":
                 return 28;
-            case "W":
+            case "w":
                 return 29;
-            case "X":
+            case "x":
                 return 30;
-            case "Y":
+            case "y":
                 return 31;
-            case "Z":
+            case "z":
                 return 32;
         }
 
@@ -165,53 +165,53 @@ class DecimalConverter {
             case 8:
                 return "9";
             case 9:
-                return "A";
+                return "a";
             case 10:
-                return "B";
+                return "b";
             case 11:
-                return "C";
+                return "c";
             case 12:
-                return "D";
+                return "d";
             case 13:
-                return "E";
+                return "e";
             case 14:
-                return "F";
+                return "f";
             case 15:
-                return "G";
+                return "g";
             case 16:
-                return "H";
+                return "h";
             case 17:
-                return "J";
+                return "j";
             case 18:
-                return "K";
+                return "k";
             case 19:
-                return "L";
+                return "l";
             case 20:
-                return "M";
+                return "m";
             case 21:
-                return "N";
+                return "n";
             case 22:
-                return "P";
+                return "p";
             case 23:
-                return "Q";
+                return "q";
             case 24:
-                return "R";
+                return "r";
             case 25:
-                return "S";
+                return "s";
             case 26:
-                return "T";
+                return "t";
             case 27:
-                return "U";
+                return "u";
             case 28:
-                return "V";
+                return "v";
             case 29:
-                return "W";
+                return "w";
             case 30:
-                return "X";
+                return "x";
             case 31:
-                return "Y";
+                return "y";
             case 32:
-                return "Z";
+                return "z";
         }
 
         return null;

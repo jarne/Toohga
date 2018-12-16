@@ -1,7 +1,7 @@
 {
     "name": "jarne/toohga",
     "description": "A simple URL shortener",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "type": "project",
     "homepage": "https://bitbucket.org/thejarne/toohga",
     "authors": [
@@ -19,8 +19,8 @@
         "doctrine/orm": "^2.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3",
-        "symfony/dom-crawler": "^4.1",
+        "phpunit/phpunit": "^7.5",
+        "symfony/dom-crawler": "^4.2",
         "vlucas/phpdotenv": "^2.5"
     },
     "autoload": {

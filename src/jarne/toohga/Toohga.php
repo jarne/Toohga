@@ -85,6 +85,10 @@ class Toohga {
         switch($methodType) {
             case MethodType::GET:
                 if(count($urlParts) === 2) {
+                    if($urlParts[1] === "privacy") {
+                        return file_get_contents("templates/privacy.html");
+                    }
+
                     $this->get($urlParts[1]);
                 }
                 break;

@@ -1,6 +1,6 @@
 {
   "name": "toohga",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple URL shortener",
   "homepage": "https://bitbucket.org/thejarne/toohga",
   "author": {
@@ -12,9 +12,9 @@
     "url": "https://bitbucket.org/thejarne/toohga.git"
   },
   "devDependencies": {
-    "gulp": "^3.9",
+    "gulp": "^4.0",
     "gulp-concat": "^2.6",
-    "gulp-clean-css": "^3.10",
-    "gulp-uglify": "^3.0"
+    "gulp-clean-css": "^4.0",
+    "gulp-minify": "^3.1"
   }
 }
