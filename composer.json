@@ -1,18 +1,18 @@
 {
     "name": "jarne/toohga",
     "description": "A simple URL shortener",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "type": "project",
-    "homepage": "https://bitbucket.org/thejarne/toohga",
+    "homepage": "https://github.com/jarne/Toohga",
     "authors": [
         {
             "name": "Jarne",
-            "homepage": "https://bitbucket.org/thejarne",
+            "homepage": "https://github.com/jarne",
             "role": "Developer"
         }
     ],
     "support": {
-        "source": "https://bitbucket.org/thejarne/toohga/src"
+        "source": "https://github.com/jarne/Toohga"
     },
     "require": {
         "php": ">=7.2",

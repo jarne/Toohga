@@ -4,13 +4,13 @@
   "authors": [
     {
       "name": "Jarne",
-      "homepage": "https://bitbucket.org/thejarne"
+      "homepage": "https://github.com/jarne"
     }
   ],
-  "homepage": "https://bitbucket.org/thejarne/toohga",
+  "homepage": "https://github.com/jarne/Toohga",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/thejarne/toohga.git"
+    "url": "https://github.com/jarne/Toohga.git"
   },
   "dependencies": {
     "jquery": "^3.3",

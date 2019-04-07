@@ -1,5 +1,5 @@
 /**
- * Created by jarne on 28.07.17.
+ * Toohga | gulp file
  */
 
 const gulp = require("gulp");
@@ -55,7 +55,7 @@ gulp.task("privacy-css", () => {
         .pipe(gulp.dest("assets/dest/css"));
 });
 
-gulp.task("watch", function() {
+gulp.task("watch", () => {
     gulp.watch("bower_components/jquery/jquery.min.js", gulp.parallel("jquery"));
 
     gulp.watch("bower_components/bootstrap/dist/css/bootstrap.min.css", gulp.parallel("bootstrap-css"));
