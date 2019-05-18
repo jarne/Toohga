@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 08.03.17
- * Time: 20:23
+ * Toohga | loader file
  */
 
 require "vendor/autoload.php";

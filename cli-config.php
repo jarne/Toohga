@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 09.03.17
- * Time: 13:19
+ * Toohga | doctrine cli config
  */
 
 require "vendor/autoload.php";

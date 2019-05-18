@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 08.03.17
- * Time: 20:55
+ * Toohga | main tests file
  */
 
 namespace jarne\toohga;

@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 08.03.17
- * Time: 20:46
+ * Toohga | url database entity
  */
 
 namespace jarne\toohga\entity;

@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 09.03.17
- * Time: 19:18
+ * Toohga | request method type
  */
 
 namespace jarne\toohga\utils;

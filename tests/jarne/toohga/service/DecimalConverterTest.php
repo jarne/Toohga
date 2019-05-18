@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 26.01.18
- * Time: 14:19
+ * Toohga | decimal converter tests
  */
 
 namespace jarne\toohga\service;

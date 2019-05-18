@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 28.03.17
- * Time: 18:14
+ * Toohga | random db id generator
  */
 
 namespace jarne\toohga\doctrine;

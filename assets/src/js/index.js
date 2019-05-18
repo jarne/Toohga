@@ -1,34 +1,37 @@
 /**
- * Created by jarne on 09.03.17.
+ * Toohga | client side api script
  */
 
-$(document).ready(function() {
-    var lastShortenedUrl = "";
+const entryForm = document.getElementById("entryForm");
+const urlField = document.getElementById("url");
 
-    $("#entryForm").submit(function(e) {
-        var givenUrl = $("#url").val();
+let lastShortenedUrl = "";
 
-        if(givenUrl !== lastShortenedUrl || lastShortenedUrl === "") {
-            if(givenUrl.indexOf("://") < 0) {
-                givenUrl = "https://" + givenUrl;
-            }
+entryForm.onsubmit = e => {
+    let givenUrl = urlField.value;
 
-            $.ajax({
-                type: "POST",
-                url: "",
-                data: {
-                    longUrl: givenUrl
-                },
-                success: function(data) {
-                    if(data.status === "success") {
-                        lastShortenedUrl = data.shortUrl;
-
-                        $("#url").val(data.shortUrl);
-                    }
-                }
-            });
+    if(givenUrl !== lastShortenedUrl || lastShortenedUrl === "") {
+        if(givenUrl.indexOf("://") < 0) {
+            givenUrl = "https://" + givenUrl;
         }
 
-        e.preventDefault();
-    });
-});
+        const formData = new FormData();
+        formData.append("longUrl", givenUrl);
+
+        fetch("/", {
+            method: "POST",
+            body: formData
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if(json.status === "success") {
+                    const shortUrl = json.shortUrl;
+
+                    lastShortenedUrl = shortUrl;
+                    urlField.value = shortUrl;
+                }
+            });
+    }
+
+    e.preventDefault();
+};

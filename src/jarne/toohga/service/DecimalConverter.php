@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 02.10.17
- * Time: 19:20
+ * Toohga | decimal string converter
  */
 
 namespace jarne\toohga\service;

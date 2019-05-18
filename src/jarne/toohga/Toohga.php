@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 08.03.17
- * Time: 20:54
+ * Toohga | main class
  */
 
 namespace jarne\toohga;
@@ -24,7 +21,7 @@ class Toohga {
 
     public function __construct() {
         if(class_exists("Dotenv\Dotenv") AND file_exists(__DIR__ . "/../../../.env")) {
-            $dotenv = new Dotenv(__DIR__ . "/../../..");
+            $dotenv = Dotenv::create(__DIR__ . "/../../..");
             $dotenv->load();
         }
 
