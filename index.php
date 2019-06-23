@@ -6,7 +6,11 @@
 require "vendor/autoload.php";
 
 use jarne\toohga\Toohga;
+use Klein\Klein;
 
-$toohga = new Toohga();
+$klein = new Klein();
+$toohga = new Toohga($klein);
 
-echo $toohga->process($_SERVER, $_POST);
+$toohga->initRoutes();
+
+$klein->dispatch();

@@ -5,21 +5,32 @@
 
 namespace jarne\toohga;
 
+use DateTime;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use Dotenv\Dotenv;
+use Exception;
 use jarne\toohga\entity\URL;
 use jarne\toohga\service\DecimalConverter;
-use jarne\toohga\utils\MethodType;
+use Klein\Klein;
+use Klein\Request;
+use Klein\Response;
+use Klein\ServiceProvider;
+use Redis;
 
 class Toohga {
+    /* @var Klein */
+    private $klein;
+
     /* @var EntityManager */
     private $entityManager;
 
-    public function __construct() {
+    public function __construct(Klein $klein) {
+        $this->klein = $klein;
+
         if(class_exists("Dotenv\Dotenv") AND file_exists(__DIR__ . "/../../../.env")) {
             $dotenv = Dotenv::create(__DIR__ . "/../../..");
             $dotenv->load();
@@ -33,7 +44,7 @@ class Toohga {
             "dbname" => getenv("MYSQL_DATABASE"),
         );
 
-        $redis = new \Redis();
+        $redis = new Redis();
         $redis->connect(getenv("REDIS_HOST"));
 
         $redisCache = new RedisCache();
@@ -50,86 +61,72 @@ class Toohga {
     }
 
     /**
-     * Process a request
-     *
-     * @param array $server
-     * @param array $post
-     * @return string
+     * Initialize the URL routes
      */
-    public function process(array $server, array $post): string {
-        $ip = isset($server["HTTP_X_REAL_IP"]) ? $server["HTTP_X_REAL_IP"] : $server["REMOTE_ADDR"];
-        $hostname = $server["HTTP_HOST"];
-        $uri = $server["REQUEST_URI"];
-        $method = $server["REQUEST_METHOD"];
+    public function initRoutes(): void {
+        $this->getKlein()->get("/", function(Request $req, Response $res, ServiceProvider $service) {
+            $service->render("templates/index.html");
+        });
 
-        $urlParts = explode("/", $uri);
-        $methodType = ($method === "POST") ? MethodType::POST : MethodType::GET;
+        $this->getKlein()->get("/privacy", function(Request $req, Response $res, ServiceProvider $service) {
+            $service->render("templates/privacy.html");
+        });
 
-        return $this->redirect($urlParts, $ip, $hostname, $methodType, $post);
-    }
+        $this->getKlein()->get("/[:urlId]", function(Request $req, Response $res) {
+            $urlId = $req->urlId;
 
-    /**
-     * Get the page where the user wants to land
-     *
-     * @param array $urlParts
-     * @param string $ip
-     * @param string $hostname
-     * @param int $methodType
-     * @param array $post
-     * @return string
-     */
-    public function redirect(array $urlParts, string $ip, string $hostname, int $methodType, array $post): string {
-        switch($methodType) {
-            case MethodType::GET:
-                if(count($urlParts) === 2) {
-                    if($urlParts[1] === "privacy") {
-                        return file_get_contents("templates/privacy.html");
-                    }
+            $longUrl = $this->get($urlId);
 
-                    $this->get($urlParts[1]);
-                }
-                break;
-            case MethodType::POST:
-                $this->willReturnJson();
+            $res->redirect($longUrl);
+        });
 
-                if(isset($post["longUrl"])) {
-                    $longUrl = $post["longUrl"];
+        $this->getKlein()->post("/", function(Request $req, Response $res) {
+            if(($longUrl = $req->param("longUrl")) === null) {
+                return $res->json(array(
+                    "status" => "failed",
+                    "errorCode" => "long_url_parameter_missing"
+                ));
+            }
 
-                    if(($id = $this->create($ip, $longUrl)) !== null) {
-                        $shortUrl = "https://" . $hostname . "/" . $id;
+            $ip = $req->server()->exists("HTTP_X_REAL_IP") ? $req->server()->get("HTTP_X_REAL_IP") : $req->server()->get("REMOTE_ADDR");
 
-                        return (json_encode(
-                            array(
-                                "status" => "success",
-                                "shortUrl" => $shortUrl,
-                            )
-                        ));
-                    } else {
-                        return (json_encode(
-                            array(
-                                "status" => "failed",
-                            )
-                        ));
-                    }
-                } else {
-                    return (json_encode(
-                        array(
-                            "status" => "failed",
-                        )
-                    ));
-                }
-                break;
-        }
+            if(($genId = $this->create($ip, $longUrl)) === null) {
+                return $res->json(array(
+                    "status" => "failed",
+                    "errorCode" => "internal_database_error"
+                ));
+            }
 
-        return file_get_contents("templates/index.html");
+            $srvHost = $req->server()->get("SERVER_NAME");
+            $srvPort = $req->server()->get("SERVER_PORT");
+
+            $portString = "";
+
+            if(
+                ($req->isSecure() AND $srvPort !== 443) OR
+                (!$req->isSecure() AND $srvPort !== 80)
+            ) {
+                $portString = ":" . $srvPort;
+            }
+
+            $httpPrefix = $req->isSecure() ? "https://" : "http://";
+
+            $shortUrl = $httpPrefix . $srvHost . $portString . "/" . $genId;
+
+            return $res->json(array(
+                "status" => "success",
+                "shortUrl" => $shortUrl,
+            ));
+        });
     }
 
     /**
      * Get a shortened URL by ID
      *
      * @param string $id
+     * @return string|null
      */
-    public function get(string $id): void {
+    public function get(string $id): ?string {
         $entityManager = $this->getEntityManager();
 
         if(($numberId = DecimalConverter::stringToNumber($id)) !== null) {
@@ -137,17 +134,20 @@ class Toohga {
                 ->find($numberId);
 
             if($url) {
-                $this->redirectTo($url->getTarget());
+                return $url->getTarget();
             }
         }
+
+        return null;
     }
 
     /**
-     * Create a new shortened URL
+     * Create a new shortened URL in the database
      *
      * @param string $ip
      * @param string $longUrl
      * @return string|null
+     * @throws Exception
      */
     public function create(string $ip, string $longUrl): ?string {
         $entityManager = $this->getEntityManager();
@@ -161,7 +161,7 @@ class Toohga {
 
         if(!$url) {
             $url = new URL();
-            $url->setCreated(new \DateTime());
+            $url->setCreated(new DateTime());
             $url->setClient($ip);
             $url->setTarget($longUrl);
 
@@ -184,25 +184,16 @@ class Toohga {
     }
 
     /**
-     * Call when the script is going to return JSON
-     */
-    public function willReturnJson(): void {
-        header("Content-type: application/json");
-    }
-
-    /**
-     * Redirect the user to an URL
-     *
-     * @param string $url
-     */
-    public function redirectTo(string $url): void {
-        header("Location: " . $url);
-    }
-
-    /**
      * @return EntityManager
      */
     public function getEntityManager(): EntityManager {
         return $this->entityManager;
+    }
+
+    /**
+     * @return Klein
+     */
+    public function getKlein(): Klein {
+        return $this->klein;
     }
 }
