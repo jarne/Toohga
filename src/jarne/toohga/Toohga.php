@@ -15,6 +15,7 @@ use Dotenv\Dotenv;
 use Exception;
 use jarne\toohga\entity\URL;
 use jarne\toohga\service\DecimalConverter;
+use Klein\App;
 use Klein\Klein;
 use Klein\Request;
 use Klein\Response;
@@ -25,9 +26,6 @@ class Toohga {
     /* @var Klein */
     private $klein;
 
-    /* @var EntityManager */
-    private $entityManager;
-
     public function __construct(Klein $klein) {
         $this->klein = $klein;
 
@@ -35,29 +33,44 @@ class Toohga {
             $dotenv = Dotenv::create(__DIR__ . "/../../..");
             $dotenv->load();
         }
+    }
 
-        $credentials = array(
-            "driver" => "pdo_mysql",
-            "host" => getenv("MYSQL_HOST"),
-            "user" => getenv("MYSQL_USER"),
-            "password" => getenv("MYSQL_PASSWORD"),
-            "dbname" => getenv("MYSQL_DATABASE"),
-        );
+    /**
+     * Initialize the database connection
+     */
+    public function initDatabase(): void {
+        $this->getKlein()->respond(function(Request $req, Response $res, ServiceProvider $service, App $app) {
+            $app->register("redCache", function() {
+                $redis = new Redis();
+                $redis->connect(getenv("REDIS_HOST"));
 
-        $redis = new Redis();
-        $redis->connect(getenv("REDIS_HOST"));
+                $redisCache = new RedisCache();
+                $redisCache->setRedis($redis);
 
-        $redisCache = new RedisCache();
-        $redisCache->setRedis($redis);
+                return $redisCache;
+            });
 
-        try {
-            $this->entityManager = EntityManager::create(
-                $credentials,
-                Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $redisCache)
-            );
-        } catch(ORMException $exception) {
-            exit();
-        }
+            $app->register("dbConn", function() {
+                $credentials = array(
+                    "driver" => "pdo_mysql",
+                    "host" => getenv("MYSQL_HOST"),
+                    "user" => getenv("MYSQL_USER"),
+                    "password" => getenv("MYSQL_PASSWORD"),
+                    "dbname" => getenv("MYSQL_DATABASE"),
+                );
+
+                try {
+                    $entityManager = EntityManager::create(
+                        $credentials,
+                        Setup::createAnnotationMetadataConfiguration(array("src/jarne/toohga/entity"), false, null, $this->getRedisCache($this->getKlein()->app()))
+                    );
+                } catch(ORMException $exception) {
+                    return null;
+                }
+
+                return $entityManager;
+            });
+        });
     }
 
     /**
@@ -127,7 +140,7 @@ class Toohga {
      * @return string|null
      */
     public function get(string $id): ?string {
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->getEntityManager($this->getKlein()->app());
 
         if(($numberId = DecimalConverter::stringToNumber($id)) !== null) {
             $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
@@ -150,7 +163,7 @@ class Toohga {
      * @throws Exception
      */
     public function create(string $ip, string $longUrl): ?string {
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->getEntityManager($this->getKlein()->app());
 
         $url = $entityManager->getRepository("jarne\\toohga\\entity\\URL")
             ->findOneBy(
@@ -184,16 +197,29 @@ class Toohga {
     }
 
     /**
+     * Get the Redis cache component
+     *
+     * @param App $app
+     * @return RedisCache
+     */
+    private function getRedisCache(App $app): RedisCache {
+        return $app->redCache;
+    }
+
+    /**
+     * Get the DB entity manager
+     *
+     * @param App $app
      * @return EntityManager
      */
-    public function getEntityManager(): EntityManager {
-        return $this->entityManager;
+    private function getEntityManager(App $app): EntityManager {
+        return $app->dbConn;
     }
 
     /**
      * @return Klein
      */
-    public function getKlein(): Klein {
+    private function getKlein(): Klein {
         return $this->klein;
     }
 }

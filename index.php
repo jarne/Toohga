@@ -11,6 +11,7 @@ use Klein\Klein;
 $klein = new Klein();
 $toohga = new Toohga($klein);
 
+$toohga->initDatabase();
 $toohga->initRoutes();
 
 $klein->dispatch();
