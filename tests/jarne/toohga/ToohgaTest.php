@@ -5,26 +5,56 @@
 
 namespace jarne\toohga;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Process\Process;
 
 class ToohgaTest extends TestCase {
+    /* @var Process */
+    private static $process;
+
+    /**
+     * Setup testing environment
+     */
+    public static function setUpBeforeClass(): void {
+        static::$process = new Process(array(
+            "php",
+            "-S",
+            "localhost:8080",
+            "-t",
+            "."
+        ));
+        static::$process->start();
+
+        usleep(100000);
+    }
+
+    /**
+     * Shutdown testing environment
+     */
+    public static function tearDownAfterClass(): void {
+        static::$process->stop();
+    }
+
     /**
      * Test the static home page
+     *
+     * @throws GuzzleException
      */
     public function testGeneralPage(): void {
-        $toohga = new Toohga();
-        $output = $toohga->process(
-            array(
-                "REMOTE_ADDR" => "123.456.123.456",
-                "HTTP_HOST" => "example.org",
-                "REQUEST_URI" => "",
-                "REQUEST_METHOD" => "GET",
-            ),
-            array()
-        );
+        $client = new Client(array(
+            "base_uri" => "http://localhost:8080"
+        ));
 
-        $crawler = new Crawler($output);
+        $response = $client->request("GET", "/");
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $contents = $response->getBody()->getContents();
+
+        $crawler = new Crawler($contents);
 
         $this->assertEquals("Toohga", $crawler->filterXPath("//h1")->text());
         $this->assertEquals("A simple URL shortener", $crawler->filterXPath("//h2")->text());
@@ -33,25 +63,26 @@ class ToohgaTest extends TestCase {
     /**
      * Try to create a new shortened URL
      *
-     * @return string
+     * @throws GuzzleException
      *
-     * @runInSeparateProcess
+     * @return string
      */
     public function testCreateUrl(): string {
-        $toohga = new Toohga();
-        $output = $toohga->process(
-            array(
-                "REMOTE_ADDR" => "123.456.123.456",
-                "HTTP_HOST" => "example.org",
-                "REQUEST_URI" => "",
-                "REQUEST_METHOD" => "POST",
-            ),
-            array(
-                "longUrl" => "https://example.org/category/another.html",
-            )
-        );
+        $client = new Client(array(
+            "base_uri" => "http://localhost:8080"
+        ));
 
-        $data = json_decode($output);
+        $response = $client->request("POST", "/", array(
+            "form_params" => array(
+                "longUrl" => "https://www.example.com/category/another51.html"
+            )
+        ));
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $contents = $response->getBody()->getContents();
+
+        $data = json_decode($contents);
 
         $this->assertEquals("success", $data->status);
         $this->assertTrue(isset($data->shortUrl));
@@ -68,45 +99,24 @@ class ToohgaTest extends TestCase {
      *
      * @param string $shortId
      *
-     * @runInSeparateProcess
+     * @throws GuzzleException
+     *
      * @depends testCreateUrl
      */
     public function testOpenUrl(string $shortId): void {
-        $toohga = new Toohga();
-        $toohga->process(
-            array(
-                "REMOTE_ADDR" => "123.456.123.456",
-                "HTTP_HOST" => "example.org",
-                "REQUEST_URI" => "/" . $shortId,
-                "REQUEST_METHOD" => "GET",
-            ),
-            array()
-        );
+        $client = new Client(array(
+            "base_uri" => "http://localhost:8080"
+        ));
 
-        $this->assertContains("Location: https://example.org/category/another.html", xdebug_get_headers());
-    }
+        $response = $client->request("GET", "/" . $shortId, array(
+            "allow_redirects" => false
+        ));
 
-    /**
-     * Test if the JSON header is working
-     *
-     * @runInSeparateProcess
-     */
-    public function testWillReturnJson(): void {
-        $toohga = new Toohga();
-        $toohga->willReturnJson();
+        $this->assertEquals(302, $response->getStatusCode());
 
-        $this->assertContains("Content-type: application/json", xdebug_get_headers());
-    }
+        $locationHeaders = $response->getHeader("Location");
 
-    /**
-     * Test if the JSON header is working
-     *
-     * @runInSeparateProcess
-     */
-    public function testRedirectTo(): void {
-        $toohga = new Toohga();
-        $toohga->redirectTo("https://example.com/something/anything.html");
-
-        $this->assertContains("Location: https://example.com/something/anything.html", xdebug_get_headers());
+        $this->assertEquals(1, count($locationHeaders));
+        $this->assertEquals("https://www.example.com/category/another51.html", $locationHeaders[0]);
     }
 }

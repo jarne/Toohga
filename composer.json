@@ -22,8 +22,10 @@
         "doctrine/orm": "^2.6"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^6.3",
         "phpunit/phpunit": "^8.2",
         "symfony/dom-crawler": "^4.3",
+        "symfony/process": "^4.3",
         "vlucas/phpdotenv": "^3.4"
     },
     "autoload": {
