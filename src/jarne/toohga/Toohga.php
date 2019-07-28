@@ -101,7 +101,7 @@ class Toohga {
                 ));
             }
 
-            $ip = $req->server()->exists("HTTP_X_REAL_IP") ? $req->server()->get("HTTP_X_REAL_IP") : $req->server()->get("REMOTE_ADDR");
+            $ip = $req->server()->exists("HTTP_X_REAL_IP") ? $req->server()->get("HTTP_X_REAL_IP") : $req->ip();
 
             if(($genId = $this->create($ip, $longUrl)) === null) {
                 return $res->json(array(
@@ -113,16 +113,21 @@ class Toohga {
             $srvHost = $req->server()->get("SERVER_NAME");
             $srvPort = $req->server()->get("SERVER_PORT");
 
+            $isSecure = $req->server()->exists("HTTP_X_FORWARDED_PROTO") ? ($req->server()->get("HTTP_X_FORWARDED_PROTO") === "https") : $req->isSecure();
+
             $portString = "";
 
             if(
-                ($req->isSecure() AND $srvPort !== 443) OR
-                (!$req->isSecure() AND $srvPort !== 80)
+                !$req->server()->exists("HTTP_X_FORWARDED_PROTO") AND
+                (
+                    ($isSecure AND $srvPort !== 443) OR
+                    (!$isSecure AND $srvPort !== 80)
+                )
             ) {
                 $portString = ":" . $srvPort;
             }
 
-            $httpPrefix = $req->isSecure() ? "https://" : "http://";
+            $httpPrefix = $isSecure ? "https://" : "http://";
 
             $shortUrl = $httpPrefix . $srvHost . $portString . "/" . $genId;
 
