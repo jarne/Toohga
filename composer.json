@@ -1,0 +1,52 @@
+{
+    "name": "jarne/toohga",
+    "description": "The smart URL shortener",
+    "version": "2.0.0",
+    "type": "project",
+    "keywords": [
+        "url",
+        "algorithm",
+        "simple",
+        "shortener",
+        "short"
+    ],
+    "homepage": "https://www.tooh.ga",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jarne",
+            "homepage": "https://github.com/jarne",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/jarne/Toohga/issues",
+        "source": "https://github.com/jarne/Toohga"
+    },
+    "require": {
+        "ext-mysqli": "*",
+        "ext-redis": "*",
+        "php": ">=8.0",
+        "php-di/slim-bridge": "^3.1",
+        "slim/psr7": "^1.5",
+        "slim/slim": "^4.8",
+        "slim/twig-view": "^3.2",
+        "symfony/cache": "^5.3"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.3",
+        "phpunit/phpunit": "^9.5",
+        "symfony/dom-crawler": "^5.3",
+        "vlucas/phpdotenv": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "jarne\\toohga\\": "src/jarne/toohga/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "jarne\\toohga\\tests\\": "tests/jarne/toohga/"
+        }
+    }
+}

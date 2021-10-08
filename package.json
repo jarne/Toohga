@@ -1,0 +1,44 @@
+{
+    "name": "toohga",
+    "version": "2.0.0",
+    "description": "The smart URL shortener",
+    "keywords": [
+        "url",
+        "algorithm",
+        "simple",
+        "shortener",
+        "short"
+    ],
+    "homepage": "https://www.tooh.ga",
+    "bugs": {
+        "url": "https://github.com/jarne/Toohga/issues"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Jarne",
+        "url": "https://github.com/jarne"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jarne/Toohga.git"
+    },
+    "scripts": {
+        "format": "./node_modules/.bin/prettier --write \"**/*.{js,json,md}\""
+    },
+    "dependencies": {
+        "@babel/core": "^7.15",
+        "@babel/preset-env": "^7.15",
+        "bootstrap": "^5.1",
+        "gulp": "^4.0",
+        "gulp-babel": "^8.0",
+        "gulp-clean-css": "^4.3",
+        "gulp-concat": "^2.6",
+        "gulp-minify": "^3.1",
+        "gulp-sass": "^5.0",
+        "node-sass": "^6.0",
+        "open-iconic": "^1.1"
+    },
+    "devDependencies": {
+        "prettier": "^2.4"
+    }
+}

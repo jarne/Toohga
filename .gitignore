@@ -1,0 +1,12 @@
+# IDE project folder
+/.idea
+
+# Dependencies
+/vendor
+/node_modules
+
+# Local environment variables
+/.env
+
+# PHPUnit cache
+/.phpunit.cache
