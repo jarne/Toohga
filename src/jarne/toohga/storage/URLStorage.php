@@ -230,7 +230,7 @@ class URLStorage
                 return null;
             }
 
-            return $row["nextId"];
+            return intval($row["nextId"]);
         } catch (mysqli_sql_exception $sqlExc) {
             return null;
         }

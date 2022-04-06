@@ -78,7 +78,7 @@ class UserStorage
                 return null;
             }
 
-            return $row["id"];
+            return intval($row["id"]);
         } catch (mysqli_sql_exception $sqlExc) {
             return null;
         }

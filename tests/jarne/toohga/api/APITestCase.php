@@ -10,7 +10,6 @@ use DI\Container;
 use jarne\toohga\tests\storage\URLStorageMock;
 use jarne\toohga\tests\storage\UserStorageMock;
 use jarne\toohga\Toohga;
-use JetBrains\PhpStorm\Pure;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
@@ -81,7 +80,7 @@ class APITestCase extends TestCase
     /**
      * @return App
      */
-    #[Pure] protected function getApp(): App
+    protected function getApp(): App
     {
         return $this->toohga->getSlimApp();
     }
