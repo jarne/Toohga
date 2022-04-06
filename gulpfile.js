@@ -4,8 +4,8 @@
 
 const gulp = require("gulp");
 const concat = require("gulp-concat");
-const nodeSass = require("node-sass");
-const sass = require("gulp-sass")(nodeSass);
+const sassLib = require("sass");
+const sass = require("gulp-sass")(sassLib);
 const cleanCss = require("gulp-clean-css");
 const babel = require("gulp-babel");
 const minify = require("gulp-minify");

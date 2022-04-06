@@ -27,17 +27,15 @@
         "ext-mysqli": "*",
         "ext-redis": "*",
         "php": ">=8.0",
-        "php-di/slim-bridge": "^3.1",
+        "php-di/slim-bridge": "^3.2",
         "slim/psr7": "^1.5",
-        "slim/slim": "^4.8",
-        "slim/twig-view": "^3.2",
-        "symfony/cache": "^5.3"
+        "slim/slim": "^4.10",
+        "slim/twig-view": "^3.3",
+        "symfony/cache": "^6.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^7.3",
         "phpunit/phpunit": "^9.5",
-        "symfony/dom-crawler": "^5.3",
-        "vlucas/phpdotenv": "^5.3"
+        "vlucas/phpdotenv": "^5.4"
     },
     "autoload": {
         "psr-4": {

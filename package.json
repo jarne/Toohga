@@ -26,19 +26,19 @@
         "format": "./node_modules/.bin/prettier --write \"**/*.{js,json,md}\""
     },
     "dependencies": {
-        "@babel/core": "^7.15",
-        "@babel/preset-env": "^7.15",
+        "@babel/core": "^7.17",
+        "@babel/preset-env": "^7.16",
         "bootstrap": "^5.1",
         "gulp": "^4.0",
         "gulp-babel": "^8.0",
         "gulp-clean-css": "^4.3",
         "gulp-concat": "^2.6",
         "gulp-minify": "^3.1",
-        "gulp-sass": "^5.0",
-        "node-sass": "^6.0",
+        "gulp-sass": "^5.1",
+        "sass": "^1.49",
         "open-iconic": "^1.1"
     },
     "devDependencies": {
-        "prettier": "^2.4"
+        "prettier": "^2.6"
     }
 }
