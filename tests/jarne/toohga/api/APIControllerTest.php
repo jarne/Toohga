@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | API controller tests
  */

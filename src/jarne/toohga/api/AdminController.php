@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | Admin center controller
  */

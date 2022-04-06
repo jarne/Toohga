@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | User database storage class
  */

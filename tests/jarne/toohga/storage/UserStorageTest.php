@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | User storage tests
  */

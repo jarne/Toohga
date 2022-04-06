@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | API controller
  */
@@ -137,7 +138,7 @@ class APIController
 
         $isSecure = isset($request->getServerParams()["HTTPS"]) && $request->getServerParams()["HTTPS"] === "on";
         $proxyIsSecure = isset($request->getServerParams()["HTTP_X_FORWARDED_PROTO"]) ? ($request->getServerParams(
-            )["HTTP_X_FORWARDED_PROTO"] === "https") : $isSecure;
+        )["HTTP_X_FORWARDED_PROTO"] === "https") : $isSecure;
 
         $portString = "";
 

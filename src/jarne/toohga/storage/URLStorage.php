@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | URL database storage class
  */

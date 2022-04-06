@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Toohga | decimal converter tests
  */
