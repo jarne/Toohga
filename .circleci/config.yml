@@ -13,13 +13,13 @@ jobs:
           ADMIN_KEY: BPM14ABt
           CONTACT_EMAIL: hello@tooh.ga
           PRIVACY_URL: https://privaport.landway.space/tooh.ga/
-      - image: mysql:5.7
+      - image: cimg/mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: nEDA7oyUjENodUqa
           MYSQL_USER: mibo3E9u9eWO6uJe
           MYSQL_PASSWORD: daVU7O8EyEtIDAlI
           MYSQL_DATABASE: sULu9OtEDE8iYiqE
-      - image: redis:6.2
+      - image: cimg/redis:6.2
     steps:
       # Checkout branch
       - checkout
@@ -27,7 +27,6 @@ jobs:
       # Manually install PHP extensions
       - run: |
           sudo pecl install redis xdebug
-          sudo docker-php-ext-enable redis xdebug
 
       # Install Composer dependencies
       - restore_cache:
