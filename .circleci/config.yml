@@ -3,7 +3,7 @@ version: 2
 jobs:
   phpunit:
     docker:
-      - image: cimg/php:8.0-node
+      - image: cimg/php:8.1-node
         environment:
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: mibo3E9u9eWO6uJe
@@ -52,7 +52,7 @@ jobs:
           path: coverage/coverage-report
   phpstan:
     docker:
-      - image: cimg/php:8.0
+      - image: cimg/php:8.1
     steps:
       # Checkout branch
       - checkout
@@ -77,7 +77,7 @@ jobs:
           path: test-results
   phpcs:
     docker:
-      - image: cimg/php:8.0
+      - image: cimg/php:8.1
     steps:
       # Checkout branch
       - checkout
