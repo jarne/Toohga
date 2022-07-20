@@ -1,7 +1,7 @@
 # Docker file for Toohga (https://github.com/jarne/Toohga)
 
 # Start from Apache HTTP with PHP
-FROM php:8.0-apache
+FROM php:8.1-apache
 
 # Run package list updates and install needed services
 RUN apt-get update
@@ -9,7 +9,7 @@ RUN apt-get install -y ssh git wget unzip
 
 # Install MySQLi & Redis extension
 RUN docker-php-ext-install mysqli
-RUN pecl install redis-5.3.3 && docker-php-ext-enable redis
+RUN pecl install redis-5.3.7 && docker-php-ext-enable redis
 
 # Add GitHub host keys
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
