@@ -1,110 +1,110 @@
 version: 2
 
 jobs:
-  phpunit:
-    docker:
-      - image: cimg/php:8.1-node
-        environment:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: mibo3E9u9eWO6uJe
-          MYSQL_PASSWORD: daVU7O8EyEtIDAlI
-          MYSQL_DATABASE: sULu9OtEDE8iYiqE
-          REDIS_HOST: 127.0.0.1
-          ADMIN_KEY: BPM14ABt
-          CONTACT_EMAIL: hello@tooh.ga
-          PRIVACY_URL: https://privaport.landway.space/tooh.ga/
-      - image: cimg/mysql:5.7
-        environment:
-          MYSQL_ROOT_PASSWORD: nEDA7oyUjENodUqa
-          MYSQL_USER: mibo3E9u9eWO6uJe
-          MYSQL_PASSWORD: daVU7O8EyEtIDAlI
-          MYSQL_DATABASE: sULu9OtEDE8iYiqE
-      - image: cimg/redis:6.2
-    steps:
-      # Checkout branch
-      - checkout
+    phpunit:
+        docker:
+            - image: cimg/php:8.1-node
+              environment:
+                  MYSQL_HOST: 127.0.0.1
+                  MYSQL_USER: mibo3E9u9eWO6uJe
+                  MYSQL_PASSWORD: daVU7O8EyEtIDAlI
+                  MYSQL_DATABASE: sULu9OtEDE8iYiqE
+                  REDIS_HOST: 127.0.0.1
+                  ADMIN_KEY: BPM14ABt
+                  CONTACT_EMAIL: hello@tooh.ga
+                  PRIVACY_URL: https://privaport.landway.space/tooh.ga/
+            - image: cimg/mysql:5.7
+              environment:
+                  MYSQL_ROOT_PASSWORD: nEDA7oyUjENodUqa
+                  MYSQL_USER: mibo3E9u9eWO6uJe
+                  MYSQL_PASSWORD: daVU7O8EyEtIDAlI
+                  MYSQL_DATABASE: sULu9OtEDE8iYiqE
+            - image: cimg/redis:6.2
+        steps:
+            # Checkout branch
+            - checkout
 
-      # Manually install PHP extensions
-      - run: |
-          sudo pecl install redis xdebug
+            # Manually install PHP extensions
+            - run: |
+                  sudo pecl install redis xdebug
 
-      # Install Composer dependencies
-      - restore_cache:
-          key: composer-{{ checksum "composer.json" }}
-      - run: composer install
-      - save_cache:
-          key: composer-{{ checksum "composer.json" }}
-          paths:
-            - vendor
+            # Install Composer dependencies
+            - restore_cache:
+                  key: composer-{{ checksum "composer.json" }}
+            - run: composer install
+            - save_cache:
+                  key: composer-{{ checksum "composer.json" }}
+                  paths:
+                      - vendor
 
-      # Initialize database
-      - run: php dbinit.php
+            # Initialize database
+            - run: php dbinit.php
 
-      # Run tests with PHPUnit
-      - run: XDEBUG_MODE=coverage php vendor/bin/phpunit --log-junit test-results/phpunit/junit.xml --coverage-html coverage/coverage-report
+            # Run tests with PHPUnit
+            - run: XDEBUG_MODE=coverage php vendor/bin/phpunit --log-junit test-results/phpunit/junit.xml --coverage-html coverage/coverage-report
 
-      # Save test results
-      - store_test_results:
-          path: test-results
+            # Save test results
+            - store_test_results:
+                  path: test-results
 
-      # Save coverage report
-      - store_artifacts:
-          path: coverage/coverage-report
-  phpstan:
-    docker:
-      - image: cimg/php:8.1
-    steps:
-      # Checkout branch
-      - checkout
+            # Save coverage report
+            - store_artifacts:
+                  path: coverage/coverage-report
+    phpstan:
+        docker:
+            - image: cimg/php:8.1
+        steps:
+            # Checkout branch
+            - checkout
 
-      # Install Composer dependencies
-      - restore_cache:
-          key: composer-{{ checksum "composer.json" }}
-      - run: composer install --ignore-platform-reqs
-      - save_cache:
-          key: composer-{{ checksum "composer.json" }}
-          paths:
-            - vendor
+            # Install Composer dependencies
+            - restore_cache:
+                  key: composer-{{ checksum "composer.json" }}
+            - run: composer install --ignore-platform-reqs
+            - save_cache:
+                  key: composer-{{ checksum "composer.json" }}
+                  paths:
+                      - vendor
 
-      # Create result folder
-      - run: mkdir -p test-results/phpstan-result
+            # Create result folder
+            - run: mkdir -p test-results/phpstan-result
 
-      # Run code analysis with PHPStan
-      - run: composer code-analyze-save-report
+            # Run code analysis with PHPStan
+            - run: composer code-analyze-save-report
 
-      # Save code analysis results
-      - store_test_results:
-          path: test-results
-  phpcs:
-    docker:
-      - image: cimg/php:8.1
-    steps:
-      # Checkout branch
-      - checkout
+            # Save code analysis results
+            - store_test_results:
+                  path: test-results
+    phpcs:
+        docker:
+            - image: cimg/php:8.1
+        steps:
+            # Checkout branch
+            - checkout
 
-      # Install Composer dependencies
-      - restore_cache:
-          key: composer-{{ checksum "composer.json" }}
-      - run: composer install --ignore-platform-reqs
-      - save_cache:
-          key: composer-{{ checksum "composer.json" }}
-          paths:
-            - vendor
+            # Install Composer dependencies
+            - restore_cache:
+                  key: composer-{{ checksum "composer.json" }}
+            - run: composer install --ignore-platform-reqs
+            - save_cache:
+                  key: composer-{{ checksum "composer.json" }}
+                  paths:
+                      - vendor
 
-      # Create result folder
-      - run: mkdir -p test-results/phpcs-result
+            # Create result folder
+            - run: mkdir -p test-results/phpcs-result
 
-      # Run code style check with PHP_CodeSniffer
-      - run: composer check-format-save-report
+            # Run code style check with PHP_CodeSniffer
+            - run: composer check-format-save-report
 
-      # Save code style check results
-      - store_test_results:
-          path: test-results
+            # Save code style check results
+            - store_test_results:
+                  path: test-results
 
 workflows:
-  version: 2
-  tests:
-    jobs:
-      - phpunit
-      - phpstan
-      - phpcs
+    version: 2
+    tests:
+        jobs:
+            - phpunit
+            - phpstan
+            - phpcs

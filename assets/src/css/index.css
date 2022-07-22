@@ -2,12 +2,14 @@
  * Toohga | main page style
  */
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
 body {
-    background: url("https://source.unsplash.com/random") no-repeat center center fixed;
+    background: url("https://source.unsplash.com/random") no-repeat center
+        center fixed;
 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -49,7 +51,11 @@ p {
     justify-content: center;
     flex-direction: row;
 
-    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95));
+    background: linear-gradient(
+        to bottom right,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.95)
+    );
 
     width: 100%;
 }
@@ -80,11 +86,11 @@ p {
 
     color: white;
 
-    box-shadow: 0 0 2px 0.2rem rgba(255, 255 , 255, 0.35);
+    box-shadow: 0 0 2px 0.2rem rgba(255, 255, 255, 0.35);
 }
 
 .form-control-custom::placeholder {
-    color: #BEBEBE;
+    color: #bebebe;
 }
 
 .form-control-pin {
@@ -108,7 +114,7 @@ p {
 }
 
 .btn-custom:focus {
-    box-shadow: 0 0 2px 0.2rem rgba(255, 255 , 255, 0.35);
+    box-shadow: 0 0 2px 0.2rem rgba(255, 255, 255, 0.35);
 }
 
 .btn-custom {

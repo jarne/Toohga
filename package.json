@@ -23,7 +23,7 @@
         "url": "https://github.com/jarne/Toohga.git"
     },
     "scripts": {
-        "format": "./node_modules/.bin/prettier --write \"**/*.{js,json,md}\""
+        "format": "./node_modules/.bin/prettier --write \"**/*.{js,css,json,yml,md}\""
     },
     "dependencies": {
         "@babel/core": "^7.18",
