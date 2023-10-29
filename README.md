@@ -12,7 +12,7 @@
         <img src="https://img.shields.io/github/package-json/v/jarne/Toohga.svg" alt="Package version">
     </a>
     <a href="https://circleci.com/gh/jarne/Toohga">
-        <img src="https://circleci.com/gh/jarne/Toohga.svg?style=svg&circle-token=185df0a06d48a602df7d3db656e82186c89d4868" alt="Build status">
+        <img src="https://circleci.com/gh/jarne/Toohga.svg?style=svg&circle-token=9062aaaf2bdf2aafe0d9a3fbd57eac26de1c4305" alt="Build status">
     </a>
     <a href="https://github.com/jarne/Toohga/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/jarne/Toohga.svg" alt="License">
