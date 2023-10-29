@@ -50,7 +50,7 @@ The following environment variables need to be set:
 | `REDIS_HOST`     | Hostname of the Redis server             |
 | `ADMIN_KEY`      | Secure random secret for the admin panel |
 
-Additionally, the following optional environment variables can be set:
+Additionally, the following _optional_ environment variables can be set:
 
 | Env variable        | Description                                                                                  |
 | ------------------- | -------------------------------------------------------------------------------------------- |
@@ -59,6 +59,14 @@ Additionally, the following optional environment variables can be set:
 | `CONTACT_EMAIL`     | Display a contact e-mail address on the front page                                           |
 | `PRIVACY_URL`       | Display a link to an external privacy page on the front page                                 |
 | `ANALYTICS_SCRIPT`  | Embed HTML code for an analytics script                                                      |
+
+### Docker image
+
+The recommended way to deploy Toohga is using its [Docker](./Dockerfile) image.
+
+The image can be pulled from the
+[GitHub Packages registry](https://github.com/users/jarne/packages/container/package/toohga)
+using: `docker pull ghcr.io/jarne/toohga:latest`.
 
 ## 🙋‍ Contribution
 
