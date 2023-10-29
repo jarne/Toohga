@@ -113,10 +113,10 @@ workflows:
     docker-publish:
         jobs:
             - docker/publish:
-                  #filters:
-                      #tags:
-                          #only: /.*/
-                      #branches:
-                          #ignore: /.*/
+                  filters:
+                      tags:
+                          only: /.*/
+                      branches:
+                          ignore: /.*/
                   registry: ghcr.io
                   image: $CIRCLE_PROJECT_USERNAME/toohga
