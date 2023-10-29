@@ -5,6 +5,9 @@
 /vendor
 /node_modules
 
+# Built assets
+/public/assets/dest
+
 # Local environment variables
 /.env
 
