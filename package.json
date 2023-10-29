@@ -23,6 +23,7 @@
         "url": "https://github.com/jarne/Toohga.git"
     },
     "scripts": {
+        "assets:build": "gulp",
         "format": "prettier --write \"**/*.{js,css,json,yml,md}\""
     },
     "dependencies": {
