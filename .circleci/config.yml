@@ -6,7 +6,7 @@ orbs:
 jobs:
     phpunit:
         docker:
-            - image: cimg/php:8.1-node
+            - image: cimg/php:8.2-node
               environment:
                   MYSQL_HOST: 127.0.0.1
                   MYSQL_USER: mibo3E9u9eWO6uJe
@@ -16,20 +16,20 @@ jobs:
                   ADMIN_KEY: BPM14ABt
                   CONTACT_EMAIL: hello@tooh.ga
                   PRIVACY_URL: https://privaport.landway.space/tooh.ga/
-            - image: cimg/mysql:5.7
+            - image: cimg/mariadb:11.2
               environment:
                   MYSQL_ROOT_PASSWORD: nEDA7oyUjENodUqa
                   MYSQL_USER: mibo3E9u9eWO6uJe
                   MYSQL_PASSWORD: daVU7O8EyEtIDAlI
                   MYSQL_DATABASE: sULu9OtEDE8iYiqE
-            - image: cimg/redis:6.2
+            - image: cimg/redis:7.2
         steps:
             # Checkout branch
             - checkout
 
             # Manually install PHP extensions
             - run: |
-                  sudo pecl install redis xdebug
+                  echo "" | sudo pecl install redis xdebug
 
             # Install Composer dependencies
             - restore_cache:
@@ -55,7 +55,7 @@ jobs:
                   path: coverage/coverage-report
     phpstan:
         docker:
-            - image: cimg/php:8.1
+            - image: cimg/php:8.2
         steps:
             # Checkout branch
             - checkout
@@ -80,7 +80,7 @@ jobs:
                   path: test-results
     phpcs:
         docker:
-            - image: cimg/php:8.1
+            - image: cimg/php:8.2
         steps:
             # Checkout branch
             - checkout
