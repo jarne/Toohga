@@ -1,5 +1,8 @@
 version: 2
 
+orbs:
+    docker: circleci/docker@2.4.0
+
 jobs:
     phpunit:
         docker:
@@ -108,3 +111,13 @@ workflows:
             - phpunit
             - phpstan
             - phpcs
+    docker-publish:
+        jobs:
+            - docker/publish:
+                  #filters:
+                      #tags:
+                          #only: /.*/
+                      #branches:
+                          #ignore: /.*/
+                  registry: ghcr.io
+                  image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
