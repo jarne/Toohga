@@ -120,3 +120,4 @@ workflows:
                           ignore: /.*/
                   registry: ghcr.io
                   image: $CIRCLE_PROJECT_USERNAME/toohga
+                  tag: "$CIRCLE_TAG,latest"
