@@ -13,8 +13,6 @@ use jarne\toohga\api\APIController;
 use jarne\toohga\storage\URLStorage;
 use jarne\toohga\storage\UserStorage;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
@@ -109,16 +107,7 @@ class Toohga
      */
     public function initRoutes(): void
     {
-        $this->slimApp->get("/", function (ServerRequestInterface $request, ResponseInterface $response, array $args) {
-            $view = Twig::fromRequest($request);
-
-            return $view->render($response, "index.html.twig", [
-                "contactMail" => getenv("CONTACT_EMAIL"),
-                "hasPrivacyUrl" => getenv("PRIVACY_URL") !== false,
-                "analyticsScript" => getenv("ANALYTICS_SCRIPT"),
-                "authReq" => getenv("AUTH_REQUIRED") === "true"
-            ]);
-        });
+        $this->slimApp->get("/", APIController::class . ":home");
         $this->slimApp->post("/api/create", APIController::class . ":create");
 
         $this->slimApp->get("/privacy", APIController::class . ":privacy");

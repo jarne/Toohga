@@ -7,16 +7,6 @@ body {
     height: 100%;
 }
 
-body {
-    background: url("https://source.unsplash.com/random") no-repeat center
-        center fixed;
-
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
 h1 {
     font-family: "Pacifico", sans-serif;
 
@@ -43,6 +33,7 @@ p {
 
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -57,7 +48,10 @@ p {
         rgba(0, 0, 0, 0.95)
     );
 
-    width: 100%;
+    width: 95vw;
+    max-width: 1220px;
+
+    border-radius: 16px;
 }
 
 .main-content {

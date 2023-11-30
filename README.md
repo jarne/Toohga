@@ -52,13 +52,14 @@ The following environment variables need to be set:
 
 Additionally, the following _optional_ environment variables can be set:
 
-| Env variable        | Description                                                                                  |
-| ------------------- | -------------------------------------------------------------------------------------------- |
-| `AUTH_REQUIRED`     | Requires a user authentication PIN when creating URL's (set to true/false, default to false) |
-| `DELETE_AFTER_DAYS` | Delete URL's after x days (default is 14 days)                                               |
-| `CONTACT_EMAIL`     | Display a contact e-mail address on the front page                                           |
-| `PRIVACY_URL`       | Display a link to an external privacy page on the front page                                 |
-| `ANALYTICS_SCRIPT`  | Embed HTML code for an analytics script                                                      |
+| Env variable        | Description                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| `AUTH_REQUIRED`     | Requires a user authentication PIN when creating URL's (set to true/false, default to false)    |
+| `DELETE_AFTER_DAYS` | Delete URL's after x days (default is 14 days)                                                  |
+| `CONTACT_EMAIL`     | Display a contact e-mail address on the front page                                              |
+| `THEME`             | Visual color theme of the application (possible values are: `pink`, `orange`, `blue` (default)) |
+| `PRIVACY_URL`       | Display a link to an external privacy page on the front page                                    |
+| `ANALYTICS_SCRIPT`  | Embed HTML code for an analytics script                                                         |
 
 ### Docker image
 

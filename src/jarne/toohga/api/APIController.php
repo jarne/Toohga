@@ -10,6 +10,7 @@ use jarne\toohga\storage\URLStorage;
 use jarne\toohga\storage\UserStorage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Views\Twig;
 
 class APIController
 {
@@ -31,6 +32,28 @@ class APIController
     {
         $this->urlStorage = $urlStorage;
         $this->userStorage = $userStorage;
+    }
+
+    /**
+     * Render home page template
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     *
+     * @return ResponseInterface
+     */
+    public function home(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $view = Twig::fromRequest($request);
+
+        return $view->render($response, "index.html.twig", [
+            "contactMail" => getenv("CONTACT_EMAIL"),
+            "hasPrivacyUrl" => getenv("PRIVACY_URL") !== false,
+            "backgroundColors" => $this->getBackgroundColors(getenv("THEME")),
+            "analyticsScript" => getenv("ANALYTICS_SCRIPT"),
+            "authReq" => getenv("AUTH_REQUIRED") === "true"
+        ]);
     }
 
     /**
@@ -187,5 +210,22 @@ class APIController
         }
 
         return $response->withStatus(404);
+    }
+
+    /**
+     * Return background gradient colors based on selected theme
+     *
+     * @param string $selectedTheme
+     */
+    private function getBackgroundColors(string $selectedTheme): array
+    {
+        switch ($selectedTheme) {
+            case "pink":
+                return ["#fcb5d9", "#f2d5e3"];
+            case "orange":
+                return ["#fcd194", "#f2e0c6"];
+            default:
+                return ["#b6f5f9", "#e6f0f2"];
+        }
     }
 }
