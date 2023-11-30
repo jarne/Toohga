@@ -24,6 +24,7 @@
     },
     "scripts": {
         "assets:build": "gulp",
+        "assets:watch": "gulp watch",
         "format": "prettier --write \"**/*.{js,css,json,yml,md}\""
     },
     "dependencies": {
