@@ -35,6 +35,14 @@ p {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    background: url("/assets/dest/images/points-overlay.svg") no-repeat center
+        center fixed;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .little-dark-background {
