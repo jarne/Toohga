@@ -1,0 +1,23 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "schedule": ["before 5am"],
+    "prHourlyLimit": 2,
+    "prConcurrentLimit": 3,
+    "enabledManagers": [
+        "composer",
+        "npm",
+        "dockerfile",
+        "circleci",
+        "github-actions"
+    ],
+    "packageRules": [
+        {
+            "matchUpdateTypes": ["patch", "pin", "digest"],
+            "automerge": true
+        },
+        {
+            "matchPackageNames": ["node"],
+            "versioning": "node"
+        }
+    ]
+}
