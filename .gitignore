@@ -11,5 +11,8 @@
 # Local environment variables
 /.env
 
+# Dependency caches
+/twigCache
+
 # PHPUnit cache
 /.phpunit.cache
