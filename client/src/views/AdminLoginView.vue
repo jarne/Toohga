@@ -18,7 +18,9 @@ export default {
             let res
             try {
                 const resp = await fetch(
-                    `${import.meta.env.VITE_API_ENDPOINT || "/admin/api"}/auth`,
+                    `${
+                        import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                    }/auth`,
                     {
                         method: "POST",
                         headers: {
@@ -81,10 +83,12 @@ export default {
                 <div class="input-group">
                     <input
                         type="password"
+                        required
                         class="form-control"
                         id="adminSecretKeyInput"
                         v-model="adminSecretKey"
                         placeholder="Management secret key"
+                        autofocus
                     />
                     <button type="submit" class="btn btn-primary">
                         Authenticate

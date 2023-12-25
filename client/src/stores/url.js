@@ -17,7 +17,9 @@ export const useUrlStore = defineStore("url", {
             let res
             try {
                 const resp = await fetch(
-                    `${import.meta.env.VITE_API_ENDPOINT || "/admin/api"}/url`,
+                    `${
+                        import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                    }/url`,
                     {
                         method: "GET",
                         headers: {
@@ -41,7 +43,7 @@ export const useUrlStore = defineStore("url", {
 
             const resp = await fetch(
                 `${
-                    import.meta.env.VITE_API_ENDPOINT || "/admin/api"
+                    import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
                 }/url/${id}`,
                 {
                     method: "DELETE",
@@ -67,7 +69,7 @@ export const useUrlStore = defineStore("url", {
 
             const resp = await fetch(
                 `${
-                    import.meta.env.VITE_API_ENDPOINT || "/admin/api"
+                    import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
                 }/urlCleanup`,
                 {
                     method: "POST",

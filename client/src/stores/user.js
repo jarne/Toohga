@@ -17,7 +17,9 @@ export const useUserStore = defineStore("user", {
             let res
             try {
                 const resp = await fetch(
-                    `${import.meta.env.VITE_API_ENDPOINT || "/admin/api"}/user`,
+                    `${
+                        import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                    }/user`,
                     {
                         method: "GET",
                         headers: {
@@ -40,7 +42,9 @@ export const useUserStore = defineStore("user", {
             const auth = useAuthStore()
 
             const resp = await fetch(
-                `${import.meta.env.VITE_API_ENDPOINT || "/admin/api"}/user`,
+                `${
+                    import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                }/user`,
                 {
                     method: "POST",
                     headers: {
@@ -70,7 +74,7 @@ export const useUserStore = defineStore("user", {
 
             const resp = await fetch(
                 `${
-                    import.meta.env.VITE_API_ENDPOINT || "/admin/api"
+                    import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
                 }/user/${id}`,
                 {
                     method: "DELETE",

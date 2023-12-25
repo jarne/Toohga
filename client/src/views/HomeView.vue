@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import "@fontsource/pacifico"
 
 const authReq = import.meta.env.VITE_AUTH_REQUIRED === "true"
@@ -7,17 +7,80 @@ const theme = import.meta.env.VITE_THEME
 const privacyUrl = import.meta.env.VITE_PRIVACY_URL
 const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
 
-let bgGradCols = []
-switch (theme) {
-    case "pink":
-        bgGradCols = ["#fcb5d9", "#f2d5e3"]
-        break
-    case "orange":
-        bgGradCols = ["#fcd194", "#f2e0c6"]
-        break
-    default:
-        bgGradCols = ["#b6f5f9", "#e6f0f2"]
-        break
+export default {
+    inject: ["notyf"],
+    data() {
+        let bgGradCols = []
+        switch (theme) {
+            case "pink":
+                bgGradCols = ["#fcb5d9", "#f2d5e3"]
+                break
+            case "orange":
+                bgGradCols = ["#fcd194", "#f2e0c6"]
+                break
+            default:
+                bgGradCols = ["#b6f5f9", "#e6f0f2"]
+                break
+        }
+
+        return {
+            bgGradCols,
+            url: "",
+            pin: "",
+            showingResult: false,
+        }
+    },
+    methods: {
+        async sendForm() {
+            if (this.url.indexOf("://") < 0) {
+                this.url = "https://" + this.url
+            }
+
+            let res
+            try {
+                const resp = await fetch(
+                    `${import.meta.env.VITE_API_ENDPOINT || "/api"}/create`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            longUrl: this.url,
+                            userPin: this.pin,
+                        }),
+                    }
+                )
+                res = await resp.json()
+            } catch (e) {
+                this.notyf.error("Connection to Toohga server failed")
+
+                return
+            }
+
+            if (res.error) {
+                switch (res.error.code) {
+                    case "auth_failed":
+                        this.notyf.error("Invalid authentication PIN")
+                        break
+                    case "internal_database_error":
+                        this.notyf.error("Internal database error occurred")
+                        break
+                    default:
+                        this.notyf.error("Unknown error occurred")
+                        break
+                }
+
+                return
+            }
+
+            const short = res.short
+
+            this.showingResult = true
+            this.url = short
+            this.$refs.urlInput.focus()
+        },
+    },
 }
 </script>
 
@@ -29,22 +92,32 @@ switch (theme) {
                     <h1>Toohga</h1>
                     <h2>The smart URL shortener</h2>
                     <br />
-                    <form id="entryForm">
+                    <form id="entryForm" @submit.prevent="this.sendForm">
                         <div class="input-group input-group-lg">
                             <input
                                 type="url"
+                                required
                                 class="form-control form-control-custom text-center"
-                                id="url"
+                                id="urlInput"
+                                ref="urlInput"
+                                v-model="url"
+                                :readonly="showingResult"
                                 placeholder="Paste the long URL here ..."
+                                autofocus
                             />
                             <input
                                 v-if="authReq"
                                 type="password"
                                 class="form-control form-control-custom form-control-pin text-center"
-                                id="pin"
+                                id="pinInput"
+                                v-model="pin"
                                 placeholder="PIN"
                             />
-                            <button class="btn btn-custom">
+                            <button
+                                type="submit"
+                                :disabled="showingResult"
+                                class="btn btn-custom"
+                            >
                                 <span
                                     class="oi oi-chevron-right"
                                     aria-hidden="true"
