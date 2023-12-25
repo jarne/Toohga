@@ -18,7 +18,7 @@ export const useUserStore = defineStore("user", {
             try {
                 const resp = await fetch(
                     `${
-                        import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                        import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
                     }/user`,
                     {
                         method: "GET",
@@ -43,7 +43,7 @@ export const useUserStore = defineStore("user", {
 
             const resp = await fetch(
                 `${
-                    import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                    import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
                 }/user`,
                 {
                     method: "POST",
@@ -74,7 +74,7 @@ export const useUserStore = defineStore("user", {
 
             const resp = await fetch(
                 `${
-                    import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                    import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
                 }/user/${id}`,
                 {
                     method: "DELETE",

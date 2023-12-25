@@ -4,11 +4,11 @@ import "@fontsource/pacifico"
 export default {
     inject: ["notyf"],
     data() {
-        const authReq = import.meta.env.VITE_AUTH_REQUIRED === "true"
-        const contactMail = import.meta.env.VITE_CONTACT_EMAIL
-        const theme = import.meta.env.VITE_THEME
-        const privacyUrl = import.meta.env.VITE_PRIVACY_URL
-        const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
+        const authReq = import.meta.env.TGA_AUTH_REQUIRED === "true"
+        const contactMail = import.meta.env.TGA_CONTACT_EMAIL
+        const theme = import.meta.env.TGA_THEME
+        const privacyUrl = import.meta.env.TGA_PRIVACY_URL
+        const analyticsScript = import.meta.env.TGA_ANALYTICS_SCRIPT
 
         let bgGradCols = []
         switch (theme) {
@@ -43,7 +43,7 @@ export default {
             let res
             try {
                 const resp = await fetch(
-                    `${import.meta.env.VITE_API_ENDPOINT || "/api"}/create`,
+                    `${import.meta.env.TGA_API_ENDPOINT || "/api"}/create`,
                     {
                         method: "POST",
                         headers: {

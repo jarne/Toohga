@@ -19,7 +19,7 @@ export default {
             try {
                 const resp = await fetch(
                     `${
-                        import.meta.env.VITE_ADMIN_API_ENDPOINT || "/admin/api"
+                        import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
                     }/auth`,
                     {
                         method: "POST",
