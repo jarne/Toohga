@@ -29,6 +29,9 @@ coverage
 
 *.tsbuildinfo
 
+# Local env file
+/.env
+
 # Yarn
 .pnp.*
 .yarn/*
