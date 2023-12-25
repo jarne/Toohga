@@ -1,5 +1,5 @@
 /**
- * Toohga | client main file
+ * Toohga client | client main file
  */
 
 import { createApp } from "vue"
