@@ -13,10 +13,6 @@ use jarne\toohga\storage\URLStorage;
 use jarne\toohga\storage\UserStorage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class AdminController
 {
@@ -82,30 +78,6 @@ class AdminController
         }
 
         return true;
-    }
-
-    /**
-     * Show admin center panel
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
-     *
-     * @return ResponseInterface
-     */
-    public function panel(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        if (($res = $this->checkToken($request, $response)) !== true) {
-            return $res;
-        }
-
-        $view = Twig::fromRequest($request);
-
-        try {
-            return $view->render($response, "admin.html.twig");
-        } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            return $response->withStatus(500);
-        }
     }
 
     /**

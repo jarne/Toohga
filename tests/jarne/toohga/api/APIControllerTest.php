@@ -35,7 +35,7 @@ class APIControllerTest extends APITestCase
      */
     public function testCreate(): void
     {
-        putenv("AUTH_REQUIRED=false");
+        putenv("TGA_AUTH_REQUIRED=false");
 
         $req = $this->request("POST", "/api/create", array(
             "REMOTE_ADDR" => "123.123.123.123",
@@ -64,7 +64,7 @@ class APIControllerTest extends APITestCase
      */
     public function testCreateWithFailedAuth(): void
     {
-        putenv("AUTH_REQUIRED=true");
+        putenv("TGA_AUTH_REQUIRED=true");
 
         $req = $this->request("POST", "/api/create", array(
             "REMOTE_ADDR" => "123.123.123.123",
@@ -93,7 +93,7 @@ class APIControllerTest extends APITestCase
      */
     public function testCreateWithAuth(): void
     {
-        putenv("AUTH_REQUIRED=true");
+        putenv("TGA_AUTH_REQUIRED=true");
 
         $req = $this->request("POST", "/api/create", array(
             "REMOTE_ADDR" => "123.123.123.123",
@@ -114,19 +114,5 @@ class APIControllerTest extends APITestCase
         $bodyData = json_decode((string)$resp->getBody());
 
         $this->assertEquals("http://localhost/a", $bodyData->short);
-    }
-
-    /**
-     * Test privacy policy page
-     *
-     * @covers ::privacy
-     */
-    public function testPrivacy(): void
-    {
-        $req = $this->request("GET", "/privacy");
-        $resp = $this->getApp()->handle($req);
-
-        $this->assertEquals(301, $resp->getStatusCode());
-        $this->assertEquals(getenv("PRIVACY_URL"), $resp->getHeaderLine("Location"));
     }
 }

@@ -14,9 +14,6 @@ use jarne\toohga\storage\URLStorage;
 use jarne\toohga\storage\UserStorage;
 use Psr\Container\ContainerInterface;
 use Slim\App;
-use Slim\Views\Twig;
-use Slim\Views\TwigMiddleware;
-use Twig\Error\LoaderError;
 
 class Toohga
 {
@@ -45,16 +42,6 @@ class Toohga
      */
     public function initMiddleware(): void
     {
-        try {
-            $twig = Twig::create(
-                __DIR__ . "/../../../templates",
-                ["cache" => getenv("DEV_ENV") === false ? __DIR__ . "/../../../twigCache" : false]
-            );
-        } catch (LoaderError $e) {
-            return;
-        }
-
-        $this->slimApp->add(TwigMiddleware::create($this->slimApp, $twig));
         $this->slimApp->addBodyParsingMiddleware();
     }
 

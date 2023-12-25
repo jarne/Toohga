@@ -10,7 +10,6 @@ use jarne\toohga\storage\URLStorage;
 use jarne\toohga\storage\UserStorage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
 
 class APIController
 {
@@ -32,31 +31,6 @@ class APIController
     {
         $this->urlStorage = $urlStorage;
         $this->userStorage = $userStorage;
-    }
-
-    /**
-     * Render home page template
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
-     *
-     * @return ResponseInterface
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function home(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $view = Twig::fromRequest($request);
-
-        return $view->render($response, "index.html.twig", [
-            "contactMail" => getenv("CONTACT_EMAIL"),
-            "hasPrivacyUrl" => getenv("PRIVACY_URL") !== false,
-            "backgroundColors" => $this->getBackgroundColors(getenv("THEME")),
-            "analyticsScript" => getenv("ANALYTICS_SCRIPT"),
-            "authReq" => getenv("AUTH_REQUIRED") === "true"
-        ]);
     }
 
     /**
@@ -107,7 +81,7 @@ class APIController
 
         $userId = null;
 
-        if (getenv("AUTH_REQUIRED") === "true") {
+        if (getenv("TGA_AUTH_REQUIRED") === "true") {
             if (!isset($params["userPin"])) {
                 $response->getBody()->write(
                     json_encode(array(
@@ -193,44 +167,5 @@ class APIController
             ))
         );
         return $response->withHeader("Content-Type", "application/json");
-    }
-
-    /**
-     * Show the privacy page
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
-     *
-     * @return ResponseInterface
-     */
-    public function privacy(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args
-    ): ResponseInterface {
-        $privacyUrl = getenv("PRIVACY_URL");
-
-        if ($privacyUrl) {
-            return $response->withHeader("Location", $privacyUrl)
-                ->withStatus(301);
-        }
-
-        return $response->withStatus(404);
-    }
-
-    /**
-     * Return background gradient colors based on selected theme
-     *
-     * @param string $selectedTheme
-     * @return string[]
-     */
-    private function getBackgroundColors(string $selectedTheme): array
-    {
-        return match ($selectedTheme) {
-            "pink" => ["#fcb5d9", "#f2d5e3"],
-            "orange" => ["#fcd194", "#f2e0c6"],
-            default => ["#b6f5f9", "#e6f0f2"],
-        };
     }
 }
