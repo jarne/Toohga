@@ -159,7 +159,7 @@ export default {
         ></div>
         <nav class="navbar navbar-light navbar-custom">
             <div class="container-fluid justify-content-center">
-                <a class="navbar-brand" href="/admin">
+                <a class="navbar-brand">
                     <img
                         src="./../assets/AppIcon.png"
                         width="30"
