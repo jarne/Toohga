@@ -1,11 +1,17 @@
 <script>
 import { storeToRefs } from "pinia"
 
+import AdminHeader from "./../components/admin/AdminHeader.vue"
+
+import { useAuthStore } from "./../stores/auth.js"
 import { useUrlStore } from "./../stores/url.js"
 import { useUserStore } from "./../stores/user.js"
 
 export default {
     inject: ["notyf"],
+    components: {
+        AdminHeader,
+    },
     data() {
         const urlStore = useUrlStore()
         const userStore = useUserStore()
@@ -133,17 +139,16 @@ export default {
         },
     },
     async mounted() {
-        // TODO: implement check when auth is ready
-        //const user = useUserStore(); (auth store)
+        const auth = useAuthStore()
 
         const urlStore = useUrlStore()
         const userStore = useUserStore()
 
-        /*if (user.token === "") {
-            this.$router.push("/login");
+        if (auth.token === "") {
+            this.$router.push("/admin-auth")
 
-            return;
-        }*/
+            return
+        }
 
         await urlStore.loadUrls()
         await userStore.loadUsers()
@@ -153,24 +158,7 @@ export default {
 
 <template>
     <div class="container">
-        <div
-            id="toastContainer"
-            class="toast-container position-fixed top-0 end-0 p-3"
-        ></div>
-        <nav class="navbar navbar-light navbar-custom">
-            <div class="container-fluid justify-content-center">
-                <a class="navbar-brand">
-                    <img
-                        src="./../assets/AppIcon.png"
-                        width="30"
-                        height="30"
-                        class="d-inline-block align-top"
-                        alt="Toohga icon"
-                    />
-                    <span class="space-left">Toohga admin center</span>
-                </a>
-            </div>
-        </nav>
+        <AdminHeader />
         <p>Welcome to the Toogha admin center!</p>
         <h3>
             <span class="oi oi-clock heading-icon" aria-hidden="true"></span>
@@ -340,22 +328,6 @@ export default {
 .container {
     margin-top: 25px;
     margin-bottom: 35px;
-}
-
-.toast-container {
-    z-index: 1060;
-}
-
-.navbar-custom {
-    margin-bottom: 20px;
-    padding: 15px;
-
-    border-radius: 25px;
-    box-shadow: 0 0 7px #d3d3d3;
-}
-
-.space-left {
-    margin-left: 8px;
 }
 
 .container > h3 {
