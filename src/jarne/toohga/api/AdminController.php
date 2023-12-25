@@ -108,8 +108,9 @@ class AdminController
         if ($urls === null) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -117,8 +118,7 @@ class AdminController
 
         $response->getBody()->write(
             json_encode(array(
-                "status" => "success",
-                "shortUrls" => $urls,
+                "short_urls" => $urls,
             ))
         );
         return $response->withHeader("Content-Type", "application/json");
@@ -148,23 +148,19 @@ class AdminController
         if (!$res) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
         }
 
-        $response->getBody()->write(
-            json_encode(array(
-                "status" => "success"
-            ))
-        );
-        return $response->withHeader("Content-Type", "application/json");
+        return $response->withStatus(204);
     }
 
     /**
-     * Cleanup old URL's
+     * Cleanup old URLs
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -186,19 +182,15 @@ class AdminController
         if (!$res) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
         }
 
-        $response->getBody()->write(
-            json_encode(array(
-                "status" => "success"
-            ))
-        );
-        return $response->withHeader("Content-Type", "application/json");
+        return $response->withStatus(204);
     }
 
     /**
@@ -224,8 +216,9 @@ class AdminController
         if ($users === null) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -233,7 +226,6 @@ class AdminController
 
         $response->getBody()->write(
             json_encode(array(
-                "status" => "success",
                 "users" => $users,
             ))
         );
@@ -261,8 +253,9 @@ class AdminController
         if (!is_array($params = $request->getParsedBody())) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "request_error"
+                    "error" => array(
+                        "code" => "request_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -271,8 +264,9 @@ class AdminController
         if (!(isset($params["uniquePin"]) and isset($params["displayName"]))) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "parameters_missing"
+                    "error" => array(
+                        "code" => "parameters_missing"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -286,19 +280,15 @@ class AdminController
         if (!$res) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
         }
 
-        $response->getBody()->write(
-            json_encode(array(
-                "status" => "success"
-            ))
-        );
-        return $response->withHeader("Content-Type", "application/json");
+        return $response->withStatus(204);
     }
 
     /**
@@ -325,18 +315,14 @@ class AdminController
         if (!$res) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
         }
 
-        $response->getBody()->write(
-            json_encode(array(
-                "status" => "success"
-            ))
-        );
-        return $response->withHeader("Content-Type", "application/json");
+        return $response->withStatus(204);
     }
 }

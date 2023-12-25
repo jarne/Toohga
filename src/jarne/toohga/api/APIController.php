@@ -42,6 +42,9 @@ class APIController
      * @param array $args
      *
      * @return ResponseInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function home(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
@@ -94,8 +97,9 @@ class APIController
         if (!is_array($params = $request->getParsedBody())) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "request_error"
+                    "error" => array(
+                        "code" => "request_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -107,8 +111,9 @@ class APIController
             if (!isset($params["userPin"])) {
                 $response->getBody()->write(
                     json_encode(array(
-                        "status" => "failed",
-                        "errorCode" => "auth_failed"
+                        "error" => array(
+                            "code" => "auth_failed"
+                        )
                     ))
                 );
                 return $response->withHeader("Content-Type", "application/json");
@@ -121,8 +126,9 @@ class APIController
             if ($res === null) {
                 $response->getBody()->write(
                     json_encode(array(
-                        "status" => "failed",
-                        "errorCode" => "auth_failed"
+                        "error" => array(
+                            "code" => "auth_failed"
+                        )
                     ))
                 );
                 return $response->withHeader("Content-Type", "application/json");
@@ -134,8 +140,9 @@ class APIController
         if (!isset($params["longUrl"])) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "long_url_parameter_missing"
+                    "error" => array(
+                        "code" => "long_url_parameter_missing"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -149,8 +156,9 @@ class APIController
         if (($genId = $this->urlStorage->create($ip, $longUrl, $userId)) === null) {
             $response->getBody()->write(
                 json_encode(array(
-                    "status" => "failed",
-                    "errorCode" => "internal_database_error"
+                    "error" => array(
+                        "code" => "internal_database_error"
+                    )
                 ))
             );
             return $response->withHeader("Content-Type", "application/json");
@@ -181,8 +189,7 @@ class APIController
 
         $response->getBody()->write(
             json_encode(array(
-                "status" => "success",
-                "shortUrl" => $shortUrl,
+                "short" => $shortUrl,
             ))
         );
         return $response->withHeader("Content-Type", "application/json");
