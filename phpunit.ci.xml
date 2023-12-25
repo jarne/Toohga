@@ -19,4 +19,14 @@
             <directory>src</directory>
         </include>
     </source>
+
+    <coverage>
+        <report>
+            <html outputDirectory="coverage/coverage-report" />
+        </report>
+    </coverage>
+
+    <logging>
+        <junit outputFile="test-results/phpunit/junit.xml" />
+    </logging>
 </phpunit>

@@ -50,6 +50,8 @@
         }
     },
     "scripts": {
+        "test": "./vendor/bin/phpunit -c phpunit.xml",
+        "test:ci": "XDEBUG_MODE=coverage ./vendor/bin/phpunit -c phpunit.ci.xml",
         "code-analyze": "./vendor/bin/phpstan analyze -l 3 src tests",
         "code-analyze-save-report": "./vendor/bin/phpstan analyze -l 3 --error-format junit src tests > test-results/phpstan-result/junit.xml",
         "check-format": "./vendor/bin/phpcs --standard=PSR12 src tests",

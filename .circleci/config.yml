@@ -9,19 +9,19 @@ jobs:
             - image: cimg/php:8.3-node
               environment:
                   MYSQL_HOST: 127.0.0.1
-                  MYSQL_USER: mibo3E9u9eWO6uJe
-                  MYSQL_PASSWORD: daVU7O8EyEtIDAlI
-                  MYSQL_DATABASE: sULu9OtEDE8iYiqE
+                  MYSQL_USER: toohga
+                  MYSQL_PASSWORD: superPassword
+                  MYSQL_DATABASE: toohga
                   REDIS_HOST: 127.0.0.1
-                  ADMIN_KEY: BPM14ABt
-                  CONTACT_EMAIL: hello@tooh.ga
-                  PRIVACY_URL: https://privaport.landway.space/tooh.ga/
+                  ADMIN_KEY: exampleAdmin
+                  CONTACT_EMAIL: toohga@example.com
+                  PRIVACY_URL: https://example.com/toohga-privacy
             - image: cimg/mariadb:11.2
               environment:
-                  MYSQL_ROOT_PASSWORD: nEDA7oyUjENodUqa
-                  MYSQL_USER: mibo3E9u9eWO6uJe
-                  MYSQL_PASSWORD: daVU7O8EyEtIDAlI
-                  MYSQL_DATABASE: sULu9OtEDE8iYiqE
+                  MYSQL_ROOT_PASSWORD: superRootPassword
+                  MYSQL_USER: toohga
+                  MYSQL_PASSWORD: superPassword
+                  MYSQL_DATABASE: toohga
             - image: cimg/redis:7.2
         steps:
             # Checkout branch
@@ -44,7 +44,7 @@ jobs:
             - run: php dbinit.php
 
             # Run tests with PHPUnit
-            - run: XDEBUG_MODE=coverage php vendor/bin/phpunit --log-junit test-results/phpunit/junit.xml --coverage-html coverage/coverage-report
+            - run: composer run test:ci
 
             # Save test results
             - store_test_results:

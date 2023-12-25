@@ -14,5 +14,7 @@
 # Dependency caches
 /twigCache
 
-# PHPUnit cache
+# PHPUnit cache and results
 /.phpunit.cache
+/test-results
+/coverage
