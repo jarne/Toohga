@@ -1,15 +1,15 @@
 <script>
 import "@fontsource/pacifico"
 
-const authReq = import.meta.env.VITE_AUTH_REQUIRED === "true"
-const contactMail = import.meta.env.VITE_CONTACT_EMAIL
-const theme = import.meta.env.VITE_THEME
-const privacyUrl = import.meta.env.VITE_PRIVACY_URL
-const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
-
 export default {
     inject: ["notyf"],
     data() {
+        const authReq = import.meta.env.VITE_AUTH_REQUIRED === "true"
+        const contactMail = import.meta.env.VITE_CONTACT_EMAIL
+        const theme = import.meta.env.VITE_THEME
+        const privacyUrl = import.meta.env.VITE_PRIVACY_URL
+        const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
+
         let bgGradCols = []
         switch (theme) {
             case "pink":
@@ -24,6 +24,10 @@ export default {
         }
 
         return {
+            authReq,
+            contactMail,
+            privacyUrl,
+            analyticsScript,
             bgGradCols,
             url: "",
             pin: "",

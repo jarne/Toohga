@@ -327,7 +327,7 @@ export default {
 <style scoped>
 .container {
     margin-top: 25px;
-    margin-bottom: 35px;
+    padding-bottom: 35px;
 }
 
 .container > h3 {
