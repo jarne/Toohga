@@ -216,16 +216,14 @@ class APIController
      * Return background gradient colors based on selected theme
      *
      * @param string $selectedTheme
+     * @return string[]
      */
     private function getBackgroundColors(string $selectedTheme): array
     {
-        switch ($selectedTheme) {
-            case "pink":
-                return ["#fcb5d9", "#f2d5e3"];
-            case "orange":
-                return ["#fcd194", "#f2e0c6"];
-            default:
-                return ["#b6f5f9", "#e6f0f2"];
-        }
+        return match ($selectedTheme) {
+            "pink" => ["#fcb5d9", "#f2d5e3"],
+            "orange" => ["#fcd194", "#f2e0c6"],
+            default => ["#b6f5f9", "#e6f0f2"],
+        };
     }
 }
