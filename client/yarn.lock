@@ -200,6 +200,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/pacifico@npm:^5.0.8":
+  version: 5.0.8
+  resolution: "@fontsource/pacifico@npm:5.0.8"
+  checksum: 8518e35f79d52c1f4ae1bdbb32bf41f0f8ec8019f4a05c15219bf3b95a96a294ce2797f17d227d95b1fffaa1202ab585e241562d1d3041a5dcb0e9da49ce7609
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -1603,6 +1610,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "toohga-client@workspace:."
   dependencies:
+    "@fontsource/pacifico": "npm:^5.0.8"
     "@popperjs/core": "npm:^2.11.8"
     "@vitejs/plugin-vue": "npm:^4.5.2"
     bootstrap: "npm:^5.3.2"

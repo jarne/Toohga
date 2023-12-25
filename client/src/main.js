@@ -13,7 +13,6 @@ import router from "./router"
 
 import "./assets/bootstrapCustom.scss"
 import "./../node_modules/open-iconic/font/css/open-iconic-bootstrap.min.css"
-import "./assets/main.css"
 
 const app = createApp(App)
 

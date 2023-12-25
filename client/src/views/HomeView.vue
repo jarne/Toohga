@@ -1,4 +1,6 @@
 <script setup>
+import "@fontsource/pacifico"
+
 const authReq = import.meta.env.VITE_AUTH_REQUIRED
 const deleteAfterDays = import.meta.env.VITE_DELETE_AFTER_DAYS
 const contactMail = import.meta.env.VITE_CONTACT_EMAIL
@@ -61,11 +63,6 @@ const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
 </template>
 
 <style scoped>
-html,
-body {
-    height: 100%;
-}
-
 h1 {
     font-family: "Pacifico", sans-serif;
 
@@ -86,7 +83,7 @@ p {
 }
 
 .full-box {
-    min-height: 100%;
+    height: 100%;
 
     display: flex;
     justify-content: center;
@@ -196,5 +193,13 @@ p {
     .main-content {
         width: 1100px;
     }
+}
+</style>
+
+<style>
+html,
+body,
+#app {
+    height: 100%;
 }
 </style>
