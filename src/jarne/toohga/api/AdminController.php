@@ -6,6 +6,9 @@
 
 namespace jarne\toohga\api;
 
+use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use jarne\toohga\storage\URLStorage;
 use jarne\toohga\storage\UserStorage;
 use Psr\Http\Message\ResponseInterface;
@@ -17,6 +20,8 @@ use Twig\Error\SyntaxError;
 
 class AdminController
 {
+    public const DEFAULT_JWT_ALGO = "HS256";
+
     /**
      * @var URLStorage
      */
@@ -45,16 +50,34 @@ class AdminController
      *
      * @return bool|ResponseInterface
      */
-    private function tryAuth(ServerRequestInterface $request, ResponseInterface $response): bool|ResponseInterface
+    private function checkToken(ServerRequestInterface $request, ResponseInterface $response): bool|ResponseInterface
     {
-        if (!isset($request->getServerParams()["PHP_AUTH_PW"])) {
-            return $response->withHeader("WWW-Authenticate", "Basic realm=\"Toohga admin center\"")
-                ->withStatus(401);
+        $authHeaders = $request->getHeader("Authorization");
+        if (count($authHeaders) !== 1) {
+            return $response->withStatus(401);
+        }
+        $authHeader = $authHeaders[0];
+        $authHeaderParts = explode(" ", $authHeader);
+
+        if (!(count($authHeaderParts) === 2 && $authHeaderParts[0] === "Bearer")) {
+            $response->getBody()->write(
+                json_encode(array(
+                    "error" => array(
+                        "code" => "request_error"
+                    )
+                ))
+            );
+            return $response->withHeader("Content-Type", "application/json");
         }
 
-        $authPw = $request->getServerParams()["PHP_AUTH_PW"];
+        $suppliedJwt = $authHeaderParts[1];
+        try {
+            $decoded = JWT::decode($suppliedJwt, new Key(getenv("JWT_SECRET"), self::DEFAULT_JWT_ALGO));
+        } catch (Exception $e) {
+            return $response->withStatus(401);
+        }
 
-        if ($authPw !== getenv("ADMIN_KEY")) {
+        if (!(isset($decoded->admin) && $decoded->admin === true)) {
             return $response->withStatus(401);
         }
 
@@ -72,7 +95,7 @@ class AdminController
      */
     public function panel(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 
@@ -83,6 +106,75 @@ class AdminController
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
             return $response->withStatus(500);
         }
+    }
+
+    /**
+     * Get an authentication token for the admin API
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     *
+     * @return ResponseInterface
+     */
+    public function authenticate(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args
+    ): ResponseInterface {
+        if (!is_array($params = $request->getParsedBody())) {
+            $response->getBody()->write(
+                json_encode(array(
+                    "error" => array(
+                        "code" => "request_error"
+                    )
+                ))
+            );
+            return $response->withHeader("Content-Type", "application/json");
+        }
+
+        if (!isset($params["admin_key"])) {
+            $response->getBody()->write(
+                json_encode(array(
+                    "error" => array(
+                        "code" => "admin_key_missing"
+                    )
+                ))
+            );
+            return $response->withHeader("Content-Type", "application/json");
+        }
+
+        $adminKey = $params["admin_key"];
+
+        if ($adminKey !== getenv("ADMIN_KEY")) {
+            $response->getBody()->write(
+                json_encode(array(
+                    "error" => array(
+                        "code" => "invalid_credentials"
+                    )
+                ))
+            );
+            return $response
+                ->withStatus(401)
+                ->withHeader("Content-Type", "application/json");
+        }
+
+        $issuedAt = time();
+        $expires = $issuedAt + 86400; // expires after 24 h
+
+        $payload = [
+            "iat" => $issuedAt,
+            "exp" => $expires,
+            "admin" => true
+        ];
+        $jwt = JWT::encode($payload, getenv("JWT_SECRET"), self::DEFAULT_JWT_ALGO);
+
+        $response->getBody()->write(
+            json_encode(array(
+                "jwt" => $jwt,
+            ))
+        );
+        return $response->withHeader("Content-Type", "application/json");
     }
 
     /**
@@ -99,7 +191,7 @@ class AdminController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 
@@ -138,7 +230,7 @@ class AdminController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 
@@ -173,7 +265,7 @@ class AdminController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 
@@ -207,7 +299,7 @@ class AdminController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 
@@ -246,7 +338,7 @@ class AdminController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 
@@ -305,7 +397,7 @@ class AdminController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        if (($res = $this->tryAuth($request, $response)) !== true) {
+        if (($res = $this->checkToken($request, $response)) !== true) {
             return $res;
         }
 

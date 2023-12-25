@@ -55,6 +55,7 @@ class Toohga
         }
 
         $this->slimApp->add(TwigMiddleware::create($this->slimApp, $twig));
+        $this->slimApp->addBodyParsingMiddleware();
     }
 
     /**
@@ -114,6 +115,7 @@ class Toohga
 
         $this->slimApp->get("/admin", AdminController::class . ":panel");
 
+        $this->slimApp->post("/admin/api/auth", AdminController::class . ":authenticate");
         $this->slimApp->get("/admin/api/url", AdminController::class . ":getUrlList");
         $this->slimApp->delete("/admin/api/url/{urlId}", AdminController::class . ":deleteUrl");
         $this->slimApp->post("/admin/api/urlCleanup", AdminController::class . ":cleanupUrls");
