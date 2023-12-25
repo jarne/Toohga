@@ -1,61 +1,77 @@
 <script setup>
 import "@fontsource/pacifico"
 
-const authReq = import.meta.env.VITE_AUTH_REQUIRED
-const deleteAfterDays = import.meta.env.VITE_DELETE_AFTER_DAYS
+const authReq = import.meta.env.VITE_AUTH_REQUIRED === "true"
 const contactMail = import.meta.env.VITE_CONTACT_EMAIL
 const theme = import.meta.env.VITE_THEME
 const privacyUrl = import.meta.env.VITE_PRIVACY_URL
 const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
+
+let bgGradCols = []
+switch (theme) {
+    case "pink":
+        bgGradCols = ["#fcb5d9", "#f2d5e3"]
+        break
+    case "orange":
+        bgGradCols = ["#fcd194", "#f2e0c6"]
+        break
+    default:
+        bgGradCols = ["#b6f5f9", "#e6f0f2"]
+        break
+}
 </script>
 
 <template>
-    <div class="full-box">
-        <div class="little-dark-background">
-            <div class="main-content text-center">
-                <h1>Toohga</h1>
-                <h2>The smart URL shortener</h2>
-                <br />
-                <form id="entryForm">
-                    <div class="input-group input-group-lg">
-                        <input
-                            type="url"
-                            class="form-control form-control-custom text-center"
-                            id="url"
-                            placeholder="Paste the long URL here ..."
-                        />
-                        <input
-                            v-if="authReq"
-                            type="password"
-                            class="form-control form-control-custom form-control-pin text-center"
-                            id="pin"
-                            placeholder="PIN"
-                        />
-                        <button class="btn btn-custom">
-                            <span
-                                class="oi oi-chevron-right"
-                                aria-hidden="true"
-                            ></span>
-                        </button>
-                    </div>
-                </form>
-                <br />
-                <p class="footer-line">
-                    open source on
-                    <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="https://github.com/jarne/Toohga"
-                        >GitHub</a
-                    >
-                    <span v-if="contactMail">
-                        | contact:
-                        <a :href="`mailto:${contactMail}`">{{ contactMail }}</a>
-                    </span>
-                    <span v-if="privacyUrl">
-                        | <a href="/privacy">privacy policy</a>
-                    </span>
-                </p>
+    <div class="gradient-bg">
+        <div class="points-bg-overlay">
+            <div class="little-dark-background">
+                <div class="main-content text-center">
+                    <h1>Toohga</h1>
+                    <h2>The smart URL shortener</h2>
+                    <br />
+                    <form id="entryForm">
+                        <div class="input-group input-group-lg">
+                            <input
+                                type="url"
+                                class="form-control form-control-custom text-center"
+                                id="url"
+                                placeholder="Paste the long URL here ..."
+                            />
+                            <input
+                                v-if="authReq"
+                                type="password"
+                                class="form-control form-control-custom form-control-pin text-center"
+                                id="pin"
+                                placeholder="PIN"
+                            />
+                            <button class="btn btn-custom">
+                                <span
+                                    class="oi oi-chevron-right"
+                                    aria-hidden="true"
+                                ></span>
+                            </button>
+                        </div>
+                    </form>
+                    <br />
+                    <p class="footer-line">
+                        open source on
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://github.com/jarne/Toohga"
+                            >GitHub</a
+                        >
+                        <span v-if="contactMail">
+                            | contact:
+                            <a :href="`mailto:${contactMail}`">{{
+                                contactMail
+                            }}</a>
+                        </span>
+                        <span v-if="privacyUrl">
+                            | <a href="/privacy">privacy policy</a>
+                        </span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -63,35 +79,27 @@ const analyticsScript = import.meta.env.VITE_ANALYTICS_SCRIPT
 </template>
 
 <style scoped>
-h1 {
-    font-family: "Pacifico", sans-serif;
-
-    font-size: 72px;
-    line-height: 96px;
-}
-
-h2 {
-    margin-top: 12px;
-
-    font-size: 32px;
-    line-height: 48px;
-}
-
-p {
-    font-size: 18px;
-    line-height: 24px;
-}
-
-.full-box {
+.gradient-bg,
+.points-bg-overlay {
     height: 100%;
+}
 
+.gradient-bg {
+    background: linear-gradient(
+        to bottom right,
+        v-bind("bgGradCols[0]"),
+        v-bind("bgGradCols[1]")
+    );
+}
+
+.points-bg-overlay {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 
-    background: url("/assets/dest/images/points-overlay.svg") no-repeat center
-        center fixed;
+    background: url("./../assets/points-overlay.svg") no-repeat center center
+        fixed;
 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -122,6 +130,25 @@ p {
     color: white;
 
     padding: 40px 20px 40px 20px;
+}
+
+h1 {
+    font-family: "Pacifico", sans-serif;
+
+    font-size: 72px;
+    line-height: 96px;
+}
+
+h2 {
+    margin-top: 12px;
+
+    font-size: 32px;
+    line-height: 48px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 24px;
 }
 
 #entryForm {
