@@ -12,54 +12,72 @@ namespace jarne\toohga\tests\api;
 class AdminControllerTest extends APITestCase
 {
     /**
-     * Test admin panel auth request
-     *
-     * @covers ::panel
+     * @var string JWT token for test requests
      */
-    public function testPanelAuthReq(): void
+    private string $jwtToken;
+
+    /**
+     * Obtain JWT token for requests accessing the admin API
+     *
+     * @return void
+     */
+    protected function setUp(): void
     {
-        $req = $this->request("GET", "/admin");
+        parent::setUp();
+
+        $req = $this->request("POST", "/admin/api/auth")
+            ->withParsedBody(array(
+                "admin_key" => getenv("ADMIN_KEY")
+            ));
 
         $resp = $this->getApp()->handle($req);
 
-        $this->assertEquals(401, $resp->getStatusCode());
-        $this->assertStringContainsString("Basic realm", $resp->getHeaderLine("WWW-Authenticate"));
+        $bodyData = json_decode((string)$resp->getBody());
+        $this->jwtToken = $bodyData->jwt;
     }
 
     /**
-     * Test admin panel with wrong password
+     * Test authentication route for successfully obtaining a token
      *
-     * @covers ::panel
+     * @covers ::authenticate
      */
-    public function testPanelWrongAuth(): void
+    public function testTokenReqSuccess(): void
     {
-        $req = $this->request("GET", "/admin", array(
-            "PHP_AUTH_PW" => "wrongPW123"
-        ));
-
-        $resp = $this->getApp()->handle($req);
-
-        $this->assertEquals(401, $resp->getStatusCode());
-        $this->assertEquals("", $resp->getHeaderLine("WWW-Authenticate"));
-    }
-
-    /**
-     * Test admin panel with correct password
-     *
-     * @covers ::panel
-     */
-    public function testPanelSuccessAuth(): void
-    {
-        $req = $this->request("GET", "/admin", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ));
+        $req = $this->request("POST", "/admin/api/auth")
+            ->withParsedBody(array(
+                "admin_key" => getenv("ADMIN_KEY")
+            ));
 
         $resp = $this->getApp()->handle($req);
 
         $this->assertEquals(200, $resp->getStatusCode());
+        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
 
-        $body = (string)$resp->getBody();
-        $this->assertStringContainsString("Welcome to the Toogha admin center", $body);
+        $bodyData = json_decode((string)$resp->getBody());
+
+        $this->assertIsString($bodyData->jwt);
+    }
+
+    /**
+     * Test authentication route with wrong secret key
+     *
+     * @covers ::authenticate
+     */
+    public function testTokenReqInvalidCreds(): void
+    {
+        $req = $this->request("POST", "/admin/api/auth")
+            ->withParsedBody(array(
+                "admin_key" => "invalidKey123"
+            ));
+
+        $resp = $this->getApp()->handle($req);
+
+        $this->assertEquals(401, $resp->getStatusCode());
+        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
+
+        $bodyData = json_decode((string)$resp->getBody());
+
+        $this->assertEquals("invalid_credentials", $bodyData->error->code);
     }
 
     /**
@@ -69,9 +87,8 @@ class AdminControllerTest extends APITestCase
      */
     public function testGetUrlList(): void
     {
-        $req = $this->request("GET", "/admin/api/url", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ));
+        $req = $this->request("GET", "/admin/api/url")
+            ->withHeader("Authorization", "Bearer " . $this->jwtToken);
 
         $resp = $this->getApp()->handle($req);
 
@@ -80,17 +97,16 @@ class AdminControllerTest extends APITestCase
 
         $bodyData = json_decode((string)$resp->getBody());
 
-        $this->assertEquals("success", $bodyData->status);
-        $this->assertIsArray($bodyData->shortUrls);
+        $this->assertIsArray($bodyData->short_urls);
 
-        $this->assertArrayHasKey(0, $bodyData->shortUrls);
-        $this->assertArrayHasKey(1, $bodyData->shortUrls);
-        $this->assertArrayNotHasKey(2, $bodyData->shortUrls);
+        $this->assertArrayHasKey(0, $bodyData->short_urls);
+        $this->assertArrayHasKey(1, $bodyData->short_urls);
+        $this->assertArrayNotHasKey(2, $bodyData->short_urls);
 
-        $this->assertEquals(0, $bodyData->shortUrls[0]->id);
-        $this->assertEquals("https://www.php.net/manual/de/language.oop5.traits.php", $bodyData->shortUrls[0]->target);
-        $this->assertEquals("123.123.123.123", $bodyData->shortUrls[0]->client);
-        $this->assertEquals("1", $bodyData->shortUrls[0]->shortId);
+        $this->assertEquals(0, $bodyData->short_urls[0]->id);
+        $this->assertEquals("https://www.php.net/manual/de/language.oop5.traits.php", $bodyData->short_urls[0]->target);
+        $this->assertEquals("123.123.123.123", $bodyData->short_urls[0]->client);
+        $this->assertEquals("1", $bodyData->short_urls[0]->shortId);
     }
 
     /**
@@ -100,18 +116,12 @@ class AdminControllerTest extends APITestCase
      */
     public function testDeleteUrl(): void
     {
-        $req = $this->request("DELETE", "/admin/api/url/123", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ));
+        $req = $this->request("DELETE", "/admin/api/url/123")
+            ->withHeader("Authorization", "Bearer " . $this->jwtToken);
 
         $resp = $this->getApp()->handle($req);
 
-        $this->assertEquals(200, $resp->getStatusCode());
-        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
-
-        $bodyData = json_decode((string)$resp->getBody());
-
-        $this->assertEquals("success", $bodyData->status);
+        $this->assertEquals(204, $resp->getStatusCode());
     }
 
     /**
@@ -121,18 +131,12 @@ class AdminControllerTest extends APITestCase
      */
     public function testCleanupUrls(): void
     {
-        $req = $this->request("POST", "/admin/api/urlCleanup", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ));
+        $req = $this->request("POST", "/admin/api/urlCleanup")
+            ->withHeader("Authorization", "Bearer " . $this->jwtToken);
 
         $resp = $this->getApp()->handle($req);
 
-        $this->assertEquals(200, $resp->getStatusCode());
-        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
-
-        $bodyData = json_decode((string)$resp->getBody());
-
-        $this->assertEquals("success", $bodyData->status);
+        $this->assertEquals(204, $resp->getStatusCode());
     }
 
     /**
@@ -142,9 +146,8 @@ class AdminControllerTest extends APITestCase
      */
     public function testGetUserList(): void
     {
-        $req = $this->request("GET", "/admin/api/user", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ));
+        $req = $this->request("GET", "/admin/api/user")
+            ->withHeader("Authorization", "Bearer " . $this->jwtToken);
 
         $resp = $this->getApp()->handle($req);
 
@@ -153,7 +156,6 @@ class AdminControllerTest extends APITestCase
 
         $bodyData = json_decode((string)$resp->getBody());
 
-        $this->assertEquals("success", $bodyData->status);
         $this->assertIsArray($bodyData->users);
 
         $this->assertArrayHasKey(0, $bodyData->users);
@@ -172,9 +174,8 @@ class AdminControllerTest extends APITestCase
      */
     public function testCreateUser(): void
     {
-        $req = $this->request("POST", "/admin/api/user", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ))
+        $req = $this->request("POST", "/admin/api/user")
+            ->withHeader("Authorization", "Bearer " . $this->jwtToken)
             ->withHeader("Content-Type", "application/json")
             ->withParsedBody(array(
                 "uniquePin" => "abc876test",
@@ -183,12 +184,7 @@ class AdminControllerTest extends APITestCase
 
         $resp = $this->getApp()->handle($req);
 
-        $this->assertEquals(200, $resp->getStatusCode());
-        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
-
-        $bodyData = json_decode((string)$resp->getBody());
-
-        $this->assertEquals("success", $bodyData->status);
+        $this->assertEquals(204, $resp->getStatusCode());
     }
 
     /**
@@ -198,17 +194,11 @@ class AdminControllerTest extends APITestCase
      */
     public function testDeleteUser(): void
     {
-        $req = $this->request("DELETE", "/admin/api/user/5", array(
-            "PHP_AUTH_PW" => getenv("ADMIN_KEY")
-        ));
+        $req = $this->request("DELETE", "/admin/api/user/5")
+            ->withHeader("Authorization", "Bearer " . $this->jwtToken);
 
         $resp = $this->getApp()->handle($req);
 
-        $this->assertEquals(200, $resp->getStatusCode());
-        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
-
-        $bodyData = json_decode((string)$resp->getBody());
-
-        $this->assertEquals("success", $bodyData->status);
+        $this->assertEquals(204, $resp->getStatusCode());
     }
 }

@@ -54,8 +54,7 @@ class APIControllerTest extends APITestCase
 
         $bodyData = json_decode((string)$resp->getBody());
 
-        $this->assertEquals("success", $bodyData->status);
-        $this->assertEquals("http://localhost/a", $bodyData->shortUrl);
+        $this->assertEquals("http://localhost/a", $bodyData->short);
     }
 
     /**
@@ -84,8 +83,7 @@ class APIControllerTest extends APITestCase
 
         $bodyData = json_decode((string)$resp->getBody());
 
-        $this->assertEquals("failed", $bodyData->status);
-        $this->assertEquals("auth_failed", $bodyData->errorCode);
+        $this->assertEquals("auth_failed", $bodyData->error->code);
     }
 
     /**
@@ -115,8 +113,7 @@ class APIControllerTest extends APITestCase
 
         $bodyData = json_decode((string)$resp->getBody());
 
-        $this->assertEquals("success", $bodyData->status);
-        $this->assertEquals("http://localhost/a", $bodyData->shortUrl);
+        $this->assertEquals("http://localhost/a", $bodyData->short);
     }
 
     /**
