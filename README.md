@@ -26,6 +26,9 @@
 ## 📙 Description
 
 Toohga is your smart private URL shortener with very short URL's.
+It uses a custom algorithm to generate short codes that stay as short as possible, using combinations of numbers and letters.
+The application can be operated both open to the public or secured by PIN codes required to create new URL's.
+An admin panel provides features to perform administrative tasks, such as managing users and listing or deleting URL's.
 
 ### Screenshots
 
@@ -41,25 +44,30 @@ The application needs a modern version of PHP, a MySQL database and a Redis serv
 
 The following environment variables need to be set:
 
-| Env variable     | Description                              |
-| ---------------- | ---------------------------------------- |
-| `MYSQL_HOST`     | Hostname of MySQL server                 |
-| `MYSQL_USER`     | Database user                            |
-| `MYSQL_PASSWORD` | Password of the database user            |
-| `MYSQL_DATABASE` | Name of the MySQL database               |
-| `REDIS_HOST`     | Hostname of the Redis server             |
-| `ADMIN_KEY`      | Secure random secret for the admin panel |
+| Env variable     | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| `MYSQL_HOST`     | Hostname of MySQL server                                     |
+| `MYSQL_USER`     | Database user                                                |
+| `MYSQL_PASSWORD` | Password of the database user                                |
+| `MYSQL_DATABASE` | Name of the MySQL database                                   |
+| `REDIS_HOST`     | Hostname of the Redis server                                 |
+| `ADMIN_KEY`      | Secure secret for accessing the admin panel                  |
+| `JWT_SECRET`     | Randomly generated secret for encrypting admin access tokens |
 
 Additionally, the following _optional_ environment variables can be set:
 
-| Env variable        | Description                                                                                     |
-| ------------------- | ----------------------------------------------------------------------------------------------- |
-| `AUTH_REQUIRED`     | Requires a user authentication PIN when creating URL's (set to true/false, default to false)    |
-| `DELETE_AFTER_DAYS` | Delete URL's after x days (default is 14 days)                                                  |
-| `CONTACT_EMAIL`     | Display a contact e-mail address on the front page                                              |
-| `THEME`             | Visual color theme of the application (possible values are: `pink`, `orange`, `blue` (default)) |
-| `PRIVACY_URL`       | Display a link to an external privacy page on the front page                                    |
-| `ANALYTICS_SCRIPT`  | Embed HTML code for an analytics script                                                         |
+| Env variable             | Description                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| `TGA_AUTH_REQUIRED`      | Requires a user authentication PIN when creating URL's (set to true/false, default to false)    |
+| `DELETE_AFTER_DAYS`      | Delete URL's after x days (default is 14 days)                                                  |
+| `TGA_CONTACT_EMAIL`      | Display a contact e-mail address on the front page                                              |
+| `TGA_THEME`              | Visual color theme of the application (possible values are: `pink`, `orange`, `blue` (default)) |
+| `TGA_PRIVACY_URL`        | Display a link to an external privacy page on the front page                                    |
+| `TGA_ANALYTICS_SCRIPT`   | Embed HTML code for an analytics script                                                         |
+| `TGA_API_ENDPOINT`       | Specify general API endpoint for front-end to use                                               |
+| `TGA_ADMIN_API_ENDPOINT` | Specify admin API endpoint for front-end                                                        |
+
+> All environment variables beginning with `TGA_` are exposed to the front-end and therefore are publically accessible. They should not contain sensitive information!
 
 ### Docker image
 

@@ -10,7 +10,6 @@
         "shortener",
         "short"
     ],
-    "homepage": "https://www.tooh.ga",
     "license": "MIT",
     "authors": [
         {
@@ -26,11 +25,11 @@
     "require": {
         "ext-mysqli": "*",
         "ext-redis": "*",
+        "firebase/php-jwt": "^6.10.0",
         "php": ">=8.0",
         "php-di/slim-bridge": "^3.4",
         "slim/psr7": "^1.6",
         "slim/slim": "^4.12",
-        "slim/twig-view": "^3.3",
         "symfony/cache": "^7.0"
     },
     "require-dev": {
