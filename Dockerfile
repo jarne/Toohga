@@ -58,3 +58,9 @@ COPY 000-default.conf /etc/apache2/sites-available/
 
 # Enable Apache2 mods
 RUN a2enmod rewrite
+
+# Go into the application folder
+WORKDIR /var/www/Toohga
+
+# Run startup commands
+CMD ["/bin/sh", "docker-cmd.sh"]
