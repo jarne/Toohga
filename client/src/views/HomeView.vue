@@ -108,6 +108,7 @@ export default {
                                 :readonly="showingResult"
                                 placeholder="Paste the long URL here ..."
                                 autofocus
+                                autocomplete="off"
                             />
                             <input
                                 v-if="authReq"
