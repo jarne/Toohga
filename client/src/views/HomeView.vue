@@ -156,7 +156,9 @@ export default {
     <div v-if="analyticsScript" v-html="analyticsScript"></div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "./../assets/bootstrapCustom.scss";
+
 .gradient-bg,
 .points-bg-overlay {
     height: 100%;
@@ -192,8 +194,8 @@ export default {
 
     background: linear-gradient(
         to bottom right,
-        rgba(0, 0, 0, 0.8),
-        rgba(0, 0, 0, 0.95)
+        rgba(white, 0.6),
+        rgba(white, 0.85)
     );
 
     width: 95vw;
@@ -204,8 +206,6 @@ export default {
 
 .main-content {
     width: 90%;
-
-    color: white;
 
     padding: 40px 20px 40px 20px;
 }
@@ -233,25 +233,19 @@ p {
     padding-bottom: 10px;
 }
 
-.form-control-custom,
-.form-control-custom[readonly] {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
+$input-opacity: 0.075;
+$shadow-opacity: 0.15;
+$custom-input-bg: rgba(black, $input-opacity);
 
-    color: white;
+.form-control-custom,
+.form-control-custom[readonly],
+.form-control-custom:focus {
+    background-color: $custom-input-bg;
+    border-color: $custom-input-bg;
 }
 
 .form-control-custom:focus {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
-
-    color: white;
-
-    box-shadow: 0 0 2px 0.2rem rgba(255, 255, 255, 0.35);
-}
-
-.form-control-custom::placeholder {
-    color: #bebebe;
+    box-shadow: 0 0 2px 0.2rem rgba(black, $shadow-opacity);
 }
 
 .form-control-pin {
@@ -265,17 +259,15 @@ p {
 }
 
 .btn-custom {
-    background-color: rgba(255, 255, 255, 0.2);
-
-    color: white;
+    background-color: $custom-input-bg;
 }
 
 .btn-custom:hover {
-    color: rgba(255, 255, 255, 0.6);
+    background-color: shade-color($custom-input-bg, 10%);
 }
 
 .btn-custom:focus {
-    box-shadow: 0 0 2px 0.2rem rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 2px 0.2rem rgba(black, $shadow-opacity);
 }
 
 .btn-custom {
@@ -284,19 +276,64 @@ p {
 
 .footer-line a,
 .footer-line a:visited {
-    color: #c5c5c5;
+    color: $gray-600;
 }
 
 .footer-line a:hover,
 .footer-line a:active {
-    text-decoration: none;
-
-    color: #949494;
+    color: $gray-700;
 }
 
 @media (min-width: 1150px) {
     .main-content {
         width: 1100px;
+    }
+}
+
+@include color-mode(dark) {
+    .little-dark-background {
+        background: linear-gradient(
+            to bottom right,
+            rgba(black, 0.8),
+            rgba(black, 0.95)
+        );
+    }
+
+    $input-opacity: 0.2;
+    $shadow-opacity: 0.35;
+    $custom-input-bg: rgba(white, $input-opacity);
+
+    .form-control-custom,
+    .form-control-custom[readonly],
+    .form-control-custom:focus {
+        background-color: $custom-input-bg;
+        border-color: $custom-input-bg;
+    }
+
+    .form-control-custom:focus {
+        box-shadow: 0 0 2px 0.2rem rgba(white, $shadow-opacity);
+    }
+
+    .btn-custom {
+        background-color: $custom-input-bg;
+    }
+
+    .btn-custom:hover {
+        background-color: shade-color($custom-input-bg, 10%);
+    }
+
+    .btn-custom:focus {
+        box-shadow: 0 0 2px 0.2rem rgba(black, $shadow-opacity);
+    }
+
+    .footer-line a,
+    .footer-line a:visited {
+        color: $gray-400;
+    }
+
+    .footer-line a:hover,
+    .footer-line a:active {
+        color: $gray-300;
     }
 }
 </style>
