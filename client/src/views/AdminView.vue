@@ -230,6 +230,7 @@ export default {
                                 id="delShortInput"
                                 v-model="delShortId"
                                 placeholder="Short ID"
+                                autocomplete="off"
                             />
                             <button type="submit" class="btn btn-danger">
                                 Delete
@@ -260,6 +261,7 @@ export default {
                                 id="createUserDisplayNameInput"
                                 v-model="createUserDisplayName"
                                 placeholder="Display name"
+                                autocomplete="off"
                             />
                         </p>
                         <div class="input-group">
@@ -269,6 +271,7 @@ export default {
                                 id="createUserPINInput"
                                 v-model="createUserPIN"
                                 placeholder="Unique PIN"
+                                autocomplete="off"
                             />
                             <button type="submit" class="btn btn-primary">
                                 Create
@@ -294,6 +297,7 @@ export default {
                                 id="delUserInput"
                                 v-model="delUserId"
                                 placeholder="User ID"
+                                autocomplete="off"
                             />
                             <button type="submit" class="btn btn-danger">
                                 Delete
