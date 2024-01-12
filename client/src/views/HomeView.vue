@@ -84,6 +84,13 @@ export default {
             this.url = short
             this.$refs.urlInput.focus()
         },
+        async copyResultToClip() {
+            try {
+                await navigator.clipboard.writeText(this.url)
+            } catch (e) {
+                this.notyf.error("Cannot access the clipboard")
+            }
+        },
     },
 }
 </script>
@@ -118,6 +125,17 @@ export default {
                                 v-model="pin"
                                 placeholder="PIN"
                             />
+                            <button
+                                type="button"
+                                v-if="showingResult"
+                                @click="copyResultToClip"
+                                class="btn btn-custom"
+                            >
+                                <span
+                                    class="oi oi-clipboard"
+                                    aria-hidden="true"
+                                ></span>
+                            </button>
                             <button
                                 type="submit"
                                 :disabled="showingResult"
@@ -266,10 +284,6 @@ $custom-input-bg: rgba(black, $input-opacity);
     background-color: shade-color($custom-input-bg, 10%);
 }
 
-.btn-custom:focus {
-    box-shadow: 0 0 2px 0.2rem rgba(black, $shadow-opacity);
-}
-
 .btn-custom {
     padding: 11px 13px 5px 19px !important;
 }
@@ -320,10 +334,6 @@ $custom-input-bg: rgba(black, $input-opacity);
 
     .btn-custom:hover {
         background-color: shade-color($custom-input-bg, 10%);
-    }
-
-    .btn-custom:focus {
-        box-shadow: 0 0 2px 0.2rem rgba(black, $shadow-opacity);
     }
 
     .footer-line a,
