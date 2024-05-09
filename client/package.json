@@ -44,5 +44,5 @@
         "prettier": "^3.0",
         "vite": "^5.0.10"
     },
-    "packageManager": "yarn@4.2.1"
+    "packageManager": "yarn@4.2.2"
 }
