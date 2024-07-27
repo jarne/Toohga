@@ -422,17 +422,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/devtools-api@npm:^6.5.0":
-  version: 6.5.1
-  resolution: "@vue/devtools-api@npm:6.5.1"
-  checksum: 10c0/d28b00a64df2c5b3351f74ad28ec7fe65e9ee6e20e585c0130ae6ab74b7e616d4eda3b3e82d39ad391e959be4bbb7aa7221d8253bbca1f3021ad07d4430095f9
-  languageName: node
-  linkType: hard
-
 "@vue/devtools-api@npm:^6.5.1":
   version: 6.6.1
   resolution: "@vue/devtools-api@npm:6.6.1"
   checksum: 10c0/ab9a1e09baae514b0d3a8bf1d670ecb7724f7e55b82eea30aa2e7255e6200b45c1086c1376560f243cf86e98c0726e94d69cefe0ad23dfd50c7c49dfcb1fbf21
+  languageName: node
+  linkType: hard
+
+"@vue/devtools-api@npm:^6.6.3":
+  version: 6.6.3
+  resolution: "@vue/devtools-api@npm:6.6.3"
+  checksum: 10c0/e9e712f687e901b1ecfcfb958a305db9729d37408677ea8d63189176406196c7c6d4e9580216de590ccbe68037f323c163293e917cfad3834d7f3299cd5a22bb
   languageName: node
   linkType: hard
 
@@ -1323,11 +1323,11 @@ __metadata:
   linkType: hard
 
 "pinia@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "pinia@npm:2.1.7"
+  version: 2.2.0
+  resolution: "pinia@npm:2.2.0"
   dependencies:
-    "@vue/devtools-api": "npm:^6.5.0"
-    vue-demi: "npm:>=0.14.5"
+    "@vue/devtools-api": "npm:^6.6.3"
+    vue-demi: "npm:^0.14.8"
   peerDependencies:
     "@vue/composition-api": ^1.4.0
     typescript: ">=4.4.4"
@@ -1337,7 +1337,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10c0/f4380a4db04b5b8565ed8a6843821d91f8f650d79dd9f0094005248bd963521b8a73419032fda76541e59b895b0e7852e67ca9d0408162cc391ce5a1bcbda445
+  checksum: 10c0/2e0889481cd2cf1da0fba5fe197441780c9e49a077cc5a7863ba61dd51c10b79d665db514ff0c7cce3035ecad29fcc69c0de773142e8bf659ec79a954c3a8f9e
   languageName: node
   linkType: hard
 
@@ -1700,9 +1700,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:>=0.14.5":
-  version: 0.14.6
-  resolution: "vue-demi@npm:0.14.6"
+"vue-demi@npm:^0.14.8":
+  version: 0.14.10
+  resolution: "vue-demi@npm:0.14.10"
   peerDependencies:
     "@vue/composition-api": ^1.0.0-rc.1
     vue: ^3.0.0-0 || ^2.6.0
@@ -1712,7 +1712,7 @@ __metadata:
   bin:
     vue-demi-fix: bin/vue-demi-fix.js
     vue-demi-switch: bin/vue-demi-switch.js
-  checksum: 10c0/c292c398ad3c2dbbaaf9b66a0a14b725840d3ba2afb109000cf12ccbc12f9ac4d569d3c14d2a347889519a3a0d58b8169ffb924c91ba506fe69063ea06ca6e3d
+  checksum: 10c0/a9ed8712fa36d01bc13c39757f95f30cebf42d557b99e94bff86d8660c81f2911b41220f7affc023d1ffcc19e13999e4a83019991e264787cca2c616e83aea48
   languageName: node
   linkType: hard
 
