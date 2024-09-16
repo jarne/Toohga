@@ -203,9 +203,9 @@ __metadata:
   linkType: hard
 
 "@fontsource/pacifico@npm:^5.0.8":
-  version: 5.0.15
-  resolution: "@fontsource/pacifico@npm:5.0.15"
-  checksum: 10c0/4943e90fde60db54866566da03507c836f7187e9cfb8773787099839247078187cf86f10301ccde7d122487a74df527d557a2a6dff7de04c83171da8c61cdc93
+  version: 5.1.0
+  resolution: "@fontsource/pacifico@npm:5.1.0"
+  checksum: 10c0/2c822028491c00d5a5e1106a889fb98725c2d329fbd541e7a12783978204a292971fdd104d93aca8d338969c2597a1eb8d903fce9d6ade4027f5db82e9c41ce6
   languageName: node
   linkType: hard
 
