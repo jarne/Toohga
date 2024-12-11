@@ -3,7 +3,7 @@
 # created in: 2017 by: Jarne
 
 # Start from Apache HTTP with PHP
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # Other dependency versions
 ENV NODE_VERSION=20
