@@ -38,9 +38,52 @@ An admin panel provides features to perform administrative tasks, such as managi
 
 ## 🖥 Usage
 
-### Setup & requirements
+### Docker Compose
+
+The recommended way to deploy Toohga is using Docker. There is a ready-to-use
+example [Docker Compose file](./docker-compose.yml) available in this repository.
+
+With [Docker installed](https://docs.docker.com/engine/install/), you can use the following
+commands to clone the repository and run Toohga using Docker Compose.
+
+First, clone the repository.
+
+```sh
+git clone https://github.com/jarne/Toohga.git
+cd Toohga
+```
+
+Then copy the `.env` file template for Docker and replace the secret values in this file.
+
+```sh
+cp .env.docker.example .env
+```
+
+Start the services using Docker Compose.
+
+```sh
+sudo docker compose up
+```
+
+### Manual deployment
 
 The application needs a modern version of PHP, a MySQL database and a Redis server.
+
+Alternative deployment methos are to use the [Docker](./Dockerfile) image or deploy the
+PHP application on a web server such as Apache HTTP (see the following [config file](./000-default.conf) for this).
+
+When deploying without the Docker file, keep in mind to install required dependencies using Composer
+and Yarn:
+
+```
+composer install
+
+cd client
+yarn install
+yarn run build
+```
+
+### Environment variables
 
 The following environment variables need to be set:
 
@@ -69,13 +112,35 @@ Additionally, the following _optional_ environment variables can be set:
 
 > All environment variables beginning with `TGA_` are exposed to the front-end and therefore are publically accessible. They should not contain sensitive information!
 
-### Docker image
+## ⌨️ Development
 
-The recommended way to deploy Toohga is using its [Docker](./Dockerfile) image.
+Toohga is based on a back-end and front-end part.
 
-The image can be pulled from the
-[GitHub Packages registry](https://github.com/users/jarne/packages/container/package/toohga)
-using: `docker pull ghcr.io/jarne/toohga:latest`.
+### Back-end
+
+The back-end inside the main folder is developed in PHP and uses the Slim framework. It stores its data in a MySQL
+database and uses a Redis server for caching. Dependencies are managed using Composer.
+
+A basic server for development can be launched as PHP web server inside the `public` folder,
+with the `index.php` file as a router script (e.g. using `php -S 0.0.0.0:8080 -t . index.php`).
+
+Unit tests inside the [tests](./tests) folder are based on the PHPUnit framework.
+The following checks should be run before commiting code:
+
+```sh
+composer run test
+composer run code-analyze
+composer run check-format
+composer run fix-format
+```
+
+### Front-end
+
+The front-end inside the `client` folder is written in JavaScript and is based on Vue.js, Vite and Bootstrap for styles.
+
+Run development server: `yarn run dev`
+Create build: `yarn run build`
+Format code style: `yarn run format`
 
 ## 🙋‍ Contribution
 
