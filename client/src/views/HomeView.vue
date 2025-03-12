@@ -164,7 +164,7 @@ export default {
                             }}</a>
                         </span>
                         <span v-if="privacyUrl">
-                            | <a href="/privacy">privacy policy</a>
+                            | <a :href="privacyUrl">privacy policy</a>
                         </span>
                     </p>
                 </div>
