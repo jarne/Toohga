@@ -132,8 +132,8 @@ composer run fix-format
 
 The front-end inside the `client` folder is written in JavaScript and is based on Vue.js, Vite and Bootstrap for styles.
 
-Run development server: `yarn run dev`
-Create build: `yarn run build`
+Run development server: `yarn run dev`  
+Create build: `yarn run build`  
 Format code style: `yarn run format`
 
 ## 🙋‍ Contribution
