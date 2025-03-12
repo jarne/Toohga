@@ -19,10 +19,6 @@
     </a>
 </p>
 
-##
-
-[Description](#-description) | [Usage](#-usage) | [Contribution](#-contribution) | [License](#%EF%B8%8F-license)
-
 ## 📙 Description
 
 Toohga is your smart private URL shortener with very short URL's.
