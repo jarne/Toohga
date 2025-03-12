@@ -2,9 +2,9 @@
 
 # Commands to execute when starting Toohga Docker container
 
-# Build client to have up-to-date customization with env variables
+# Replace environment variable values in client dist
 cd client
-yarn build
+yarn run replace-env-variables
 cd ..
 
 # Run Apache2 web server
