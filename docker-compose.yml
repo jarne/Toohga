@@ -1,0 +1,43 @@
+# docker compose build file
+# for: Toohga
+# created in: 2018 by: Jarne
+
+services:
+    mysql:
+        image: mariadb:11
+        environment:
+            MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MARIADB_USER: ${MYSQL_USER}
+            MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+            MARIADB_DATABASE: ${MYSQL_DATABASE}
+        volumes:
+            - mariadb-data:/var/lib/mysql
+        restart: always
+    redis:
+        image: redis:7
+        volumes:
+            - redis-data:/data
+        restart: always
+    toohga:
+        image: ghcr.io/jarne/toohga:latest
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            REDIS_HOST: redis
+            ADMIN_KEY: ${ADMIN_KEY}
+            JWT_SECRET: ${JWT_SECRET}
+            TGA_AUTH_REQUIRED: "false"
+            DELETE_AFTER_DAYS: 14
+            TGA_THEME: "blue"
+        depends_on:
+            - mysql
+            - redis
+        ports:
+            - "8080:80"
+        restart: always
+
+volumes:
+    mariadb-data:
+    redis-data:
