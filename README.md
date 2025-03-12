@@ -5,8 +5,6 @@
 <h1 align="center">Toohga</h1>
 <p align="center">The smart URL shortener</p>
 
-<br>
-
 <p align="center">
     <a href="https://github.com/users/jarne/packages/container/package/toohga">
         <img src="https://img.shields.io/github/v/tag/jarne/Toohga?label=release" alt="Release version">
