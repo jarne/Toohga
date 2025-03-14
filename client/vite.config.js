@@ -9,7 +9,7 @@ export default defineConfig({
     plugins: [
         vue(),
         importMetaEnv.vite({
-            env: ".env.public",
+            env: ".env",
             example: ".env.example.public",
         }),
     ],
