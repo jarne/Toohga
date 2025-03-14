@@ -4,6 +4,7 @@
 
 # Replace environment variable values in client dist
 cd client
+cp .env.example.public .env.public
 yarn run replace-env-variables
 cd ..
 
