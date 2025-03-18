@@ -599,12 +599,12 @@ __metadata:
   linkType: hard
 
 "@vitejs/plugin-vue@npm:^5.0.0":
-  version: 5.2.2
-  resolution: "@vitejs/plugin-vue@npm:5.2.2"
+  version: 5.2.3
+  resolution: "@vitejs/plugin-vue@npm:5.2.3"
   peerDependencies:
     vite: ^5.0.0 || ^6.0.0
     vue: ^3.2.25
-  checksum: 10c0/6622a712a5f8259f2164676fa50584db73fcf6a81e22d26a53b1c3b789bf7f5f9ecc7e6d2e218852583e6693f6ac2e1206fce7e15c06c1345fa9258d06316f76
+  checksum: 10c0/34a719c70567582c8f345378e4f46a7edd9242e7f1595cdda408d97fccf210b8ee66b97c8555ec867f777be86ae530bd19166a542b1d7ecd6894bc544096f047
   languageName: node
   linkType: hard
 
