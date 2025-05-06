@@ -23,7 +23,7 @@ jobs:
                   MYSQL_USER: toohga
                   MYSQL_PASSWORD: superPassword
                   MYSQL_DATABASE: toohga
-            - image: cimg/redis:7.4
+            - image: cimg/redis:8.0
         steps:
             # Checkout branch
             - checkout
