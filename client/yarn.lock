@@ -223,18 +223,18 @@ __metadata:
   linkType: hard
 
 "@import-meta-env/cli@npm:^0.7.3":
-  version: 0.7.3
-  resolution: "@import-meta-env/cli@npm:0.7.3"
+  version: 0.7.4
+  resolution: "@import-meta-env/cli@npm:0.7.4"
   dependencies:
     commander: "npm:13.1.0"
-    dotenv: "npm:^16.0.0"
-    glob: "npm:11.0.1"
+    dotenv: "npm:16.5.0"
+    glob: "npm:11.0.2"
     picocolors: "npm:1.1.1"
     serialize-javascript: "npm:6.0.2"
   peerDependencies:
-    "@import-meta-env/babel": ^0.5.0
-    "@import-meta-env/swc": ^0.4.5
-    "@import-meta-env/unplugin": ^0.6.0
+    "@import-meta-env/babel": ">=0.5.0"
+    "@import-meta-env/swc": ">=0.4.5"
+    "@import-meta-env/unplugin": ">=0.6.0"
   peerDependenciesMeta:
     "@import-meta-env/babel":
       optional: true
@@ -244,7 +244,7 @@ __metadata:
       optional: true
   bin:
     import-meta-env: bin/import-meta-env.js
-  checksum: 10c0/dc0936e78f095c66a8590e002c9ab93157d608fdff0803299e245b51c1e969a8f5e6f9900c9afb882451f6b039e3dd9fd9dc65e6bcae4988b3608a6f2db877a0
+  checksum: 10c0/ebbe2cc30d5b55f1f58f06ef0cae4883a073536b3af2ba15bbc79f97670009cfd8ebf32130c27486c81a978f6b3dc09c2724105fbb34ac3de652936def306f15
   languageName: node
   linkType: hard
 
@@ -990,6 +990,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:16.5.0":
+  version: 16.5.0
+  resolution: "dotenv@npm:16.5.0"
+  checksum: 10c0/5bc94c919fbd955bf0ba44d33922a1e93d1078e64a1db5c30faeded1d996e7a83c55332cb8ea4fae5a9ca4d0be44cbceb95c5811e70f9f095298df09d1997dd9
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^16.0.0":
   version: 16.4.7
   resolution: "dotenv@npm:16.4.7"
@@ -1216,9 +1223,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:11.0.1":
-  version: 11.0.1
-  resolution: "glob@npm:11.0.1"
+"glob@npm:11.0.2":
+  version: 11.0.2
+  resolution: "glob@npm:11.0.2"
   dependencies:
     foreground-child: "npm:^3.1.0"
     jackspeak: "npm:^4.0.1"
@@ -1228,7 +1235,7 @@ __metadata:
     path-scurry: "npm:^2.0.0"
   bin:
     glob: dist/esm/bin.mjs
-  checksum: 10c0/2b32588be52e9e90f914c7d8dec32f3144b81b84054b0f70e9adfebf37cd7014570489f2a79d21f7801b9a4bd4cca94f426966bfd00fb64a5b705cfe10da3a03
+  checksum: 10c0/49f91c64ca882d5e3a72397bd45a146ca91fd3ca53dafb5254daf6c0e83fc510d39ea66f136f9ac7ca075cdd11fbe9aaa235b28f743bd477622e472f4fdc0240
   languageName: node
   linkType: hard
 
