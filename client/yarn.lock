@@ -249,20 +249,15 @@ __metadata:
   linkType: hard
 
 "@import-meta-env/unplugin@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@import-meta-env/unplugin@npm:0.6.2"
+  version: 0.6.3
+  resolution: "@import-meta-env/unplugin@npm:0.6.3"
   dependencies:
-    dotenv: "npm:^16.0.0"
-    magic-string: "npm:^0.30.0"
-    object-hash: "npm:^3.0.0"
-    picocolors: "npm:^1.0.0"
-    unplugin: "npm:^2.0.0"
-  peerDependencies:
-    "@import-meta-env/cli": ^0.7.0
-  peerDependenciesMeta:
-    "@import-meta-env/cli":
-      optional: true
-  checksum: 10c0/16344b34b7c8ead60d1d6b72137e2525a82246bf7ec642b446dc441ff5e07443138eaa65cde7c0e889dc2238013b1d77e76fb889cd8f586857ae6de8f19baac2
+    dotenv: "npm:16.5.0"
+    magic-string: "npm:0.30.17"
+    object-hash: "npm:3.0.0"
+    picocolors: "npm:1.1.1"
+    unplugin: "npm:2.2.2"
+  checksum: 10c0/273a225f5c08e7061f9edb408310d2d14afc8ddc12861e1795a0a6ac93015fd9b909998931db93a28605b7a973b5af213156f302bbce0ea01258b5dff20666cb
   languageName: node
   linkType: hard
 
@@ -777,12 +772,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.14.0":
-  version: 8.14.1
-  resolution: "acorn@npm:8.14.1"
+"acorn@npm:^8.14.1":
+  version: 8.15.0
+  resolution: "acorn@npm:8.15.0"
   bin:
     acorn: bin/acorn
-  checksum: 10c0/dbd36c1ed1d2fa3550140000371fcf721578095b18777b85a79df231ca093b08edc6858d75d6e48c73e431c174dcf9214edbd7e6fa5911b93bd8abfa54e47123
+  checksum: 10c0/dec73ff59b7d6628a01eebaece7f2bdb8bb62b9b5926dcad0f8931f2b8b79c2be21f6c68ac095592adb5adb15831a3635d9343e6a91d028bbe85d564875ec3ec
   languageName: node
   linkType: hard
 
@@ -994,13 +989,6 @@ __metadata:
   version: 16.5.0
   resolution: "dotenv@npm:16.5.0"
   checksum: 10c0/5bc94c919fbd955bf0ba44d33922a1e93d1078e64a1db5c30faeded1d996e7a83c55332cb8ea4fae5a9ca4d0be44cbceb95c5811e70f9f095298df09d1997dd9
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^16.0.0":
-  version: 16.4.7
-  resolution: "dotenv@npm:16.4.7"
-  checksum: 10c0/be9f597e36a8daf834452daa1f4cc30e5375a5968f98f46d89b16b983c567398a330580c88395069a77473943c06b877d1ca25b4afafcdd6d4adb549e8293462
   languageName: node
   linkType: hard
 
@@ -1435,7 +1423,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.30.0":
+"magic-string@npm:0.30.17":
   version: 0.30.17
   resolution: "magic-string@npm:0.30.17"
   dependencies:
@@ -1677,7 +1665,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-hash@npm:^3.0.0":
+"object-hash@npm:3.0.0":
   version: 3.0.0
   resolution: "object-hash@npm:3.0.0"
   checksum: 10c0/a06844537107b960c1c8b96cd2ac8592a265186bfa0f6ccafe0d34eabdb526f6fa81da1f37c43df7ed13b12a4ae3457a16071603bcd39d8beddb5f08c37b0f47
@@ -1741,7 +1729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:1.1.1, picocolors@npm:^1.0.0, picocolors@npm:^1.1.1":
+"picocolors@npm:1.1.1, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10c0/e2e3e8170ab9d7c7421969adaa7e1b31434f789afb9b3f115f6b96d91945041ac3ceb02e9ec6fe6510ff036bcc0bf91e69a1772edc0b707e12b19c0f2d6bcf58
@@ -2172,13 +2160,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin@npm:^2.0.0":
-  version: 2.2.0
-  resolution: "unplugin@npm:2.2.0"
+"unplugin@npm:2.2.2":
+  version: 2.2.2
+  resolution: "unplugin@npm:2.2.2"
   dependencies:
-    acorn: "npm:^8.14.0"
+    acorn: "npm:^8.14.1"
     webpack-virtual-modules: "npm:^0.6.2"
-  checksum: 10c0/265896fb541ffaad9da7e8f73e24aaa5d0d1f8161cb66445caf0962d2c357de0f17d208020b59b0fb1c68843e6307966f91706fba34ccaba30480881f37887ae
+  checksum: 10c0/76ba320f0c5d18c31c6efab0bcf1f487e900193da7d9a63d50ccb87ea3c50bc9952111caee4ec5017bdcb53445dce275b994c6aeca6b92567db283ec5d9fc01b
   languageName: node
   linkType: hard
 
