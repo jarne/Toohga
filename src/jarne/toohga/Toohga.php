@@ -96,6 +96,7 @@ class Toohga
     public function initRoutes(): void
     {
         $this->slimApp->post("/api/create", APIController::class . ":create");
+        $this->slimApp->get("/api/health", APIController::class . ":health");
 
         $this->slimApp->post("/admin/api/auth", AdminController::class . ":authenticate");
         $this->slimApp->get("/admin/api/url", AdminController::class . ":getUrlList");

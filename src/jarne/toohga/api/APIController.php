@@ -168,4 +168,25 @@ class APIController
         );
         return $response->withHeader("Content-Type", "application/json");
     }
+
+    /**
+     * Get current health status
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     *
+     * @return ResponseInterface
+     */
+    public function health(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $dbStatus = $this->urlStorage->checkConnectionStatus();
+
+        $response->getBody()->write(
+            json_encode(array(
+                "database" => $dbStatus ? "ok" : "error",
+            ))
+        );
+        return $response->withHeader("Content-Type", "application/json");
+    }
 }

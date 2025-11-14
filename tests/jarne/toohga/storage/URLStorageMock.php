@@ -70,4 +70,12 @@ class URLStorageMock extends URLStorage
     {
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkConnectionStatus(): bool
+    {
+        return true;
+    }
 }

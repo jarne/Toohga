@@ -161,4 +161,16 @@ class URLStorageTest extends TestCase
 
         include "./testinit.php";
     }
+
+    /**
+     * Test database health check
+     *
+     * @covers ::checkConnectionStatus
+     */
+    public function testCheckConnectionStatus(): void
+    {
+        $status = self::$storage->checkConnectionStatus();
+
+        $this->assertTrue($status);
+    }
 }
