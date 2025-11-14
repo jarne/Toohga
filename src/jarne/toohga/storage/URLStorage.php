@@ -235,4 +235,20 @@ class URLStorage
             return null;
         }
     }
+
+    /**
+     * Check database connection status
+     *
+     * @return bool
+     */
+    public function checkConnectionStatus(): bool
+    {
+        try {
+            $stats = $this->mysqli->get_connection_stats();
+
+            return isset($stats["connect_success"]) && $stats["connect_success"] === "1";
+        } catch (mysqli_sql_exception $sqlExc) {
+            return false;
+        }
+    }
 }

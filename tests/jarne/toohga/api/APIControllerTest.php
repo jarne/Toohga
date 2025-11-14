@@ -115,4 +115,22 @@ class APIControllerTest extends APITestCase
 
         $this->assertEquals("http://localhost/a", $bodyData->short);
     }
+
+    /**
+     * Test health status endpoint
+     *
+     * @covers ::health
+     */
+    public function testHealth(): void
+    {
+        $req = $this->request("GET", "/api/health");
+        $resp = $this->getApp()->handle($req);
+
+        $this->assertEquals(200, $resp->getStatusCode());
+        $this->assertEquals("application/json", $resp->getHeaderLine("Content-Type"));
+
+        $bodyData = json_decode((string)$resp->getBody());
+
+        $this->assertEquals("ok", $bodyData->database);
+    }
 }
