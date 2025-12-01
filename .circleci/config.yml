@@ -6,7 +6,7 @@ orbs:
 jobs:
     phpunit:
         docker:
-            - image: cimg/php:8.5-node
+            - image: cimg/php:8.4-node
               environment:
                   MYSQL_HOST: 127.0.0.1
                   MYSQL_USER: toohga
@@ -56,7 +56,7 @@ jobs:
                   path: coverage/coverage-report
     phpstan:
         docker:
-            - image: cimg/php:8.5
+            - image: cimg/php:8.4
         steps:
             # Checkout branch
             - checkout
@@ -81,7 +81,7 @@ jobs:
                   path: test-results
     phpcs:
         docker:
-            - image: cimg/php:8.5
+            - image: cimg/php:8.4
         steps:
             # Checkout branch
             - checkout
