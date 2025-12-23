@@ -14,7 +14,7 @@ jobs:
                   MYSQL_DATABASE: toohga
                   REDIS_HOST: 127.0.0.1
                   ADMIN_KEY: exampleAdmin
-                  JWT_SECRET: superSecret
+                  JWT_SECRET: superSecretKeyThatIsVeryLongAndHasALotOfCharacters
                   TGA_CONTACT_EMAIL: toohga@example.com
                   TGA_PRIVACY_URL: https://example.com/toohga-privacy
             - image: cimg/mariadb:11.7
