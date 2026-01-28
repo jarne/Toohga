@@ -18,10 +18,10 @@ RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_VERSION}.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 
-# Run package list updates, install Node.js and enable Corepack for Yarn
+# Run package list updates, install Node.js and enable pnpm
 RUN apt-get update
 RUN apt-get install -y nodejs
-RUN corepack enable
+RUN corepack enable pnpm
 
 # Install MySQLi & Redis extension
 RUN docker-php-ext-install mysqli
@@ -47,11 +47,11 @@ RUN rm composer.phar
 # Switch into front-end subdirectory
 WORKDIR /var/www/Toohga/client
 
-# Install client dependecies with Yarn
-RUN yarn install --frozen-lockfile
+# Install client dependecies
+RUN CI=true pnpm install --frozen-lockfile
 
 # Build front-end client
-RUN yarn run build
+RUN pnpm run build
 
 # Add the predefined Apache2 config
 COPY 000-default.conf /etc/apache2/sites-available/

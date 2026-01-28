@@ -5,7 +5,7 @@
 # Replace environment variable values in client dist
 cd client
 cp .env.example.public .env
-yarn run replace-env-variables
+pnpm run replace-env-variables
 cd ..
 
 # Run Apache2 web server
