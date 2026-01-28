@@ -1,0 +1,4 @@
+onlyBuiltDependencies:
+  - '@import-meta-env/unplugin'
+  - '@parcel/watcher'
+  - esbuild

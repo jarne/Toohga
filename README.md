@@ -67,14 +67,14 @@ Alternative deployment methos are to use the [Docker](./Dockerfile) image or dep
 PHP application on a web server such as Apache HTTP (see the following [config file](./000-default.conf) for this).
 
 When deploying without the Docker file, keep in mind to install required dependencies using Composer
-and Yarn:
+and pnpm:
 
 ```
 composer install
 
 cd client
-yarn install
-yarn run build
+pnpm install
+pnpm run build
 ```
 
 ### Environment variables
@@ -132,9 +132,9 @@ composer run fix-format
 
 The front-end inside the `client` folder is written in JavaScript and is based on Vue.js, Vite and Bootstrap for styles.
 
-Run development server: `yarn run dev`  
-Create build: `yarn run build`  
-Format code style: `yarn run format`
+Run development server: `pnpm run dev`  
+Create build: `pnpm run build`  
+Format code style: `pnpm run format`
 
 ## 🙋‍ Contribution
 
