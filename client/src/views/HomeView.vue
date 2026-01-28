@@ -1,8 +1,11 @@
-<script>
-import "@fontsource/pacifico"
+<script lang="ts">
+import "@fontsource/pacifico/index.css"
+import type { Notyf } from "notyf"
+import { inject } from "vue"
+
+const notyf: Notyf = inject("notyf")!
 
 export default {
-    inject: ["notyf"],
     data() {
         const authReq = import.meta.env.TGA_AUTH_REQUIRED === "true"
         const contactMail = import.meta.env.TGA_CONTACT_EMAIL
@@ -57,7 +60,7 @@ export default {
                 )
                 res = await resp.json()
             } catch (e) {
-                this.notyf.error("Connection to Toohga server failed")
+                notyf.error("Connection to Toohga server failed")
 
                 return
             }
@@ -65,13 +68,13 @@ export default {
             if (res.error) {
                 switch (res.error.code) {
                     case "auth_failed":
-                        this.notyf.error("Invalid authentication PIN")
+                        notyf.error("Invalid authentication PIN")
                         break
                     case "internal_database_error":
-                        this.notyf.error("Internal database error occurred")
+                        notyf.error("Internal database error occurred")
                         break
                     default:
-                        this.notyf.error("Unknown error occurred")
+                        notyf.error("Unknown error occurred")
                         break
                 }
 
@@ -79,16 +82,17 @@ export default {
             }
 
             const short = res.short
+            const urlInput = this.$refs.urlInput as HTMLInputElement
 
             this.showingResult = true
             this.url = short
-            this.$refs.urlInput.focus()
+            urlInput.focus()
         },
         async copyResultToClip() {
             try {
                 await navigator.clipboard.writeText(this.url)
             } catch (e) {
-                this.notyf.error("Cannot access the clipboard")
+                notyf.error("Cannot access the clipboard")
             }
         },
     },
@@ -103,7 +107,7 @@ export default {
                     <h1>Toohga</h1>
                     <h2>The smart URL shortener</h2>
                     <br />
-                    <form id="entryForm" @submit.prevent="this.sendForm">
+                    <form id="entryForm" @submit.prevent="sendForm">
                         <div class="input-group input-group-lg">
                             <input
                                 type="url"

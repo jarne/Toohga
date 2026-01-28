@@ -1,17 +1,26 @@
 /**
- * Toohga client | user store
+ * Toohga client | shortened URL store
  */
 
 import { defineStore } from "pinia"
 
 import { useAuthStore } from "./auth.js"
 
-export const useUserStore = defineStore("user", {
+type ShortUrl = {
+    id: number,
+    created: Date,
+    client: string,
+    target: string,
+    displayName: string,
+    shortId: string
+}
+
+export const useUrlStore = defineStore("url", {
     state: () => ({
-        users: [],
+        urls: [] as ShortUrl[],
     }),
     actions: {
-        async loadUsers() {
+        async loadUrls() {
             const auth = useAuthStore()
 
             let res
@@ -19,7 +28,7 @@ export const useUserStore = defineStore("user", {
                 const resp = await fetch(
                     `${
                         import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
-                    }/user`,
+                    }/url`,
                     {
                         method: "GET",
                         headers: {
@@ -36,46 +45,15 @@ export const useUserStore = defineStore("user", {
                 return
             }
 
-            this.users = res.users
+            this.urls = res.short_urls
         },
-        async createUser(uPin, displayName) {
+        async deleteUrl(id: number) {
             const auth = useAuthStore()
 
             const resp = await fetch(
                 `${
                     import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
-                }/user`,
-                {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${auth.token}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        uniquePin: uPin,
-                        displayName: displayName,
-                    }),
-                }
-            )
-
-            if (resp.status === 204) {
-                await this.loadUsers()
-
-                return
-            }
-
-            const res = await resp.json()
-            if (res.error) {
-                throw new Error(res.error.code)
-            }
-        },
-        async deleteUser(id) {
-            const auth = useAuthStore()
-
-            const resp = await fetch(
-                `${
-                    import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
-                }/user/${id}`,
+                }/url/${id}`,
                 {
                     method: "DELETE",
                     headers: {
@@ -85,7 +63,33 @@ export const useUserStore = defineStore("user", {
             )
 
             if (resp.status === 204) {
-                await this.loadUsers()
+                await this.loadUrls()
+
+                return
+            }
+
+            const res = await resp.json()
+            if (res.error) {
+                throw new Error(res.error.code)
+            }
+        },
+        async cleanUpUrls() {
+            const auth = useAuthStore()
+
+            const resp = await fetch(
+                `${
+                    import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
+                }/urlCleanup`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`,
+                    },
+                }
+            )
+
+            if (resp.status === 204) {
+                await this.loadUrls()
 
                 return
             }

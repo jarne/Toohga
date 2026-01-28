@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
+import type { Notyf } from "notyf"
+import { inject } from "vue"
 import AdminHeader from "./../components/admin/AdminHeader.vue"
-
 import { useAuthStore } from "./../stores/auth.js"
 
+const notyf: Notyf = inject("notyf")!
+
 export default {
-    inject: ["notyf"],
     components: {
         AdminHeader,
     },
@@ -33,9 +35,7 @@ export default {
                 )
                 res = await resp.json()
             } catch (e) {
-                this.notyf.error(
-                    "Error while communicating with the login server!"
-                )
+                notyf.error("Error while communicating with the login server!")
 
                 return
             }
@@ -43,10 +43,10 @@ export default {
             if (res.error) {
                 switch (res.error.code) {
                     case "invalid_credentials":
-                        this.notyf.error("Authentication request failed")
+                        notyf.error("Authentication request failed")
                         break
                     default:
-                        this.notyf.error(
+                        notyf.error(
                             "Unknown error during authentication occurred"
                         )
                         break
@@ -79,7 +79,7 @@ export default {
                 ></span>
                 <label for="adminSecretKeyInput">Authentication</label>
             </h5>
-            <form id="loginForm" @submit.prevent="this.sendLoginRequest">
+            <form id="loginForm" @submit.prevent="sendLoginRequest">
                 <div class="input-group">
                     <input
                         type="password"

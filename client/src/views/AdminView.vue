@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
+import type { Notyf } from "notyf"
 import { storeToRefs } from "pinia"
-
+import { inject } from "vue"
 import AdminHeader from "./../components/admin/AdminHeader.vue"
-
 import { useAuthStore } from "./../stores/auth.js"
 import { useUrlStore } from "./../stores/url.js"
 import { useUserStore } from "./../stores/user.js"
 
+const notyf: Notyf = inject("notyf")!
+
 export default {
-    inject: ["notyf"],
     components: {
         AdminHeader,
     },
@@ -33,16 +34,18 @@ export default {
             const urlStore = useUrlStore()
 
             try {
-                await urlStore.deleteUrl(this.delShortId)
+                await urlStore.deleteUrl(Number(this.delShortId))
             } catch (e) {
+                if (!(e instanceof Error)) return
+
                 switch (e.message) {
                     case "internal_database_error":
-                        this.notyf.error(
+                        notyf.error(
                             `URL with ID ${this.delShortId} cannot be looked up in database`
                         )
                         break
                     default:
-                        this.notyf.error(
+                        notyf.error(
                             `Unknown error occurred when trying to delete URL: ${e.message}`
                         )
                         break
@@ -52,7 +55,7 @@ export default {
             }
 
             this.delShortId = ""
-            this.notyf.success("URL was deleted.")
+            notyf.success("URL was deleted.")
         },
         async sendCleanUrls() {
             const urlStore = useUrlStore()
@@ -60,14 +63,16 @@ export default {
             try {
                 await urlStore.cleanUpUrls()
             } catch (e) {
+                if (!(e instanceof Error)) return
+
                 switch (e.message) {
                     case "internal_database_error":
-                        this.notyf.error(
+                        notyf.error(
                             `An internal error with the database occurred`
                         )
                         break
                     default:
-                        this.notyf.error(
+                        notyf.error(
                             `Unknown error occurred when trying to clean up URLs: ${e.message}`
                         )
                         break
@@ -76,7 +81,7 @@ export default {
                 return
             }
 
-            this.notyf.success("URL clean up was executed successfully.")
+            notyf.success("URL clean up was executed successfully.")
         },
         async sendCreateUser() {
             const userStore = useUserStore()
@@ -87,19 +92,19 @@ export default {
                     this.createUserDisplayName
                 )
             } catch (e) {
+                if (!(e instanceof Error)) return
+
                 switch (e.message) {
                     case "parameters_missing":
-                        this.notyf.error(
+                        notyf.error(
                             `Values required for creating the user are missing or empty`
                         )
                         break
                     case "internal_database_error":
-                        this.notyf.error(
-                            `User could not be written to database`
-                        )
+                        notyf.error(`User could not be written to database`)
                         break
                     default:
-                        this.notyf.error(
+                        notyf.error(
                             `Unknown error occurred when trying to create user: ${e.message}`
                         )
                         break
@@ -110,22 +115,24 @@ export default {
 
             this.createUserPIN = ""
             this.createUserDisplayName = ""
-            this.notyf.success("User was created.")
+            notyf.success("User was created.")
         },
         async sendDelUser() {
             const userStore = useUserStore()
 
             try {
-                await userStore.deleteUser(this.delUserId)
+                await userStore.deleteUser(Number(this.delUserId))
             } catch (e) {
+                if (!(e instanceof Error)) return
+
                 switch (e.message) {
                     case "internal_database_error":
-                        this.notyf.error(
+                        notyf.error(
                             `User with ID ${this.delUserId} cannot be looked up in database`
                         )
                         break
                     default:
-                        this.notyf.error(
+                        notyf.error(
                             `Unknown error occurred when trying to delete user: ${e.message}`
                         )
                         break
@@ -135,7 +142,7 @@ export default {
             }
 
             this.delUserId = ""
-            this.notyf.success("User was deleted.")
+            notyf.success("User was deleted.")
         },
     },
     async mounted() {
@@ -222,7 +229,7 @@ export default {
                         ></span>
                         <label for="delShortInput">Delete URL</label>
                     </h5>
-                    <form id="delUrlForm" @submit.prevent="this.sendDelUrl">
+                    <form id="delUrlForm" @submit.prevent="sendDelUrl">
                         <div class="input-group">
                             <input
                                 type="text"
@@ -250,10 +257,7 @@ export default {
                             >Create user</label
                         >
                     </h5>
-                    <form
-                        id="createUserForm"
-                        @submit.prevent="this.sendCreateUser"
-                    >
+                    <form id="createUserForm" @submit.prevent="sendCreateUser">
                         <p>
                             <input
                                 type="text"
@@ -289,7 +293,7 @@ export default {
                         ></span>
                         <label for="delUserInput">Delete user</label>
                     </h5>
-                    <form id="delUserForm" @submit.prevent="this.sendDelUser">
+                    <form id="delUserForm" @submit.prevent="sendDelUser">
                         <div class="input-group">
                             <input
                                 type="text"
@@ -317,7 +321,7 @@ export default {
                         ></span>
                         Cleanup URL's
                     </h5>
-                    <form id="cleanupForm" @submit.prevent="this.sendCleanUrls">
+                    <form id="cleanupForm" @submit.prevent="sendCleanUrls">
                         <button type="submit" class="btn btn-danger">
                             Cleanup
                         </button>
