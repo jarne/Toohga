@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { storeToRefs } from "pinia"
 
 import AdminHeader from "./../components/admin/AdminHeader.vue"

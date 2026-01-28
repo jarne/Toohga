@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import AdminHeader from "./../components/admin/AdminHeader.vue"
 
 import { useAuthStore } from "./../stores/auth.js"
