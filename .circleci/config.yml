@@ -17,7 +17,7 @@ jobs:
                   JWT_SECRET: superSecretKeyThatIsVeryLongAndHasALotOfCharacters
                   TGA_CONTACT_EMAIL: toohga@example.com
                   TGA_PRIVACY_URL: https://example.com/toohga-privacy
-            - image: cimg/mariadb:11.7
+            - image: cimg/mariadb:12.2
               environment:
                   MYSQL_ROOT_PASSWORD: superRootPassword
                   MYSQL_USER: toohga
