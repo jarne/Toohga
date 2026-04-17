@@ -106,7 +106,7 @@ jobs:
                   path: test-results
     build-client:
         docker:
-            - image: cimg/node:24.14.1
+            - image: cimg/node:24.15.0
         working_directory: ~/project/client
         steps:
             # Checkout branch
