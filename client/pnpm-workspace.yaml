@@ -1,4 +1,3 @@
-onlyBuiltDependencies:
-  - '@import-meta-env/unplugin'
-  - '@parcel/watcher'
-  - esbuild
+allowBuilds:
+  '@import-meta-env/unplugin': true
+  '@parcel/watcher': true
