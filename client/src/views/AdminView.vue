@@ -1,166 +1,146 @@
-<script lang="ts">
+<script setup lang="ts">
 import type { Notyf } from "notyf"
 import { storeToRefs } from "pinia"
-import { inject } from "vue"
+import { inject, onMounted, ref } from "vue"
+import { useRouter } from "vue-router"
+
 import AdminHeader from "./../components/admin/AdminHeader.vue"
 import { useAuthStore } from "./../stores/auth.js"
 import { useUrlStore } from "./../stores/url.js"
 import { useUserStore } from "./../stores/user.js"
 
 const notyf: Notyf = inject("notyf")!
+const router = useRouter()
 
-export default {
-    components: {
-        AdminHeader,
-    },
-    data() {
-        const urlStore = useUrlStore()
-        const userStore = useUserStore()
+const urlStore = useUrlStore()
+const userStore = useUserStore()
+const auth = useAuthStore()
 
-        const { urls } = storeToRefs(urlStore)
-        const { users } = storeToRefs(userStore)
+const { urls } = storeToRefs(urlStore)
+const { users } = storeToRefs(userStore)
 
-        return {
-            urls,
-            users,
-            delShortId: "",
-            createUserDisplayName: "",
-            createUserPIN: "",
-            delUserId: "",
-        }
-    },
-    methods: {
-        async sendDelUrl() {
-            const urlStore = useUrlStore()
+const delShortId = ref("")
+const createUserDisplayName = ref("")
+const createUserPIN = ref("")
+const delUserId = ref("")
 
-            try {
-                await urlStore.deleteUrl(Number(this.delShortId))
-            } catch (e) {
-                if (!(e instanceof Error)) return
+async function sendDelUrl() {
+    try {
+        await urlStore.deleteUrl(Number(delShortId.value))
+    } catch (e) {
+        if (!(e instanceof Error)) return
 
-                switch (e.message) {
-                    case "internal_database_error":
-                        notyf.error(
-                            `URL with ID ${this.delShortId} cannot be looked up in database`
-                        )
-                        break
-                    default:
-                        notyf.error(
-                            `Unknown error occurred when trying to delete URL: ${e.message}`
-                        )
-                        break
-                }
-
-                return
-            }
-
-            this.delShortId = ""
-            notyf.success("URL was deleted.")
-        },
-        async sendCleanUrls() {
-            const urlStore = useUrlStore()
-
-            try {
-                await urlStore.cleanUpUrls()
-            } catch (e) {
-                if (!(e instanceof Error)) return
-
-                switch (e.message) {
-                    case "internal_database_error":
-                        notyf.error(
-                            `An internal error with the database occurred`
-                        )
-                        break
-                    default:
-                        notyf.error(
-                            `Unknown error occurred when trying to clean up URLs: ${e.message}`
-                        )
-                        break
-                }
-
-                return
-            }
-
-            notyf.success("URL clean up was executed successfully.")
-        },
-        async sendCreateUser() {
-            const userStore = useUserStore()
-
-            try {
-                await userStore.createUser(
-                    this.createUserPIN,
-                    this.createUserDisplayName
+        switch (e.message) {
+            case "internal_database_error":
+                notyf.error(
+                    `URL with ID ${delShortId.value} cannot be looked up in database`
                 )
-            } catch (e) {
-                if (!(e instanceof Error)) return
-
-                switch (e.message) {
-                    case "parameters_missing":
-                        notyf.error(
-                            `Values required for creating the user are missing or empty`
-                        )
-                        break
-                    case "internal_database_error":
-                        notyf.error(`User could not be written to database`)
-                        break
-                    default:
-                        notyf.error(
-                            `Unknown error occurred when trying to create user: ${e.message}`
-                        )
-                        break
-                }
-
-                return
-            }
-
-            this.createUserPIN = ""
-            this.createUserDisplayName = ""
-            notyf.success("User was created.")
-        },
-        async sendDelUser() {
-            const userStore = useUserStore()
-
-            try {
-                await userStore.deleteUser(Number(this.delUserId))
-            } catch (e) {
-                if (!(e instanceof Error)) return
-
-                switch (e.message) {
-                    case "internal_database_error":
-                        notyf.error(
-                            `User with ID ${this.delUserId} cannot be looked up in database`
-                        )
-                        break
-                    default:
-                        notyf.error(
-                            `Unknown error occurred when trying to delete user: ${e.message}`
-                        )
-                        break
-                }
-
-                return
-            }
-
-            this.delUserId = ""
-            notyf.success("User was deleted.")
-        },
-    },
-    async mounted() {
-        const auth = useAuthStore()
-
-        const urlStore = useUrlStore()
-        const userStore = useUserStore()
-
-        if (auth.token === "") {
-            this.$router.push("/admin-auth")
-
-            return
+                break
+            default:
+                notyf.error(
+                    `Unknown error occurred when trying to delete URL: ${e.message}`
+                )
+                break
         }
 
-        await urlStore.loadUrls()
-        await userStore.loadUsers()
-    },
+        return
+    }
+
+    delShortId.value = ""
+    notyf.success("URL was deleted.")
 }
+
+async function sendCleanUrls() {
+    try {
+        await urlStore.cleanUpUrls()
+    } catch (e) {
+        if (!(e instanceof Error)) return
+
+        switch (e.message) {
+            case "internal_database_error":
+                notyf.error(`An internal error with the database occurred`)
+                break
+            default:
+                notyf.error(
+                    `Unknown error occurred when trying to clean up URLs: ${e.message}`
+                )
+                break
+        }
+
+        return
+    }
+
+    notyf.success("URL clean up was executed successfully.")
+}
+
+async function sendCreateUser() {
+    try {
+        await userStore.createUser(
+            createUserPIN.value,
+            createUserDisplayName.value
+        )
+    } catch (e) {
+        if (!(e instanceof Error)) return
+
+        switch (e.message) {
+            case "parameters_missing":
+                notyf.error(
+                    `Values required for creating the user are missing or empty`
+                )
+                break
+            case "internal_database_error":
+                notyf.error(`User could not be written to database`)
+                break
+            default:
+                notyf.error(
+                    `Unknown error occurred when trying to create user: ${e.message}`
+                )
+                break
+        }
+
+        return
+    }
+
+    createUserPIN.value = ""
+    createUserDisplayName.value = ""
+    notyf.success("User was created.")
+}
+
+async function sendDelUser() {
+    try {
+        await userStore.deleteUser(Number(delUserId.value))
+    } catch (e) {
+        if (!(e instanceof Error)) return
+
+        switch (e.message) {
+            case "internal_database_error":
+                notyf.error(
+                    `User with ID ${delUserId.value} cannot be looked up in database`
+                )
+                break
+            default:
+                notyf.error(
+                    `Unknown error occurred when trying to delete user: ${e.message}`
+                )
+                break
+        }
+
+        return
+    }
+
+    delUserId.value = ""
+    notyf.success("User was deleted.")
+}
+
+onMounted(async () => {
+    if (auth.token === "") {
+        router.push("/admin-auth")
+        return
+    }
+
+    await urlStore.loadUrls()
+    await userStore.loadUsers()
+})
 </script>
 
 <template>
