@@ -1,101 +1,90 @@
-<script lang="ts">
+<script setup lang="ts">
 import "@fontsource/pacifico/index.css"
 import type { Notyf } from "notyf"
-import { inject } from "vue"
+import { inject, ref } from "vue"
 
 const notyf: Notyf = inject("notyf")!
 
-export default {
-    data() {
-        const authReq = import.meta.env.TGA_AUTH_REQUIRED === "true"
-        const contactMail = import.meta.env.TGA_CONTACT_EMAIL
-        const theme = import.meta.env.TGA_THEME
-        const privacyUrl = import.meta.env.TGA_PRIVACY_URL
-        const analyticsScript = import.meta.env.TGA_ANALYTICS_SCRIPT
+const authReq = import.meta.env.TGA_AUTH_REQUIRED === "true"
+const contactMail = import.meta.env.TGA_CONTACT_EMAIL
+const theme = import.meta.env.TGA_THEME
+const privacyUrl = import.meta.env.TGA_PRIVACY_URL
+const analyticsScript = import.meta.env.TGA_ANALYTICS_SCRIPT
 
-        let bgGradCols = []
-        switch (theme) {
-            case "pink":
-                bgGradCols = ["#fcb5d9", "#f2d5e3"]
+let bgGradCols = []
+switch (theme) {
+    case "pink":
+        bgGradCols = ["#fcb5d9", "#f2d5e3"]
+        break
+    case "orange":
+        bgGradCols = ["#fcd194", "#f2e0c6"]
+        break
+    default:
+        bgGradCols = ["#b6f5f9", "#e6f0f2"]
+        break
+}
+
+const url = ref("")
+const pin = ref("")
+const showingResult = ref(false)
+const urlInput = ref<HTMLInputElement | null>(null)
+
+async function sendForm() {
+    if (url.value.indexOf("://") < 0) {
+        url.value = "https://" + url.value
+    }
+
+    let res
+    try {
+        const resp = await fetch(
+            `${import.meta.env.TGA_API_ENDPOINT || "/api"}/create`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    longUrl: url.value,
+                    userPin: pin.value,
+                }),
+            }
+        )
+        res = await resp.json()
+    } catch (e) {
+        notyf.error("Connection to Toohga server failed")
+
+        return
+    }
+
+    if (res.error) {
+        switch (res.error.code) {
+            case "auth_failed":
+                notyf.error("Invalid authentication PIN")
                 break
-            case "orange":
-                bgGradCols = ["#fcd194", "#f2e0c6"]
+            case "internal_database_error":
+                notyf.error("Internal database error occurred")
                 break
             default:
-                bgGradCols = ["#b6f5f9", "#e6f0f2"]
+                notyf.error("Unknown error occurred")
                 break
         }
 
-        return {
-            authReq,
-            contactMail,
-            privacyUrl,
-            analyticsScript,
-            bgGradCols,
-            url: "",
-            pin: "",
-            showingResult: false,
-        }
-    },
-    methods: {
-        async sendForm() {
-            if (this.url.indexOf("://") < 0) {
-                this.url = "https://" + this.url
-            }
+        return
+    }
 
-            let res
-            try {
-                const resp = await fetch(
-                    `${import.meta.env.TGA_API_ENDPOINT || "/api"}/create`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            longUrl: this.url,
-                            userPin: this.pin,
-                        }),
-                    }
-                )
-                res = await resp.json()
-            } catch (e) {
-                notyf.error("Connection to Toohga server failed")
+    const short = res.short
 
-                return
-            }
+    showingResult.value = true
+    url.value = short
+    urlInput.value?.focus()
+}
 
-            if (res.error) {
-                switch (res.error.code) {
-                    case "auth_failed":
-                        notyf.error("Invalid authentication PIN")
-                        break
-                    case "internal_database_error":
-                        notyf.error("Internal database error occurred")
-                        break
-                    default:
-                        notyf.error("Unknown error occurred")
-                        break
-                }
-
-                return
-            }
-
-            const short = res.short
-            const urlInput = this.$refs.urlInput as HTMLInputElement
-
-            this.showingResult = true
-            this.url = short
-            urlInput.focus()
-        },
-        async copyResultToClip() {
-            try {
-                await navigator.clipboard.writeText(this.url)
-            } catch (e) {
-                notyf.error("Cannot access the clipboard")
-            }
-        },
-    },
+async function copyResultToClip() {
+    try {
+        await navigator.clipboard.writeText(url.value)
+    } catch (e) {
+        notyf.error("Cannot access the clipboard")
+    }
 }
 </script>
 

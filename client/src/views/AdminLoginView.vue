@@ -1,69 +1,58 @@
-<script lang="ts">
+<script setup lang="ts">
 import type { Notyf } from "notyf"
-import { inject } from "vue"
+import { inject, ref } from "vue"
+import { useRouter } from "vue-router"
 import AdminHeader from "./../components/admin/AdminHeader.vue"
 import { useAuthStore } from "./../stores/auth.js"
 
 const notyf: Notyf = inject("notyf")!
+const router = useRouter()
 
-export default {
-    components: {
-        AdminHeader,
-    },
-    data() {
-        return {
-            adminSecretKey: "",
+const adminSecretKey = ref("")
+
+async function sendLoginRequest() {
+    let res
+
+    try {
+        const resp = await fetch(
+            `${import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"}/auth`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    admin_key: adminSecretKey.value,
+                }),
+            }
+        )
+        res = await resp.json()
+    } catch (e) {
+        notyf.error("Error while communicating with the login server!")
+
+        return
+    }
+
+    if (res.error) {
+        switch (res.error.code) {
+            case "invalid_credentials":
+                notyf.error("Authentication request failed")
+                break
+            default:
+                notyf.error("Unknown error during authentication occurred")
+                break
         }
-    },
-    methods: {
-        async sendLoginRequest() {
-            let res
-            try {
-                const resp = await fetch(
-                    `${
-                        import.meta.env.TGA_ADMIN_API_ENDPOINT || "/admin/api"
-                    }/auth`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            admin_key: this.adminSecretKey,
-                        }),
-                    }
-                )
-                res = await resp.json()
-            } catch (e) {
-                notyf.error("Error while communicating with the login server!")
 
-                return
-            }
+        return
+    }
 
-            if (res.error) {
-                switch (res.error.code) {
-                    case "invalid_credentials":
-                        notyf.error("Authentication request failed")
-                        break
-                    default:
-                        notyf.error(
-                            "Unknown error during authentication occurred"
-                        )
-                        break
-                }
+    const auth = useAuthStore()
 
-                return
-            }
+    auth.$patch({
+        token: res.jwt,
+    })
 
-            const auth = useAuthStore()
-
-            auth.$patch({
-                token: res.jwt,
-            })
-
-            this.$router.push("/admin")
-        },
-    },
+    router.push("/admin")
 }
 </script>
 
