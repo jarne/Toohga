@@ -52,5 +52,5 @@
         "vue-tsc": "^3.2.4"
     },
     "type": "module",
-    "packageManager": "pnpm@11.5.3"
+    "packageManager": "pnpm@11.6.0"
 }
