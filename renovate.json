@@ -1,17 +1,17 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        ":semanticPrefixFixDepsChoreOthers",
-        ":ignoreModulesAndTests",
+        "config:recommended",
+        "helpers:pinGitHubActionDigests",
+        "abandonments:recommended",
+        "security:minimumReleaseAgeNpm",
+        ":maintainLockFilesWeekly",
         ":automergePatch",
-        "group:monorepos",
-        "group:recommended",
-        "replacements:all",
-        "workarounds:all"
+        ":disableDependencyDashboard",
+        ":prConcurrentLimit10",
+        "schedule:daily"
     ],
-    "schedule": ["before 5am"],
-    "prHourlyLimit": 3,
-    "prConcurrentLimit": 3,
+    "timezone": "UTC",
     "enabledManagers": [
         "composer",
         "npm",
@@ -21,12 +21,13 @@
     ],
     "packageRules": [
         {
+            "description": "Group all minor updates together",
             "groupName": "all minor dependencies",
             "groupSlug": "all-minor",
-            "matchPackagePatterns": ["*"],
             "matchUpdateTypes": ["minor"]
         },
         {
+            "description": "Use correct versioning for Node.js images",
             "matchPackageNames": ["node", "cimg/node"],
             "versioning": "node"
         }
