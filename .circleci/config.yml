@@ -23,7 +23,7 @@ jobs:
                   MYSQL_USER: toohga
                   MYSQL_PASSWORD: superPassword
                   MYSQL_DATABASE: toohga
-            - image: cimg/redis:8.8
+            - image: cimg/redis:8.10
         steps:
             # Checkout branch
             - checkout
@@ -106,7 +106,7 @@ jobs:
                   path: test-results
     build-client:
         docker:
-            - image: cimg/node:24.18.1
+            - image: cimg/node:24.19.0
         working_directory: ~/project/client
         steps:
             # Checkout branch
