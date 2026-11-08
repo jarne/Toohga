@@ -6,7 +6,7 @@
 FROM php:8.5-apache
 
 # Other dependency versions
-ENV NODE_VERSION=24
+ENV NODE_VERSION=26
 ENV PECL_REDIS_VERSION=6.3.0
 
 # Run package list updates and install needed services
