@@ -21,7 +21,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 # Run package list updates, install Node.js and enable pnpm
 RUN apt-get update
 RUN apt-get install -y nodejs
-RUN corepack enable pnpm
+RUN npm install -g pnpm
 
 # Install MySQLi & Redis extension
 RUN docker-php-ext-install mysqli
